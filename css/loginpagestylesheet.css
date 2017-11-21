@@ -1,0 +1,29 @@
+
+
+#card {
+    box-shadow: grey;
+}
+
+body, html {
+    height: 100%;
+    width:100%;
+}
+
+body {
+    background-image:url('assets/Lupa%20Search%20Pad%20Free%20Vector.svg');
+    background-attachment:fixed;
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+}
+
+#background {
+ 
+}
+
+@-ms-viewport {
+    width: device-width
+}
+
+html {
+}
