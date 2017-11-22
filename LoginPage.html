@@ -35,6 +35,11 @@
                 <script>
                     function onClickLogin(){
                         $('#login_collapsible').collapse('toggle');
+                        var positionY=$('#login_collapsible').offset().left;
+                        console.log(positionY);
+                        $("html, body").animate({ scrollTop: positionY }, 500);
+
+
                     } 
 
                 </script>
@@ -44,21 +49,18 @@
                         function onOut(){
                             $('#login_collapsible').collapse('hide');
 
+
                         }
 
                     </script>
 
                     <form id="login_form">
 
-                        <div class="form-group row" style="margin: auto; margin-top: 20px">
-                            <div class="col-sm-10" style="margin: auto;">
-                                <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
-                            </div>
+                        <div class="form-group row" style=" margin: auto; margin-top: 20px; display: block;">
+                            <input type="email" class="form-control form-control-lg" id="inputEmail3" placeholder="Email">
                         </div>
-                        <div class="form-group row" style="margin: auto; margin-top: 20px">
-                            <div class="col-sm-10" style="margin: auto;">
-                                <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
-                            </div>
+                        <div class="form-group row" style="margin: auto; margin-top: 20px; display: block;" id="password">
+                            <input type="password" class="form-control form-control-lg" id="inputPassword3" placeholder="Password">
                         </div>
                     </form>
 
@@ -68,7 +70,8 @@
 
         </div>
 
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
         <script src="js/bootstrap.min.js"></script>
     </body>
