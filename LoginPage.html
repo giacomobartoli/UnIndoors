@@ -8,6 +8,8 @@
         <!-- Bootstrap CSS -->
         <link href="css/bootstrap.min.css" rel="stylesheet" />
         <link href="css/loginpagestylesheet.css" rel="stylesheet"/>
+        <script href="js/loginpage.js"></script>
+
 
     </head>
     <body>
@@ -15,8 +17,56 @@
         <div class="container-fluid" id="start_div">
             <img src="css/assets/Lupa%20Search%20Pad%20Free%20Vector.svg" alt="" id="img_background"/>
         </div>
-      
+
         <h1 style="text-align: center; margin: 30px">Incomincia ad usare Uniboors!</h1>
+
+        <div class="container-fluid" style="margin-top: 50px" id="actions_container">
+
+            <div class="container" id="download_app">
+
+                <img src="css/assets/touch-screen.svg" alt="" class="img_phone"/>
+            </div>
+            <div class="container" id="info">
+                <img src="css/assets/help-rounded-button.svg" alt="" class="img_phone"/>
+            </div>
+
+            <div class="container" id="login" >
+                <img src="css/assets/login_student.svg" alt="" id="business_man" href="#login_collapsible" aria-expanded="false" aria-controls="login_collapsible" onclick="onClickLogin()"/>
+                <script>
+                    function onClickLogin(){
+                        $('#login_collapsible').collapse('toggle');
+                    } 
+
+                </script>
+                <div class="collapse" id="login_collapsible" >
+                    <script>
+
+                        function onOut(){
+                            $('#login_collapsible').collapse('hide');
+
+                        }
+
+                    </script>
+
+                    <form id="login_form">
+
+                        <div class="form-group row" style="margin: auto; margin-top: 20px">
+                            <div class="col-sm-10" style="margin: auto;">
+                                <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="form-group row" style="margin: auto; margin-top: 20px">
+                            <div class="col-sm-10" style="margin: auto;">
+                                <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                            </div>
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+
+        </div>
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>

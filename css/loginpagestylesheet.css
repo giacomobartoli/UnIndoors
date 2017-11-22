@@ -1,6 +1,7 @@
 
-
-
+#start_div{
+    background-color: #84CFC6;
+}
 html{
     overflow: scroll;
 }
@@ -9,11 +10,52 @@ body{
     height:430px;
 
 }
+
+input{
+    box-sizing:border-box;
+    width:inherit;
+} 
+
+
+.img_phone{
+    width: 100%;
+    height: auto;
+
+}
+#business_man{
+    width:100%;
+    height:auto;
+}
+
+#login{
+    width:250px;
+    height:250px;
+
+}
+#login_form{
+    display:block;
+    margin:auto;
+}
+
+#info{
+    float: left;
+    display:block;
+    width:250px;
+    height:250px;
+}
+
+#download_app{
+    float: right;
+    display:block;
+    width:250px;
+    height:250px;
+}
+
 #img_background{
     display: block;
     margin:auto;
     width:70%;
-    min-width: 400px;
+    min-width: 700px;
     height: auto;
 }
 @-ms-viewport {
