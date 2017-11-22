@@ -20,14 +20,24 @@
 
         <h1 style="text-align: center; margin: 30px">Incomincia ad usare Uniboors!</h1>
 
-        <div class="container-fluid" style="margin-top: 50px" id="actions_container">
+        <div class="container-fluid" style="margin-top: 50px; margin: auto; display: block;" id="actions_container">
 
             <div class="container" id="download_app">
 
                 <img src="css/assets/touch-screen.svg" alt="" class="img_phone"/>
             </div>
             <div class="container" id="info">
-                <img src="css/assets/help-rounded-button.svg" alt="" class="img_phone"/>
+                <img src="css/assets/help-rounded-button.svg" alt="" class="img_phone" href="#info_collapsible" aria-expanded="false" aria-controls="info_collapsible" onclick="onClickInfo()"/>
+                <script>
+                    function onClickInfo(){
+                        $('#info_collapsible').collapse('toggle');
+                        var positionY=$('#info_collapsible').offset().left;
+                        console.log(positionY);
+                        $("html, body").animate({ scrollTop: positionY }, 500); 
+                    }
+                </script>
+                <p style="text-align: center" class="collapse" id="info_collapsible">Vuoi vedere le info sui programmatori?</p>
+
             </div>
 
             <div class="container" id="login" >
