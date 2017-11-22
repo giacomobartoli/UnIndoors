@@ -1,29 +1,28 @@
 
 
-#card {
-    box-shadow: grey;
+
+html{
+    overflow: scroll;
 }
 
-body, html {
-    height: 100%;
-    width:100%;
-}
+body{
+    background-color: #84CFC6;
+    height:430px;
 
-body {
-    background-image:url('assets/Lupa%20Search%20Pad%20Free%20Vector.svg');
-    background-attachment:fixed;
-    background-size:cover;
-    background-position:center;
-    background-repeat:no-repeat;
 }
-
-#background {
- 
+#img_background{
+    display: block;
+    margin:auto;
+    max-width: 100%;
+    width:80%;
+    height: auto;
 }
-
 @-ms-viewport {
     width: device-width
 }
 
-html {
+.jumbotron{
+    position: fixed;
+    bottom: 0;
 }
+
