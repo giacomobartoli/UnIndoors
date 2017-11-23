@@ -19,7 +19,7 @@
         <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-database.js"></script>
         <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-firestore.js"></script>
         <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-messaging.js"></script>
-          <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
         <script>
             // Initialize Firebase
             var config = {
@@ -31,38 +31,34 @@
                 messagingSenderId: "484831871025"
             };
             firebase.initializeApp(config);
-            
-            firebase.auth().createUserWithEmailAndPassword("marcovsdjksaldo@gmail.com", "metallaro93").catch(function(error) {
-                // Handle Errors here.
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                // ...
-                alert(errorCode,error);
-            });
+
         </script>
 
         <script>
-            //            $(window).bind("mousewheel", function() {
-            //                $("html, body").stop();
-            //            });
+
             function onClickLogin(){
                 $('#login_collapsible').collapse('toggle');
                 var positionY=$('#login').first().offset().top;
                 console.log(positionY);
                 $("html, body").animate({ scrollTop: positionY }, 500);
+                $('#inputEmail').blur(function(){
+
+                    if($('#button_login').hasClass('btn btn-danger btn-block')){
+                        $('#button_login').removeClass('btn btn-danger btn-block').addClass("btn btn-primary btn-block");
+                    }
+                });
 
 
             } 
 
         </script>
 
-        <!--
-<script type="text/javascript">
-$(function() {
-$('#login_collapsible').collapse('toggle');
-})
-</script>
--->
+
+        <script type="text/javascript">
+
+
+        </script>
+
 
     </head>
     <body>
@@ -110,6 +106,46 @@ $('#login_collapsible').collapse('toggle');
                             <div class="form-group row" id="password">
                                 <input type="password" class="form-control form-control-lg" id="inputPassword" placeholder="Password">
                             </div>
+                            <div class="form-group row" id="div_button_login">
+                                <button type="button"class="btn btn-primary btn-block"id="button_login" onclick="onSubmit()">Log In</button>
+                                <script>
+                                    function onSubmit(){
+                                        var email=$("#inputEmail").val();
+                                        var password=$("#inputPassword").val();
+
+                                        firebase.auth().signInWithEmailAndPassword(email,password).then(function(user){
+
+                                        }).catch(function(error){
+                                            $('#button_login').removeClass("btn btn-primary btn-block").addClass('btn btn-danger btn-block');
+
+                                        })
+                                    }
+
+                                </script>
+                            </div>
+                            <div class="form-group row" id="button_signUp">
+                                <button type="button" class="btn btn-link btn-block" style="margin-left: -15px ;" onclick="onRegisterNewUser()">Non hai un account? Registrati</button> 
+
+                                <script>
+
+
+                                    function onRegisterNewUser(){
+                                        var email=$("#inputEmail").val();
+                                        var password=$("#inputPassword").val();
+
+                                        firebase.auth().createUserWithEmailAndPassword(email,password).then(function(user){
+                                            alert('new user', user.email());
+                                        }).catch(function(error){
+                                            $('#button_login').removeClass("btn btn-primary btn-block").addClass('btn btn-danger btn-block');
+                                            var error=error.message;
+                                            alert(error);
+                                            consol.log(error);
+
+                                        })
+                                    }
+
+                                </script>
+                            </div>
                         </div>
                     </form>
 
@@ -119,7 +155,7 @@ $('#login_collapsible').collapse('toggle');
         </div>
 
 
-      
+
     </body>
 
 
