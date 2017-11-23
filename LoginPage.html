@@ -35,14 +35,12 @@
         </script>
 
         <script>
-
             function onClickLogin(){
                 $('#login_collapsible').collapse('toggle');
                 var positionY=$('#login').first().offset().top;
                 console.log(positionY);
                 $("html, body").animate({ scrollTop: positionY }, 500);
                 $('#inputEmail').blur(function(){
-
                     if($('#button_login').hasClass('btn btn-danger btn-block')){
                         $('#button_login').removeClass('btn btn-danger btn-block').addClass("btn btn-primary btn-block");
                     }
@@ -138,8 +136,7 @@
                                         }).catch(function(error){
                                             $('#button_login').removeClass("btn btn-primary btn-block").addClass('btn btn-danger btn-block');
                                             var error=error.message;
-                                            alert(error);
-                                            consol.log(error);
+                                            console.log(error);  
 
                                         })
                                     }
