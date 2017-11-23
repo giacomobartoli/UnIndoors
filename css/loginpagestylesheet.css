@@ -3,16 +3,22 @@
     background-color: #84CFC6;
 }
 html{
-    overflow: scroll;
+}
+
+#password{
+    transition: transform 1s ease;
+}
+#password:hover{
+    transform: scale(1.5);
 }
 
 
-
-input{
-    box-sizing:border-box;
-    width:inherit;
-} 
-
+#inputEmail{
+    transition: transform 1s ease;
+}
+#inputEmail:hover{
+    transform: scale(1.5);
+}
 
 .img_phone{
     width: 100%;
@@ -20,8 +26,9 @@ input{
 
 }
 #business_man{
-    width:100%;
+    width:auto;
     height:auto;
+
 }
 
 #login{
@@ -55,8 +62,7 @@ input{
 #img_background{
     display: block;
     margin:auto;
-    width:70%;
-    min-width: 700px;
+    width:80%;
     height: auto;
 }
 @-ms-viewport {
@@ -68,8 +74,19 @@ input{
         display: block;
         height:250px;
         margin: auto;
-        float: none;
+        margin-bottom: 80px;
+        float: none; /*!the trick is to set float none!!!!!!*/
     }
+    #img_background{
+        display: block;
+        margin: auto;
+        float:none;
+        height: auto;
+        min-width: 700px;
+    }
+}
+@media only screen and (min-width: 768px){
+
 }
 
 

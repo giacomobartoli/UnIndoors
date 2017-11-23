@@ -8,8 +8,61 @@
         <!-- Bootstrap CSS -->
         <link href="css/bootstrap.min.css" rel="stylesheet" />
         <link href="css/loginpagestylesheet.css" rel="stylesheet"/>
-        <script href="js/loginpage.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+        <script src="js/bootstrap.min.js"></script>
+
+        <script href="js/loginpage.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-messaging.js"></script>
+          <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+        <script>
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyAiVwf9orhjqFyH6i4HBSmmaZuLwrJyZnQ",
+                authDomain: "uniboindoors.firebaseapp.com",
+                databaseURL: "https://uniboindoors.firebaseio.com",
+                projectId: "uniboindoors",
+                storageBucket: "uniboindoors.appspot.com",
+                messagingSenderId: "484831871025"
+            };
+            firebase.initializeApp(config);
+            
+            firebase.auth().createUserWithEmailAndPassword("marcovsdjksaldo@gmail.com", "metallaro93").catch(function(error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // ...
+                alert(errorCode,error);
+            });
+        </script>
+
+        <script>
+            //            $(window).bind("mousewheel", function() {
+            //                $("html, body").stop();
+            //            });
+            function onClickLogin(){
+                $('#login_collapsible').collapse('toggle');
+                var positionY=$('#login').first().offset().top;
+                console.log(positionY);
+                $("html, body").animate({ scrollTop: positionY }, 500);
+
+
+            } 
+
+        </script>
+
+        <!--
+<script type="text/javascript">
+$(function() {
+$('#login_collapsible').collapse('toggle');
+})
+</script>
+-->
 
     </head>
     <body>
@@ -27,62 +80,47 @@
                 <img src="css/assets/touch-screen.svg" alt="" class="img_phone"/>
             </div>
             <div class="container" id="info">
-                <img src="css/assets/help-rounded-button.svg" alt="" class="img_phone" href="#info_collapsible" aria-expanded="false" aria-controls="info_collapsible" onclick="onClickInfo()"/>
+                <img src="css/assets/help-rounded-button.svg" alt="" class="img_phone"  href="#info_collapsible" aria-expanded="false" aria-controls="info_collapsible" onclick="onClickInfo()"/>
                 <script>
                     function onClickInfo(){
                         $('#info_collapsible').collapse('toggle');
-                        var positionY=$('#info_collapsible').offset().left;
+                        var positionY=$('#info_collapsible').offset().top;
                         console.log(positionY);
                         $("html, body").animate({ scrollTop: positionY }, 500); 
                     }
                 </script>
-                <p style="text-align: center" class="collapse" id="info_collapsible">Vuoi vedere le info sui programmatori?</p>
-
+                <div class="collapse" id="info_collapsible">
+                    <div class=" card-body">
+                        <p style="text-align: center; margin-top: 10px; margin-bottom: 10px;" >Vuoi vedere le info sui programmatori?</p>
+                    </div>
+                </div>
             </div>
 
             <div class="container" id="login" >
-                <img src="css/assets/login_student.svg" alt="" id="business_man" href="#login_collapsible" aria-expanded="false" aria-controls="login_collapsible" onclick="onClickLogin()"/>
-                <script>
-                    function onClickLogin(){
-                        $('#login_collapsible').collapse('toggle');
-                        var positionY=$('#login_collapsible').offset().left;
-                        console.log(positionY);
-                        $("html, body").animate({ scrollTop: positionY }, 500);
-
-
-                    } 
-
-                </script>
+                <div class="container"  style="width:auto;   ">
+                    <img src="css/assets/login_student.svg" alt="" id="business_man"   data-target="#login_collapsible" aria-expanded="false" aria-controls="login_collapsible" onclick="onClickLogin()"/> 
+                </div>
                 <div class="collapse" id="login_collapsible" >
-                    <script>
 
-                        function onOut(){
-                            $('#login_collapsible').collapse('hide');
-
-
-                        }
-
-                    </script>
-
-                    <form id="login_form">
-
-                        <div class="form-group row" style=" margin: auto; margin-top: 20px; display: block;">
-                            <input type="email" class="form-control form-control-lg" id="inputEmail3" placeholder="Email">
-                        </div>
-                        <div class="form-group row" style="margin: auto; margin-top: 20px; display: block;" id="password">
-                            <input type="password" class="form-control form-control-lg" id="inputPassword3" placeholder="Password">
+                    <form id="login_form" >
+                        <div class="card-body"     style="margin:auto;"     >
+                            <div class="form-group row" id="email_wrapper">
+                                <input type="email" class="form-control form-control-lg" id="inputEmail" placeholder="Email">
+                            </div>
+                            <div class="form-group row" id="password">
+                                <input type="password" class="form-control form-control-lg" id="inputPassword" placeholder="Password">
+                            </div>
                         </div>
                     </form>
-
 
                 </div>
             </div>
 
         </div>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-        <script src="js/bootstrap.min.js"></script>
+      
     </body>
+
+
 </html>
