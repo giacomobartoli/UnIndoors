@@ -2,16 +2,18 @@
 #start_div{
     background-color: #84CFC6;
 }
-html{
-}
 
-#password{
+
+#inputPassword{
     transition: transform 1s ease;
 }
-#password:hover{
+
+#inputPassword:hover{
     transform: scale(1.5);
 }
-
+#inputPassword:focus{
+    transform: scale(1.5);
+}
 
 #inputEmail{
     transition: transform 1s ease;
