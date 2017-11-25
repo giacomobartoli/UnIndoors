@@ -43,6 +43,8 @@
 #pirate_item{
     max-height: 700px;
     max-width:1900px;
+    min-height: 400px;
+    min-width: 700px;
   
    
     background-color: #64A1D7;  
@@ -51,6 +53,8 @@
 #tablet_item{
     max-height: 700px;
     max-width:1900px;
+    min-height: 400px;
+    min-width: 700px;
     
     
     background-color: #84CFC6;
@@ -80,7 +84,9 @@
     height:auto;
 
 }
-
+.d-block{
+    width: auto;height:100vh;
+}
 #login{
     display: block;
     width:250px;
@@ -135,14 +141,14 @@
         
     }
    .carousel-item{
-        height: 100vh;
-        width: 100vw;
-        max-height: 300px;
+       
+        max-height: 400px;
     }
-   .d-block{
-    min-width:  320px;
-    height:auto;
-   }
+  .d-block{
+      max-height: 400px;
+      height:100vh;
+      width:auto;
+  }
     #login{
         /*        width:250px;*/
         display: block;
