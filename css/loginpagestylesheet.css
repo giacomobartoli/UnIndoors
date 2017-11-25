@@ -41,15 +41,20 @@
     transition: transform 1s ease;
 }
 #pirate_item{
-    height: 100vh;
+    max-height: 700px;
+    max-width:1900px;
+  
+   
     background-color: #64A1D7;  
-    width:auto;
 }
 
 #tablet_item{
-    height: 100vh;
+    max-height: 700px;
+    max-width:1900px;
+    
+    
     background-color: #84CFC6;
-    width:auto;
+   
 }
 
 
@@ -117,6 +122,7 @@
     white-space: normal;
     
 }
+
 @media only screen and (max-width: 1000px){
     #info,#download_app{
 /*        width:250px;*/
@@ -128,14 +134,15 @@
         float: none; /*!the trick is to set float none!!!!!!*/
         
     }
-    #pirate_item{
-        height: 100%;
-        width: 100%;
+   .carousel-item{
+        height: 100vh;
+        width: 100vw;
+        max-height: 300px;
     }
-    #tablet_item{
-        height: 100%;
-        width: 100%;
-    }
+   .d-block{
+    min-width:  320px;
+    height:auto;
+   }
     #login{
         /*        width:250px;*/
         display: block;
