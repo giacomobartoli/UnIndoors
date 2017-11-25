@@ -3,13 +3,57 @@
     background-color: #84CFC6;
 }
 
+
+/*#landing_image_wrapper{
+    background-image: url('assets/pirate_kid.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: 1900px;
+    height:700px;
+    background-color: #64A1D7;
+    }*/
+/*#pirate_item{
+    background-image: url('assets/pirate_kid.svg');
+    background-size: 1900px 720px;
+    background-color: #64A1D7;
+    width: 1900;
+    height: 720px;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: auto;
+    display: block;
+}*/
+
+#content_wrapper_first_image{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin:auto;
+    height:100vh;
+    width: 100vh;
+    margin-left:-350px;
+    margin-top: 100px;
+    max-width:  700px;
+    max-height: 400px;   
+}
 #inputPassword{
     transition: transform 1s ease;
 }
-
-#inputPassword:hover{
-    transform: scale(1.5);
+#pirate_item{
+    height: 100vh;
+    background-color: #64A1D7;  
+    width:auto;
 }
+
+#tablet_item{
+    height: 100vh;
+    background-color: #84CFC6;
+    width:auto;
+}
+
+
+
 #inputPassword:focus{
     transform: scale(1.5);
 }
@@ -17,7 +61,7 @@
 #inputEmail{
     transition: transform 1s ease;
 }
-#inputEmail:hover{
+#inputEmail:focus{
     transform: scale(1.5);
 }
 
@@ -66,17 +110,41 @@
     width:80%;
     height: auto;
 }
-@-ms-viewport {
+/*@-ms-viewport {
     width: device-width
+}*/
+#button_landing_login{
+    white-space: normal;
+    
 }
 @media only screen and (max-width: 1000px){
-    #info,#download_app,#login{
-        width:250px;
+    #info,#download_app{
+/*        width:250px;*/
         display: block;
-        height:250px;
+        /*height:250px;*/
         margin: auto;
-        margin-bottom: 80px;
+        margin-bottom: 50px;
+    transform: scale(0.7);
         float: none; /*!the trick is to set float none!!!!!!*/
+        
+    }
+    #pirate_item{
+        height: 100%;
+        width: 100%;
+    }
+    #tablet_item{
+        height: 100%;
+        width: 100%;
+    }
+    #login{
+        /*        width:250px;*/
+        display: block;
+        /*height:250px;*/
+        margin: auto;
+        margin-bottom: 50px;
+        float: none; /*!the trick is to set float none!!!!!!*/
+        transform: scale(0.8);
+        
     }
     #img_background{
         display: block;
@@ -85,6 +153,7 @@
         height: auto;
         min-width: 700px;
     }
+    
 }
 @media only screen and (min-width: 768px){
 
