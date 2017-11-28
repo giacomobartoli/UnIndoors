@@ -1,127 +1,50 @@
 
+.centered{
+    top:50%;
+    left:50%;
+    max-width:800px;
+    max-height: 100%;
+    transform: translate(-50%,-50%);
+    position: relative;
+    text-align: center;
+}
 
-
-/*#landing_image_wrapper{
-    background-image: url('assets/pirate_kid.svg');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center center;
-    width: 1900px;
-    height:700px;
-    background-color: #64A1D7;
-    }*/
-/*#pirate_item{
-    background-image: url('assets/pirate_kid.svg');
-    background-size: 1900px 720px;
-    background-color: #64A1D7;
-    width: 1900;
-    height: 720px;
-    background-position: center;
-    background-repeat: no-repeat;
-    margin: auto;
-    display: block;
-}*/
-#pirate_item{
+#start_jumb{ 
     background-image: url('assets/background-svg.svg');
     background-size: cover;
     height: 100vh;
-    width:100vw;
-   
+    width:auto;
+    text-align: center;
+}    
 
+body { }
+
+#image_explore{
+    max-width: 600px;
+    max-height: 500px;
+    height:100%;
+    width: 100%;
 }
 
-#content_wrapper_first_image{
-    position: absolute;
+.navbar{
+    font-size: 20px;    
+    max-width: 100%;
+    width: 100vw;
+    min-height: 75px;    
+
+}
+.tech-showcase-img{
+    max-height: 200px;
+    display: block;
+    max-width: 200px;
+    position: relative;
     top: 50%;
     left: 50%;
-    margin:auto;
-    height:100vh;
-    width: 100vh;
-    margin-left:-350px;
-    margin-top: 100px;
-    max-width:  700px;
-    max-height: 400px;   
+    transform: translate(-50%, -50%);
 }
-#inputPassword{
-    transition: transform 1s ease;
+#login_signup_navbar{
+    font-weight: bold;
 }
-
-
-
-#inputPassword:focus{
-    transform: scale(1.5);
-}
-
-#inputEmail{
-    transition: transform 1s ease;
-}
-#inputEmail:focus{
-    transform: scale(1.5);
-}
-
-.img_phone{
-    width: 100%;
-    height: auto;
-
-}
-#business_man{
-    width:auto;
-    height:auto;
-
-}
-.img-fluid{
-    height:100vh;
-    width:100vw;
-    max-height: 500px;
-    /*max-height: 540px !important;
-    max-width:1900px !important;
-    min-height: 400px !important;
-    min-width: 700px !important;*/
-   
-
-}
-#login{
-    display: block;
-    width:270px;
-    height:270px;
-
-
-}
-#login_form{
-    display:block;
-    margin:auto;
-}
-
-#info{
-    display: block;
-    float: left;
-    width:250px;
-    height:250px;
-    margin-left: 50px
-}
-
-#download_app{
-    display: block;
-    float: right;
-    width:250px;
-    height:250px;
-    margin-right: 50px
-}
-
-#img_background{
-    display: block;
-    margin:auto;
-    width:80%;
-    height: auto;
-}
-/*@-ms-viewport {
-    width: device-width
-}*/
-#button_landing_login{
-    white-space: normal;
-    
-}
-
 @media only screen and (max-width: 768px){
     #info,#download_app{
         width:170px;
@@ -129,27 +52,27 @@
         height:170px;
         margin: auto;
         margin-bottom: 50px;
-    /*transform: scale(0.7);*/
+        /*transform: scale(0.7);*/
         float: none; /*!the trick is to set float none!!!!!!*/
-        
-    }
-    h1{
-    font-size: 5vh !important;
-    }
-   
-#pirate_item{
-    max-height: 500px;
-}
-
-          #login{
-            width:200px;
-    display: block;
-    height:200px;
-    margin: auto;
-    margin-bottom: 50px;
-    float: none; /*!the trick is to set float none!!!!!!*/
-}
 
     }
+    #image_explore{
+        min-width: 300px;
+        min-height: 300px;
+    }
+
+
+    .centered{
+        height: 60vh;
+        max-height: 100%;
+    }
+
+
+    #start_jumb{
+        background-position: center;
+        margin: 0;
+    }
+
+}
 
 
