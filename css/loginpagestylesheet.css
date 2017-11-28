@@ -17,8 +17,12 @@
     text-align: center;
 }    
 
-body { }
+#form{
+    max-width: 400px;
+    max-height: 700px;
+    margin-top: 40px;
 
+}
 #image_explore{
     max-width: 600px;
     max-height: 500px;
@@ -33,17 +37,32 @@ body { }
     min-height: 75px;    
 
 }
+
+#login_student{
+    max-width: 300px;
+    max-height:200px;
+    min-height: 150px;
+    min-width: 250px;
+}
 .tech-showcase-img{
-    max-height: 200px;
+    height: 200px;
     display: block;
-    max-width: 200px;
+    width: 200px;
     position: relative;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 #login_signup_navbar{
     font-weight: bold;
+}
+.btn span.glyphicon {    			
+    opacity: 0;				
+}
+.btn.active span.glyphicon {				
+    opacity: 1;				
 }
 @media only screen and (max-width: 768px){
     #info,#download_app{
@@ -67,10 +86,13 @@ body { }
         max-height: 100%;
     }
 
-
     #start_jumb{
         background-position: center;
         margin: 0;
+    }
+
+    #login_student{
+
     }
 
 }

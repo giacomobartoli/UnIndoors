@@ -2,7 +2,7 @@
 <html lang="en">
 
     <head>
-        <title>Hello, world!</title>
+        <title>Uniboors</title>
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -39,6 +39,9 @@
         </script>
 
         <script>
+            $(function () {
+                $('[data-toggle="popover"]').popover()
+            })
 
             function onClickLogin() {
                 $('#login_collapsible').collapse('toggle');
@@ -56,31 +59,12 @@
 
 
                 function onSubmit() {
-                    var email = $("#inputEmail").val();
-                    var password = $("#inputPassword").val();
-
-                    firebase.auth().signInWithEmailAndPassword(email, password).then(function (user) {
-
-                    }).catch(function (error) {
-                        $('#button_login').removeClass("btn btn-primary btn-block").addClass('btn btn-danger btn-block');
-
-                    })
-                }
+              
 
             }
 
             function onRegisterNewUser() {
-                var email = $("#inputEmail").val();
-                var password = $("#inputPassword").val();
-
-                firebase.auth().createUserWithEmailAndPassword(email, password).then(function (user) {
-                    alert('new user', user.email());
-                }).catch(function (error) {
-                    $('#button_register').css('color', 'red');
-                    var error = error.message;
-                    console.log(error);
-
-                })
+             
             }
             function onCollapseMenuClick() {
                 console.log(document.getElementById('start_jumb').style.opacity);
@@ -120,7 +104,7 @@
 
     <body id="b">
         <nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg">
-            <a class="navbar-brand" href="#"> Uniboors </a>
+            <a class="navbar-brand" href="LandingPage.html"> Uniboors </a>
             <button id="button_toggle" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu_start" aria-controls="menu_start"
                     aria-expanded="false" aria-label="Toggle navigation" onclick="onCollapseMenuClick()">
                 <span class="navbar-toggler-icon"></span>
@@ -139,11 +123,11 @@
                 </ul>
                 <ul class="navbar-nav navbar-right" id="login_signup_navbar">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Sign up</a>
+                        <a class="nav-link active" href="SignUp.html">Sign up</a>
                     </li>
                     <li class="vl"></li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Log in</a>
+                        <a class="nav-link active" href="LogIn.html">Log in</a>
                     </li>
                 </ul>
 
@@ -233,8 +217,8 @@
 
 
                 </div>
-                
-                 <div class="col mx-auto">
+
+                <div class="col mx-auto">
 
                     <img class="tech-showcase-img" src="css/assets/javascript-logo.svg">
 
@@ -243,7 +227,7 @@
 
             </div>
         </div>
-          <div class="container-fluid" style=" margin-top: 30px; margin-bottom: 30px; ">
+        <div class="container-fluid" style=" margin-top: 30px; margin-bottom: 30px; ">
 
             <h1 class="display-4 text-center">Multi-platform experience</h1>
             <div class="row" style="margin-top: 30px;margin-bottom: 30px;">
@@ -265,11 +249,12 @@
 
 
                 </div>
-                
-                
+
+
 
             </div>
         </div>
+        
     </body>
 
 
