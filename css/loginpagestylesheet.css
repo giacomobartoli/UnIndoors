@@ -1,27 +1,119 @@
 
-
-
-html{
-    overflow: scroll;
+.centered{
+    top:50%;
+    left:50%;
+    max-width:800px;
+    max-height: 100%;
+    transform: translate(-50%,-50%);
+    position: relative;
+    text-align: center;
 }
 
-body{
-    height:430px;
+.paragraph_centered{
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    position: relative;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+#start_jumb{ 
+    background-image: url('assets/background-svg.svg');
+    background-size: cover;
+    height: 100vh;
+    width:auto;
+    text-align: center;
+}    
+
+#form{
+    max-width: 400px;
+    max-height: 700px;
+    margin-top: 40px;
 
 }
-#img_background{
+#image_explore{
+    max-width: 600px;
+    max-height: 500px;
+    height:100%;
+    width: 100%;
+}
+
+.navbar{
+    font-size: 20px;    
+    max-width: 100%;
+    width: 100vw;
+    min-height: 75px;    
+
+}
+
+#login_student{
+    max-width: 300px;
+    max-height:200px;
+    min-height: 150px;
+    min-width: 250px;
+}
+.tech-showcase-img{
+    height: 200px;
     display: block;
-    margin:auto;
-    width:70%;
-    min-width: 400px;
-    height: auto;
+    width: 200px;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
-@-ms-viewport {
-    width: device-width
+#login_signup_navbar{
+    font-weight: bold;
+}
+.btn span.glyphicon {    			
+    opacity: 0;				
+}
+.btn.active span.glyphicon {				
+    opacity: 1;				
+}
+.alert{
+    height: 200px;
+    display: block;
+    width: 200px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+@media only screen and (max-width: 768px){
+    #info,#download_app{
+        width:170px;
+        display: block;
+        height:170px;
+        margin: auto;
+        margin-bottom: 50px;
+        /*transform: scale(0.7);*/
+        float: none; /*!the trick is to set float none!!!!!!*/
+
+    }
+    #image_explore{
+        min-width: 300px;
+        min-height: 300px;
+    }
+
+
+    .centered{
+        height: 60vh;
+        max-height: 100%;
+        padding: 15px;
+    }
+
+    #start_jumb{
+        background-position: center;
+        margin: 0;
+        height:90vh;
+    }
+
+
 }
 
-.jumbotron{
-    position: fixed;
-    bottom: 0;
-}
 

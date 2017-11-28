@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <title>Uniboors</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Bootstrap CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet" />
+        <link href="css/loginpagestylesheet.css" rel="stylesheet" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+                crossorigin="anonymous"></script>
+        <script src="js/bootstrap.js"></script>
+
+        <script href="js/loginpage.js"></script>
+
+        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-messaging.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+
+        <script>
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyAiVwf9orhjqFyH6i4HBSmmaZuLwrJyZnQ",
+                authDomain: "uniboindoors.firebaseapp.com",
+                databaseURL: "https://uniboindoors.firebaseio.com",
+                projectId: "uniboindoors",
+                storageBucket: "uniboindoors.appspot.com",
+                messagingSenderId: "484831871025"
+            };
+            firebase.initializeApp(config);
+            var user=firebase.auth().currentUser;
+            firebase.auth().signOut().then(function() {
+                console.log(user+" logged out");
+
+            }).catch(function(error) {
+                // An error happened.
+            });
+
+        </script>
+        <script>
+
+            function onClickExplore(){
+                var positionY = $('#explore').first().offset().top;
+                $("html, body").animate({ scrollTop: positionY }, 500);
+            }
+
+            function onClickFindYourClass(){
+
+                var user=firebase.auth().currentUser;
+                if(user==null){
+                }
+                else{
+                    console.log(user);
+                }
+
+            }
+
+        </script>
+
+    </head>
+
+    <body id="b">
+
+        <nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg">
+            <a class="navbar-brand" href="LandingPage.html"> Uniboors </a>
+            <button id="button_toggle" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu_start" aria-controls="menu_start"
+                    aria-expanded="false" aria-label="Toggle navigation" onclick="onCollapseMenuClick()">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="menu_start">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0 ">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Features
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">My Classes</a>
+                    </li>
+
+                </ul>
+                <ul class="navbar-nav navbar-right" id="login_signup_navbar">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="SignUp.html">Sign up</a>
+                    </li>
+                    <li class="vl"></li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="LogIn.html">Log in</a>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
+        <div class=" jumbotron-fluid" id="start_jumb">
+
+            <div class=" centered">
+                <h1 class="display-4">Welcome to Uniboors!</h1>
+                <p class="lead" style="font-weight: 400">A web app designed to deliver the best indoors navigation experience right at the school of Computer
+                    Science and Engineering, in the heart of Cesena</p>
+                <p class="alignlead text-lg-center">
+                    <button class="btn btn-primary btn-lg" style="width:200px;" role="button" onclick="onClickExplore()">Explore</button>
+                </p>
+            </div>
+
+        </div>
+
+        <div class="container-fluid" style="margin-top: 30px;" id="explore">
+            <h1 class="display-4 text-center"  >Finding your classroom shouldn't be a tresure hunt</h1>
+        </div>
+        <div class="container-fluid" >
+            <div class="row" style="margin-top: 30px;margin-bottom: 30px;">
+                <div class="col">
+
+                    <div>
+                        <img class="rounded" src="css/assets/explore.svg" id="image_explore">
+                    </div>
+                </div>
+                <div class="col">
+
+                    <div class="paragraph_centered">
+
+
+                        <p class="text-center font-italic" style="font-size: 30px;"> "For the lessons are dark, and full of terrors" </p>
+                        <p  style="font-size: 20px; margin-top: 30px;"> Every engineering student knows lessons are complicated enough, so why should get to class be hard as well? 
+                            Start using Uniboors right now and enjoy your trip to class!
+                        </p>
+                        <div class="row">   
+                            <button class="btn btn-secondary btn-lg mx-auto" id="find_classes_btn" style="width:200px; margin-top: 40px;" onclick="onClickFindYourClass()">Find your class</button>
+                            <!--
+<div class="alert alert-danger alert-dismissible" id="alert2">
+<a href="#" class="close">&times;</a>
+Click on the "x" button on the right to close this alert box.
+</div>
+<script>
+function click(){
+$('#find_classes_btn').(function(){
+$(".close").click(function(){
+$("#alert2").alert("close");
+});
+$("#find_classes_btn").on('close.bs.alert', function(){
+alert('The alert message is about to be closed.');
+});
+});
+}
+</script>
+-->
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="container-fluid" style=" margin-top: 30px; margin-bottom: 30px; ">  
+
+            <h1 class="display-4 text-center">Simple and intuitive</h1>
+
+            <div class="row" style="margin-top: 30px;margin-bottom: 30px;">
+
+                <div class="col">
+                    <div class=" paragraph_centered">
+
+                        <p class="text-center font-italic" style="font-size: 30px;">All your lessons available everywhere, anytime</p>
+                        <p style="font-size: 20px; margin-top: 30px;">Uniboors strength is its simplicity: enter in the website and easily find your lesson. Did you forget where Web Applications' lesson is? Do you not remember if there is a laboratory session or a regular lecture? Not a problem! All the necessary information are daily updated for you
+                        </p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div>
+                        <img class="rounded" src="css/assets/download.jpg" id="image_explore">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="container-fluid">
+
+            <h1 class="display-4 text-center">Uniboors... right in your pocket!</h1>
+
+
+            <div class="row">
+                <div class="col">
+
+                    <img class="rounded" src="css/assets/download.jpg" id="image_explore">
+
+                </div>
+                <div class="col">
+                    <div class="paragraph_centered">
+                        <p class="text-center font-italic " style="font-size: 30px;">PocketUniboors Android app is ready for download!</p>
+
+                        <p style="font-size: 20px; margin-top: 30px;">Empower your navigation with our android app. Just choose your lesson, and let bluetooth beacons guide you to your daily source of knowledge
+                        </p>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div class="container-fluid" style=" margin-top: 30px; margin-bottom: 30px; ">  
+
+                <h1 class="display-4 text-center">Accessibility is the key</h1>
+
+                <div class="row" style="margin-top: 30px;margin-bottom: 30px;">
+
+                    <div class="col">
+                        <div class=" paragraph_centered">
+
+                            <p class="text-center font-italic" style="font-size: 30px;">Going to classroom should be an easy task for everyone</p>
+                            <p style="font-size: 20px; margin-top: 30px;">qui parla degli handicappati blah blah con gli operatori bla bla bla bla
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div>
+                            <img class="rounded" src="css/assets/kindness.svg" id="image_explore">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <div class="container-fluid" style=" margin-top: 30px; margin-bottom: 30px; ">
+
+            <h1 class="display-4 text-center">Edge technology and multi-device support</h1>
+            <div class="row" style="margin-top: 30px;margin-bottom: 30px;">
+
+                <div class="col">
+                    <img class="tech-showcase-img" src="css/assets/Boostrap_logo.svg">
+
+
+
+                </div>
+                <div class="col">
+                    <img class="tech-showcase-img" src="css/assets/html5.svg">
+
+                </div>
+
+                <div class="col">
+
+                    <img class="tech-showcase-img" src="css/assets/css-logo.svg">
+
+
+                </div>
+
+                <div class="col mx-auto">
+
+                    <img class="tech-showcase-img" src="css/assets/javascript-logo.svg">
+
+
+                </div>
+
+            </div>
+        </div>
+        <div class="container-fluid" style=" margin-top: 30px; margin-bottom: 30px; ">
+
+            <h1 class="display-4 text-center">Multi-platform experience</h1>
+            <div class="row" style="margin-top: 30px;margin-bottom: 30px;">
+
+                <div class="col">
+                    <img class="tech-showcase-img" src="css/assets/firebase-1.svg">
+
+
+
+                </div>
+                <div class="col">
+                    <img class="tech-showcase-img" src="css/assets/Android_robot.svg">
+
+                </div>
+
+                <div class="col">
+
+                    <img class="tech-showcase-img" src="css/assets/icon-bluetooth-option.svg">
+
+
+                </div>
+
+
+
+            </div>
+        </div>
+
+    </body>
+
+
+</html>
