@@ -9,6 +9,15 @@
     text-align: center;
 }
 
+.paragraph_centered{
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    position: relative;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
 #start_jumb{ 
     background-image: url('assets/background-svg.svg');
     background-size: cover;
@@ -64,6 +73,17 @@
 .btn.active span.glyphicon {				
     opacity: 1;				
 }
+.alert{
+    height: 200px;
+    display: block;
+    width: 200px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
 @media only screen and (max-width: 768px){
     #info,#download_app{
         width:170px;
@@ -84,16 +104,15 @@
     .centered{
         height: 60vh;
         max-height: 100%;
+        padding: 15px;
     }
 
     #start_jumb{
         background-position: center;
         margin: 0;
+        height:90vh;
     }
 
-    #login_student{
-
-    }
 
 }
 
