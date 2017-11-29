@@ -37,7 +37,7 @@
 
         </script>
         <script>
-        
+
             function onClickLogin() {
                 var email = $("#email_input").val();
                 var password = $("#password_input").val();
@@ -46,7 +46,7 @@
 
                 }).catch(function (error) {
                     $(function () {
-                    alert('error');
+                        alert('error');
                         $('#input_email').popover('show')
                     })
                 })
@@ -73,7 +73,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">My Classes</a>
                     </li>
-
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Operators</a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav navbar-right" id="login_signup_navbar">
                     <li class="nav-item">
