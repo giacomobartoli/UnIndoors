@@ -2,6 +2,10 @@
     float: right;
     margin-top: 80px;
 }
+div.row img.img_lesson{
+    max-width: 400px;
+    max-height: 400px;
+}
 /*
 .container-fluid{
     top:50%;
