@@ -1,0 +1,15 @@
+#profile_info{
+    float: right;
+    margin-top: 80px;
+}
+/*
+.container-fluid{
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+}
+*/
+
+body{
+    background-color: #343a40;
+}

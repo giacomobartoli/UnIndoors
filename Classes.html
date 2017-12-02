@@ -1,0 +1,151 @@
+<!doctype html>
+
+<html>
+
+    <head>
+        <title>Uniboors</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Bootstrap CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet" />
+        <link href="css/loginpagestylesheet.css" rel="stylesheet" />
+        <link href="css/classesstylesheet.css" rel="stylesheet" />
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+                crossorigin="anonymous"></script>
+        <script src="js/bootstrap.js"></script>
+
+        <script href="js/loginpage.js"></script>
+
+        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-messaging.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+
+        <script>
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyAiVwf9orhjqFyH6i4HBSmmaZuLwrJyZnQ",
+                authDomain: "uniboindoors.firebaseapp.com",
+                databaseURL: "https://uniboindoors.firebaseio.com",
+                projectId: "uniboindoors",
+                storageBucket: "uniboindoors.appspot.com",
+                messagingSenderId: "484831871025"
+            };
+            firebase.initializeApp(config);
+
+
+        </script>
+    </head>
+    <body>
+        <nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg">
+            <a class="navbar-brand" href="LandingPage.html"> Uniboors </a>
+            <button id="button_toggle" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu_start" aria-controls="menu_start"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="menu_start">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0 ">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Features
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">My Classes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Operators</a>
+                    </li>
+
+                </ul>
+                <ul class="navbar-nav navbar-right" id="login_signup_navbar">
+                    <img src="css/assets/boy.svg" style="width:90px; max-height:65px;">
+
+                </ul>
+
+            </div>
+        </nav>
+
+        <div class="container-fluid" style="height:100vh; margin-top: 80px;">
+            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" >
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="row">
+                            <div class="col-md">
+
+                                <a href="https://placeholder.com"><img  src="http://via.placeholder.com/350x150" alt="First slide"></a>
+
+                            </div>
+                            <div class="col-md">
+
+                                <a href="https://placeholder.com"><img  src="http://via.placeholder.com/350x150" alt="First slide"></a>
+
+                            </div>
+                            <div class="col-md">
+
+                                <a href="https://placeholder.com"><img  src="http://via.placeholder.com/350x150" alt="First slide"></a>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="row">
+                            <div class="col-md">
+
+                                <a href="https://placeholder.com"><img  src="http://via.placeholder.com/350x150" alt="First slide"></a>
+
+                            </div>
+                            <div class="col-md">
+
+                                <a href="https://placeholder.com"><img  src="http://via.placeholder.com/350x150" alt="First slide"></a>
+
+                            </div>
+                            <div class="col-md">
+
+                                <a href="https://placeholder.com"><img  src="http://via.placeholder.com/350x150" alt="First slide"></a>
+
+                            </div>
+
+                        </div>                   
+                    </div>
+                    <div class="carousel-item">
+                        <div class="row">
+                            <div class="col-md">
+
+                                <a href="https://placeholder.com"><img  src="http://via.placeholder.com/350x150" alt="First slide"></a>
+
+                            </div>
+                            <div class="col-md">
+
+                                <a href="https://placeholder.com"><img  src="http://via.placeholder.com/350x150" alt="First slide"></a>
+
+                            </div>
+                            <div class="col-md">
+
+                                <a href="https://placeholder.com"><img  src="http://via.placeholder.com/350x150" alt="First slide"></a>
+
+                            </div>
+
+                        </div>                   
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </body>
+
+</html>
