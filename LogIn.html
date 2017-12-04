@@ -43,6 +43,8 @@
                 var password = $("#password_input").val();
 
                 firebase.auth().signInWithEmailAndPassword(email, password).then(function (user) {
+                    
+                    location.replace("Classes.html");
 
                 }).catch(function (error) {
                     $(function () {
@@ -103,7 +105,7 @@
                     <div class="form-group">
 
                         <label for="password_input">Password</label>
-                        <input type="email" class="form-control" id="password_input" aria-describedby="password_help" placeholder="*************">
+                        <input type="password" class="form-control" id="password_input" aria-describedby="password_help" placeholder="*************">
                         <small id="password_help" class="form-text text-muted">Enter your password</small>
                     </div>
                     <div>
