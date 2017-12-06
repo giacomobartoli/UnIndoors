@@ -79,79 +79,32 @@
                 var width=$( window ).width();
 
 
-                setUpTodayClasses(1000);
+                setUpTodayClasses(width);
 
 
             });
             $(window).resize(function(){
                 var width=$( window ).width();
 
+
+
                 if(width>=1000){
-                    resizeCarouselItems(3)
+                    console.log("only three")
+                    resizeAlgorithm(3,getCarouselItems('#today_classes_inner'),'#today_classes_inner',)
                 }
-                if(width>=768 && width<800){
-                    resizeCarouselItems(2)
+                if(width>=768 && width<1000){
+                    console.log("only two")
+                    resizeAlgorithm(2,getCarouselItems('#today_classes_inner'),'#today_classes_inner',)
 
                 }
                 if(width<768){
-                    resizeCarouselItems(1)
+                    console.log("only one")
+
+                    resizeAlgorithm(1,getCarouselItems('#today_classes_inner'),'#today_classes_inner',)
 
                 }
 
             })
-
-
-            //            $(window).resize(function(){
-            //                var width=$( window ).width();
-            //                if(width>768 && width<1000){
-            //                    var lessonsToMove=[];
-            //
-            //
-            //                    var inner=document.getElementById('today_classes_inner');
-            //                    console.log('resize ', inner.childElementCount, inner.childNodes)
-            //                    for(var i=0;i<inner.childNodes.length;i++){
-            //                        var carouselItem=inner.childNodes[i];
-            //                        var row=carouselItem.firstChild;
-            //                        if(row.childElementCount>2){
-            //                            lessonsToMove.push(row.lastChild);
-            //                            console.log(lessonsToMove)
-            //                            row.removeChild(row.lastChild);
-            //                            console.log(row)
-            //
-            //                        }
-            //
-            //                    }
-            //                    var newItemsToAdd=Math.floor(lessonsToMove.length/2) +lessonsToMove.length%2
-            //                    console.log('new items to add',newItemsToAdd);
-            //
-            //                    for(var i=0;i<newItemsToAdd;i++){
-            //                        console.log(lessonsToMove[i])
-            //                        var row=document.getElementById(new String('row_resized_'+i))     
-            //                        if(i%2==0 && row==null){
-            //                            var item='<div class="carousel-item"><div class="row" id="row_resized_'+i+'"></div></div>'
-            //                            inner.insertAdjacentHTML('beforeend',item)
-            //                            row=document.getElementById(new String('row_resized_'+i))
-            //
-            //                            row.appendChild(lessonsToMove[i]);
-            //
-            //                        }
-            //                        else{
-            //                            row=document.getElementById(new String('row_resized_'+i))
-            //                            row.appendChild(lessonsToMove[i]);
-            //
-            //                        }
-            //
-            //
-            //                    }
-            //
-            //                }
-            //            })
-
-
-
-
-
-
 
 
         </script>

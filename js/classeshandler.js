@@ -127,16 +127,13 @@ function fillCarouselRow(todayClass,carouselInnerElement,carouselOuterElement,nu
         carouselInnerElement.insertAdjacentHTML('beforeend',newCarouselItemNotActive);
         var newId=new String("row_"+rowIDNumber);
         carouselRow=document.getElementById(newId);
-        var carouselLessonItem='<div class="col"><div class="card" style="max-width: 400px; max-height: 400px"; min-width="350px;"><img class="card-img-top" src="'+imageUrl+'" alt="Card image cap"><div class="card-body"><h4 class="card-title">'+name+'</h4><p class="card-text">Some quick example text to build on the card title and make up the bulk of the cards content</p>';
+        var carouselLessonItem='<div class="col"><div class="card" ><img class="card-img-top" src="'+imageUrl+'" alt="Card image cap"><div class="card-body"><h4 class="card-title">'+name+'</h4><p class="card-text">Some quick example text to build on the card title and make up the bulk of the cards content</p>';
         carouselRow.insertAdjacentHTML('beforeend',carouselLessonItem);
 
     }
 
-    //vado a cercare la riga corrente e ci piazzo la card
-    //    var id=new String("row_"+rowIDNumber)
-    //    carouselRow=document.getElementById(id);
     else if(carouselRow.childElementCount<numberOfImagesPerSlide){
-        var carouselLessonItem='<div class="col"><div class="card" style="max-width: 400px; max-height: 400px"; min-width="350px;"><img class="card-img-top" src="'+imageUrl+'" alt="Card image cap"><div class="card-body"><h4 class="card-title">'+name+'</h4><p class="card-text">Some quick example text to build on the card title and make up the bulk of the cards content</p>';
+        var carouselLessonItem='<div class="col"><div class="card" "><img class="card-img-top" src="'+imageUrl+'" alt="Card image cap"><div class="card-body"><h4 class="card-title">'+name+'</h4><p class="card-text">Some quick example text to build on the card title and make up the bulk of the cards content</p>';
 
         carouselRow.insertAdjacentHTML('beforeend',carouselLessonItem);
 
@@ -144,50 +141,68 @@ function fillCarouselRow(todayClass,carouselInnerElement,carouselOuterElement,nu
 
     if(carouselNotActiveItemNumber==1 && document.getElementById("today_carousel_controls")==null){
 
-        var slideControls=' <a class="carousel-control-prev" href="#carousel_today_classes" role="button" data-slide="prev" id="today_carousel_controls"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="sr-only">Previous</span></a><a class="carousel-control-next" href="#carousel_today_classes" role="button" data-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="sr-only">Next</span></a>';
+        var slideControls=' <a class="carousel-control-prev control" href="#carousel_today_classes" role="button" data-slide="prev" id="today_carousel_controls"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="sr-only">Previous</span></a><a class="carousel-control-next control" href="#carousel_today_classes" role="button" data-slide="next" id="today_carousel_controls"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="sr-only">Next</span></a>';
         carouselOuterElement.insertAdjacentHTML('beforeend',slideControls);
 
     }
 }
-function resizeCarouselItems(numberOfItemsPerSlide){
-    var lessonsToMove=[];    
-    console.log(numberOfItemsPerSlide)
-    for(var i=0;i<carouselInnerElementToday.childNodes.length;i++){
-        var carouselItem=carouselInnerElementToday.childNodes[i];
-        var row=carouselItem.firstChild;
 
-        while(row.childElementCount>numberOfItemsPerSlide){ /*sposta un elemento in un nuovo carousel item se oò numero delle                                                        immagini è maggiore della soglia*/
-            lessonsToMove.push(row.lastChild);
-            row.removeChild(row.lastChild);
+function getCarouselItems(carouselInnerElementID){
 
-        }
+    var rowElements=[];
 
-    }
-    var newItemsToAdd=Math.floor(lessonsToMove.length/numberOfItemsPerSlide) +lessonsToMove.length%numberOfItemsPerSlide
+    $(carouselInnerElementID).find('.carousel-item').each(function(){
+        $(this).find('.row').each(function(){
+            $(this).find('.col').each(function(){
+                rowElements.push($(this))
+            })
 
-    for(var i=0;i<newItemsToAdd;i++){
-        console.log(lessonsToMove[i])
-        var row=document.getElementById(new String('row_resized_'+i))
-        console.log(i%numberOfItemsPerSlide,i,numberOfItemsPerSlide);
-        if(i%numberOfItemsPerSlide==0 || row==null){
-            var id="row_resized_for_"+numberOfItemsPerSlide+"_"+i;
-            var item='<div class="carousel-item"><div class="row" id="'+id+'"></div></div>'
-            carouselInnerElementToday.insertAdjacentHTML('beforeend',item)
-            row=document.getElementById(id)
+        })
+    })
+    rowElements.forEach(function(element){
+        console.log('item ',element);
 
-            row.appendChild(lessonsToMove[i]);
+    })
 
-        }
-        else{
-            console.log(numberOfItemsPerSlide,'Im here!!!!!')
-            row=document.getElementById(id)
-            row.appendChild(lessonsToMove[i]);
+    return rowElements;
 
-        }
+}
+
+
+function resizeAlgorithm(numberOfItemsPerSlide,rowElements,carouselInnerElementID){
+    if(rowElements.length<=numberOfItemsPerSlide){
+        console.log("removing controls",rowElements.length,numberOfItemsPerSlide,document.getElementById('today_carousel_controls'))
+        $('#carousel_today_classes').remove('#today_carousel_controls');
+         console.log(" after removing controls",rowElements.length,numberOfItemsPerSlide,document.getElementById('today_carousel_controls'))
+
 
 
     }
+    else if(document.getElementById('today_carousel_controls')==null && rowElements.length>numberOfItemsPerSlide){
+        console.log('adding control at number of slide '+numberOfItemsPerSlide)
+        var slideControls=' <a class="carousel-control-prev control" href="#carousel_today_classes" role="button" data-slide="prev" id="today_carousel_controls"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="sr-only">Previous</span></a><a class="carousel-control-next control" href="#carousel_today_classes" role="button" data-slide="next" id="today_carousel_controls"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="sr-only">Next</span></a>';
+        $('#carousel_today_classes').append(slideControls);
+    }
+    $(carouselInnerElementID).empty()
 
+    for(var i=0;i<rowElements.length;i++){
+
+        if(i%numberOfItemsPerSlide==0){
+            var carouselItem=$('<div class="carousel-item"></div>').appendTo(carouselInnerElementID)
+            var itemContent=$('<div class="row"></div>').appendTo(carouselItem)
+
+
+            }
+        if(i==0){
+
+            carouselItem.addClass('active')
+
+        }
+
+
+        itemContent.append(rowElements[i])
+
+    }
 
 
 }
