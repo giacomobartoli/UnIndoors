@@ -155,8 +155,8 @@ function resizeCarouselItems(numberOfItemsPerSlide){
     for(var i=0;i<carouselInnerElementToday.childNodes.length;i++){
         var carouselItem=carouselInnerElementToday.childNodes[i];
         var row=carouselItem.firstChild;
-        
-        while(row.childElementCount>numberOfItemsPerSlide){
+
+        while(row.childElementCount>numberOfItemsPerSlide){ /*sposta un elemento in un nuovo carousel item se oò numero delle                                                        immagini è maggiore della soglia*/
             lessonsToMove.push(row.lastChild);
             row.removeChild(row.lastChild);
 
@@ -169,17 +169,18 @@ function resizeCarouselItems(numberOfItemsPerSlide){
         console.log(lessonsToMove[i])
         var row=document.getElementById(new String('row_resized_'+i))
         console.log(i%numberOfItemsPerSlide,i,numberOfItemsPerSlide);
-        if(i%numberOfItemsPerSlide==0 && row==null){
-            var item='<div class="carousel-item"><div class="row" id="row_resized_'+i+'"></div></div>'
+        if(i%numberOfItemsPerSlide==0 || row==null){
+            var id="row_resized_for_"+numberOfItemsPerSlide+"_"+i;
+            var item='<div class="carousel-item"><div class="row" id="'+id+'"></div></div>'
             carouselInnerElementToday.insertAdjacentHTML('beforeend',item)
-            row=document.getElementById(new String('row_resized_'+i))
+            row=document.getElementById(id)
 
             row.appendChild(lessonsToMove[i]);
 
         }
         else{
             console.log(numberOfItemsPerSlide,'Im here!!!!!')
-            row=document.getElementById(new String('row_resized_'+i))
+            row=document.getElementById(id)
             row.appendChild(lessonsToMove[i]);
 
         }
