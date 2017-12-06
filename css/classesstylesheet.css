@@ -2,18 +2,44 @@
     float: right;
     margin-top: 80px;
 }
-div.row img.img_lesson{
-    max-width: 400px;
-    max-height: 400px;
+.card-img-top{
+    max-width: 100%;
+    max-height: 100%;
+
+    /*
+    display: inline-block;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position:relative;
+    */
+}
+.card{
+    display: inline-block;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position:relative;
+    margin-bottom: 15px;
 }
 /*
 .container-fluid{
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
+top:50%;
+left:50%;
+transform: translate(-50%,-50%);
 }
 */
 
 body{
     background-color: #343a40;
+}
+
+@media only screen and (max-width:768px){
+    .card{
+        height: 400px;
+
+    }
+    .col{
+
+    }
 }
