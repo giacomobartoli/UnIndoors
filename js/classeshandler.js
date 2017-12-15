@@ -1,4 +1,3 @@
-// Initialize Firebase
 'use strict'
 
 var config = {
@@ -21,6 +20,7 @@ var carouselOuterElementWeek=document.getElementById('carousel_week_classes')
 var carouselNotActiveItemNumber=0;
 var rowIDNumber=0;
 var todayClassesCarouselSlide=document.getElementById('carouselExampleControls');
+var classChosen;
 
 
 
@@ -60,13 +60,9 @@ function setUpTodayClasses(size) {
                     }
                     dayoflessons.push(todayClass)
 
-                    if(today==6 || today==7){
+                   
 
-                       $()
-                        
-                    }
-                    
-                    
+
 
                     if (dayNumber == today) {
 
@@ -210,14 +206,14 @@ function renderLessonImage(lessonName){
         case 'Nets Security':
             return 'css/assets/security.svg';
         case 'Pervasive Computing':
-            return 'css/assets/pervasive.svg';
+            return 'css/assets/internetofthings.svg';
         case 'Distributed Systems':
             return 'css/assets/distributed_systems.svg';
         case 'Informative Systems':
             return '';
-        case 'Smart Robotic Systems':
+        case 'Robotic Systems':
             return 'css/assets/robots.svg'
-        case 'Smart City and Mobile Technologies':
+        case 'Smart City':
             return 'css/assets/digital-cities.svg';
         case 'Supporto alle Decisioni':
             return 'css/assets/supporto_alle_decisioni.svg';
@@ -238,9 +234,9 @@ function fillCarouselRow(todayClass,carouselInnerElementID,carouselOuterElementI
     var timeEnd=todayClass.timeEnd;
     var place=todayClass.place;
     var day=todayClass.day;
-    var row
+    var row;
     var innerElement=$(carouselInnerElementID)
-
+  
     var elementOfRow='<div class="col"><div class="card" ><img class="card-img-top" src="'+imageUrl+'" alt="Card image cap"><div class="card-body"><h4 class="card-title">'+name+'</h4><p class="card-text">'+timeStart+" "+timeEnd+" "+place+" day: "+day+'</p>';
     if(innerElement.children().length==0){
         var carouselItem=$('<div class="carousel-item" id="'+carouselOuterElementID+'" ></div>').appendTo(innerElement)     
@@ -260,9 +256,12 @@ function fillCarouselRow(todayClass,carouselInnerElementID,carouselOuterElementI
     }
     row.append(elementOfRow)
 }
-function getCarouselItems(carouselInnerElementID){
 
-    var rowElements=[];
+
+
+
+function getCarouselItems(carouselInnerElementID){
+    var rowElements=[]
 
     $(carouselInnerElementID).find('.carousel-item').each(function(){
         $(this).find('.row').each(function(){
@@ -294,6 +293,7 @@ function resizeAlgorithm(numberOfItemsPerSlide,rowElements,carouselInnerElementI
     //        console.log('adding control at number of slide '+numberOfItemsPerSlide)
     //        var slideControls=' <a class="carousel-control-prev control" href="#carousel_today_classes" role="button" data-slide="prev" id="today_carousel_controls"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="sr-only">Previous</span></a><a class="carousel-control-next control" href="#carousel_today_classes" role="button" data-slide="next" id="today_carousel_controls"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="sr-only">Next</span></a>';
     //        $(carouselOuterElementID).append(slideControls);
+
     //    }
     $(carouselInnerElementID).empty()
 
@@ -310,6 +310,8 @@ function resizeAlgorithm(numberOfItemsPerSlide,rowElements,carouselInnerElementI
             carouselItem.addClass('active')
 
         }
+
+
 
 
         itemContent.append(rowElements[i])
