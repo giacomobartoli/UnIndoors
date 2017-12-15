@@ -46,15 +46,17 @@
                 var familyName=$('#surname_input').val();
                 firebase.auth().createUserWithEmailAndPassword(email, password).then(function (user) {
                     var button=$('#sign_up_button');
-                    if(button.hasClass('btn btn-primary')){
-                        button.removeClass('btn btn-primary').addClass('btn btn-success');
-                    }
-                    else{
-                        button.removeClass('btn btn-danger').addClass('btn btn-success').then(function(){
-                            //cambiare il testo del bottone
-                            
-                        });
-                    }
+                    location.replace("Classes.html");
+//                    if(button.hasClass('btn btn-primary')){
+//                        button.removeClass('btn btn-primary').addClass('btn btn-success');
+//                    }
+//                    else{
+//                        button.removeClass('btn btn-danger').addClass('btn btn-success').then(function(){
+//
+//
+//
+//                        });
+//                    }
 
 
                 }).catch(function (error) {
@@ -102,7 +104,7 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="LogIn.html">Log in</a>
                     </li>
-                    
+
                 </ul>
 
             </div>
