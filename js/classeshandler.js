@@ -21,6 +21,7 @@ var carouselNotActiveItemNumber=0;
 var rowIDNumber=0;
 var todayClassesCarouselSlide=document.getElementById('carouselExampleControls');
 var classChosen;
+var lessons=[]
 
 
 
@@ -30,7 +31,6 @@ var classChosen;
 function setUpTodayClasses(size) {
     var date = new Date();
     var today = date.getDay();
-    var lessons=[]
 
     database.ref('CesenaCampus/Corsi/').on('value',function (snapshot) {
 
@@ -59,8 +59,8 @@ function setUpTodayClasses(size) {
 
                     }
                     dayoflessons.push(todayClass)
+                    lessons.push(todayClass)
 
-                   
 
 
 
@@ -163,6 +163,7 @@ function getClosestLesson(lessons,today){
 
 }
 
+
 function shuffleArray(array){
     var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -200,9 +201,9 @@ function renderLessonImage(lessonName){
         case 'Applicazioni Web':
             return 'css/assets/web_development.svg';
         case 'Big Data':
-            return '';
+            return 'css/assets/big_data.svg';
         case  'Business Intelligence':
-            return '';
+            return 'css/assets/business_intelligence.svg';
         case 'Nets Security':
             return 'css/assets/security.svg';
         case 'Pervasive Computing':
@@ -210,7 +211,7 @@ function renderLessonImage(lessonName){
         case 'Distributed Systems':
             return 'css/assets/distributed_systems.svg';
         case 'Informative Systems':
-            return '';
+            return 'css/assets/sistemi_informativi.svg';
         case 'Robotic Systems':
             return 'css/assets/robots.svg'
         case 'Smart City':
@@ -236,8 +237,8 @@ function fillCarouselRow(todayClass,carouselInnerElementID,carouselOuterElementI
     var day=todayClass.day;
     var row;
     var innerElement=$(carouselInnerElementID)
-  
-    var elementOfRow='<div class="col"><div class="card" ><img class="card-img-top" src="'+imageUrl+'" alt="Card image cap"><div class="card-body"><h4 class="card-title">'+name+'</h4><p class="card-text">'+timeStart+" "+timeEnd+" "+place+" day: "+day+'</p>';
+
+    var elementOfRow='<div class="col"><div class="card" id="'+name+'" onclick="test()"><img class="card-img-top" src="'+imageUrl+'" alt="Card image cap"><div class="card-body"><h4 class="card-title">'+name+'</h4><p class="card-text">'+timeStart+" "+timeEnd+" "+place+" day: "+day+'</p>';
     if(innerElement.children().length==0){
         var carouselItem=$('<div class="carousel-item" id="'+carouselOuterElementID+'" ></div>').appendTo(innerElement)     
         row=$('<div class="row"></div>').appendTo(carouselItem)        
@@ -323,6 +324,9 @@ function resizeAlgorithm(numberOfItemsPerSlide,rowElements,carouselInnerElementI
 
 
 
+function test(){
+    console.log('click');
+}
 
 
 
