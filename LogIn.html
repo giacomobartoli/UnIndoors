@@ -37,16 +37,18 @@
 
         </script>
         <script>
-        
+
             function onClickLogin() {
                 var email = $("#email_input").val();
                 var password = $("#password_input").val();
 
                 firebase.auth().signInWithEmailAndPassword(email, password).then(function (user) {
+                    
+                    location.replace("Classes.html");
 
                 }).catch(function (error) {
                     $(function () {
-                    alert('error');
+                        alert('error');
                         $('#input_email').popover('show')
                     })
                 })
@@ -71,9 +73,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">My Classes</a>
+                        <a class="nav-link" href="Classes.html">My Classes</a>
                     </li>
-
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Operators</a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav navbar-right" id="login_signup_navbar">
                     <li class="nav-item">
@@ -101,7 +105,7 @@
                     <div class="form-group">
 
                         <label for="password_input">Password</label>
-                        <input type="email" class="form-control" id="password_input" aria-describedby="password_help" placeholder="*************">
+                        <input type="password" class="form-control" id="password_input" aria-describedby="password_help" placeholder="*************">
                         <small id="password_help" class="form-text text-muted">Enter your password</small>
                     </div>
                     <div>
