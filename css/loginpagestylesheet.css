@@ -112,6 +112,10 @@
         margin: 0;
         height:90vh;
     }
+    .tech-showcase-img{
+        width:100px;
+        height:100px;
+    }
 
 
 }

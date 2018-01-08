@@ -22,6 +22,7 @@ var rowIDNumber=0;
 var todayClassesCarouselSlide=document.getElementById('carouselExampleControls');
 var classChosen;
 var lessons=[]
+var detailedClass
 
 
 
@@ -43,9 +44,7 @@ function setUpTodayClasses(size) {
                 var dayoflessons=[]
                 scheduleSnapshot.forEach(function (daySnapshot) {
                     //  console.log('array size ',dayoflessons.length)
-                    if(lessonName=='Business Intelligence'){
-                        console.log(daySnapshot.val())
-                    }
+
                     var dayNumber = daySnapshot.child('value').val();
                     //    console.log(daySnapshot.child('timeStart').val().toString())
                     var todayClass = {
@@ -54,8 +53,10 @@ function setUpTodayClasses(size) {
                         timeEnd: daySnapshot.child('timeEnd').val().toString(),
                         place: daySnapshot.child('place').val().toString(),
                         imageUrl:renderLessonImage(lessonName),
+                        teacher:childSnapshot.child('teacher').val().toString(),
                         numberOfDay:dayNumber,
-                        day:daySnapshot.key
+                        day:daySnapshot.key,
+                        type:childSnapshot.child('type').val().toString()
 
                     }
                     dayoflessons.push(todayClass)
@@ -89,7 +90,7 @@ function setUpTodayClasses(size) {
 
                         var closest=getClosestLesson(dayoflessons,today)
                         for(var i=0;i<closest.length;i++){
-                            if(size>768 && size<1000){
+                            if(size>=768 && size<1000){
                                 fillCarouselRow(closest[i],'#next_classes_inner','#carousel_next_classes',2);
                             }
                             if(size<768){
@@ -238,7 +239,8 @@ function fillCarouselRow(todayClass,carouselInnerElementID,carouselOuterElementI
     var row;
     var innerElement=$(carouselInnerElementID)
 
-    var elementOfRow='<div class="col"><div class="card" id="'+name+'" onclick="test()"><img class="card-img-top" src="'+imageUrl+'" alt="Card image cap"><div class="card-body"><h4 class="card-title">'+name+'</h4><p class="card-text">'+timeStart+" "+timeEnd+" "+place+" day: "+day+'</p>';
+    var elementOfRow='<div class="col"><div class="card" id="'+todayClass.type+'"><img class="card-img-top" src="'+imageUrl+'" alt="Card image cap"><div class="card-body"><h4 class="card-title">'+name+'</h4></div></div>';
+
     if(innerElement.children().length==0){
         var carouselItem=$('<div class="carousel-item" id="'+carouselOuterElementID+'" ></div>').appendTo(innerElement)     
         row=$('<div class="row"></div>').appendTo(carouselItem)        
@@ -250,12 +252,17 @@ function fillCarouselRow(todayClass,carouselInnerElementID,carouselOuterElementI
     if(row.children().length==numberOfImagesPerSlide){
         carouselItem=$('<div class="carousel-item" id="'+carouselOuterElementID+'" ></div>').appendTo(innerElement)     
         row=$('<div class="row"></div>').appendTo(carouselItem)
-        var controls=' <a class="carousel-control-prev control" href="'+carouselOuterElementID+'" role="button" data-slide="prev" id="today_carousel_controls"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="sr-only">Previous</span></a><a class="carousel-control-next control" href="'+carouselOuterElementID+'" role="button" data-slide="next" id="today_carousel_controls"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="sr-only">Next</span></a>'
-        jQuery(carouselOuterElementID).append(controls)
-
 
     }
     row.append(elementOfRow)
+
+
+    var id="#"+todayClass.type;
+    $(id).bind('click',function(){
+        setClassDetailedInfo(todayClass)
+    })
+
+
 }
 
 
@@ -272,9 +279,6 @@ function getCarouselItems(carouselInnerElementID){
 
         })
     })
-    rowElements.forEach(function(element){
-
-    })
 
     return rowElements;
 
@@ -282,20 +286,8 @@ function getCarouselItems(carouselInnerElementID){
 
 
 function resizeAlgorithm(numberOfItemsPerSlide,rowElements,carouselInnerElementID,carouselOuterElementID){
-    //    if(rowElements.length<=numberOfItemsPerSlide){
-    //        console.log("removing controls",rowElements.length,numberOfItemsPerSlide,document.getElementById('today_carousel_controls'))
-    //        $(carouselOuterElementID).remove('#today_carousel_controls');
-    //        console.log(" after removing controls",rowElements.length,numberOfItemsPerSlide,document.getElementById('today_carousel_controls'))
-    //
-    //
-    //
-    //    }
-    //    else if(document.getElementById('today_carousel_controls')==null && rowElements.length>numberOfItemsPerSlide){
-    //        console.log('adding control at number of slide '+numberOfItemsPerSlide)
-    //        var slideControls=' <a class="carousel-control-prev control" href="#carousel_today_classes" role="button" data-slide="prev" id="today_carousel_controls"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="sr-only">Previous</span></a><a class="carousel-control-next control" href="#carousel_today_classes" role="button" data-slide="next" id="today_carousel_controls"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="sr-only">Next</span></a>';
-    //        $(carouselOuterElementID).append(slideControls);
 
-    //    }
+    console.log('working')
     $(carouselInnerElementID).empty()
 
     for(var i=0;i<rowElements.length;i++){
@@ -324,10 +316,38 @@ function resizeAlgorithm(numberOfItemsPerSlide,rowElements,carouselInnerElementI
 
 
 
-function test(){
-    console.log('click');
+function setClassDetailedInfo(name){
+    localStorage.setItem('todayclass',JSON.stringify(name))
+    location.replace("ClassDetailed.html");
+
 }
 
+function getPlaceDetails(todayclass){
+        database.ref('CesenaCampus/'+todayclass.place+'/').on('value',function (snapshot){
+        $('#classroom_name').text(snapshot.child('name').val().toString())
+        $('#position').text(snapshot.child('floor').val().toString())
+        var isFriendly=(snapshot.child('isFriendly').val().toString()=='true')
+        if(isFriendly)       {
+            $('#is_friendly').text('Facilities present')
+        } 
+        else{
+            $('#is_friendly').text('Ask for help')
+        }
+        $('#teacher_name').text(todayclass.teacher)
+        var date = new Date();
+        var today = date.getDay();
+
+        if(todayclass.day==today){
+            $('#time_and_day').text('Today, '+todayclass.timeStart+":00-"+todayclass.timeEnd+":00")
+
+        }
+        else{
+            $('#time_and_day').text(todayclass.day.toString()+", "+todayclass.timeStart+":00-"+todayclass.timeEnd+":00")
+        }
+
+
+    })
+}
 
 
 

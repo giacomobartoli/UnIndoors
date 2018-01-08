@@ -1,0 +1,28 @@
+
+.icon{
+    width: 100px;
+    height: 100px;
+}
+.detail{
+    font-size: 50px;
+}
+@media only screen and (max-width:900){
+    .detail{
+        font-size: 40px;
+    }
+}
+@media only screen and (max-width: 768px){
+    .icon{
+        width:80px;
+        height:80px;
+    }
+    .detail{
+        font-size: 35px;
+    }
+   
+}
+@media only screen and (max-width:320px){
+     .detail{
+        font-size: 30px;
+    }
+}

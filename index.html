@@ -66,7 +66,7 @@
     <body id="b">
 
         <nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg">
-            <a class="navbar-brand" href="LandingPage.html"> Uniboors </a>
+            <a class="navbar-brand" href="index.html"> Uniboors </a>
             <button id="button_toggle" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu_start" aria-controls="menu_start"
                     aria-expanded="false" aria-label="Toggle navigation" onclick="onCollapseMenuClick()">
                 <span class="navbar-toggler-icon"></span>
@@ -124,35 +124,17 @@
                 </div>
                 <div class="col">
 
-                    <div class="paragraph_centered">
+                    <!--                    <div class="paragraph_centered">-->
 
 
-                        <p class="text-center font-italic" style="font-size: 30px;"> "For the lessons are dark, and full of terrors" </p>
-                        <p  style="font-size: 20px; margin-top: 30px;"> Every engineering student knows lessons are complicated enough, so why should get to class be hard as well? 
-                            Start using Uniboors right now and enjoy your trip to class!
-                        </p>
-                        <div class="row">   
-                            <button class="btn btn-secondary btn-lg mx-auto" id="find_classes_btn" style="width:200px; margin-top: 40px;" onclick="onClickFindYourClass()">Find your class</button>
-                            <!--
-<div class="alert alert-danger alert-dismissible" id="alert2">
-<a href="#" class="close">&times;</a>
-Click on the "x" button on the right to close this alert box.
-</div>
-<script>
-function click(){
-$('#find_classes_btn').(function(){
-$(".close").click(function(){
-$("#alert2").alert("close");
-});
-$("#find_classes_btn").on('close.bs.alert', function(){
-alert('The alert message is about to be closed.');
-});
-});
-}
-</script>
--->
-                        </div>
-                    </div>
+                    <p class="text-center font-italic" style="font-size: 30px;"> "For the lessons are dark, and full of terrors" </p>
+                    <p  class="text-center" style="font-size: 20px; margin-top: 30px;"> Every engineering student knows lessons are complicated enough, so why should get to class be hard as well? 
+                        Start using Uniboors right now and enjoy your trip to class!
+                    </p>
+                    <!--                        <div class="row">   -->
+                    <button class="btn btn-secondary btn-lg mx-auto" id="find_classes_btn" style="width:200px; margin-top: 40px;" onclick="onClickFindYourClass()">Find your class</button>
+                    <!--                        </div>-->
+                    <!--                    </div>-->
 
 
                 </div>
@@ -167,12 +149,10 @@ alert('The alert message is about to be closed.');
             <div class="row" style="margin-top: 30px;margin-bottom: 30px;">
 
                 <div class="col">
-                    <div class=" paragraph_centered">
 
-                        <p class="text-center font-italic" style="font-size: 30px;">All your lessons available everywhere, anytime</p>
-                        <p style="font-size: 20px; margin-top: 30px;">Uniboors strength is its simplicity: enter in the website and easily find your lesson. Did you forget where Web Applications' lesson is? Do you not remember if there is a laboratory session or a regular lecture? Not a problem! All the necessary information are daily updated for you
-                        </p>
-                    </div>
+                    <p class="text-center font-italic" style="font-size: 30px;">All your lessons available everywhere, anytime</p>
+                    <p class="text-center" style="font-size: 20px; margin-top: 30px;">Uniboors strength is its simplicity: enter in the website and easily find your lesson. Did you forget where Web Applications' lesson is? Do you not remember if there is a laboratory session or a regular lecture? Not a problem! All the necessary information are daily updated for you
+                    </p>
                 </div>
                 <div class="col">
                     <div>
@@ -195,12 +175,11 @@ alert('The alert message is about to be closed.');
 
                 </div>
                 <div class="col">
-                    <div class="paragraph_centered">
                         <p class="text-center font-italic " style="font-size: 30px;">PocketUniboors Android app is ready for download!</p>
 
-                        <p style="font-size: 20px; margin-top: 30px;">Empower your navigation with our android app. Just choose your lesson, and let bluetooth beacons guide you to your daily source of knowledge
+                        <p class="text-center" style="font-size: 20px; margin-top: 30px;">Empower your navigation with our android app. Just choose your lesson, and let bluetooth beacons guide you to your daily source of knowledge
                         </p>
-                    </div>
+                
                 </div>
 
 
@@ -214,12 +193,10 @@ alert('The alert message is about to be closed.');
                 <div class="row" style="margin-top: 30px;margin-bottom: 30px;">
 
                     <div class="col">
-                        <div class=" paragraph_centered">
 
                             <p class="text-center font-italic" style="font-size: 30px;">Going to classroom should be an easy task for everyone</p>
-                            <p style="font-size: 20px; margin-top: 30px;">qui parla degli handicappati blah blah con gli operatori bla bla bla bla
+                            <p class="text-center" style="font-size: 20px; margin-top: 30px;">qui parla degli handicappati blah blah con gli operatori bla bla bla bla
                             </p>
-                        </div>
                     </div>
                     <div class="col">
                         <div>
@@ -295,6 +272,92 @@ alert('The alert message is about to be closed.');
         </div>
 
     </body>
+    <script>
+        $( document ).ready(function() {
 
+            var width=$( window ).width();
+
+
+            if(width>=1000){
+                var title=jQuery('.title')
+
+                if(title.hasClass('display-3')){
+                    title.removeClass('display-3')
+                    title.addClass('display-2')
+                }
+
+
+            }
+            if(width>=768 && width<1000){
+                console.log("only two")
+                var title=jQuery('.title')
+                if(title.hasClass('display-2')){
+                    title.removeClass('display-2')
+                    title.addClass('display-3')
+                }
+                else{
+                    title.removeClass('display-4')
+                    title.addClass('display-3')
+                }
+
+            }
+            if(width<768){
+                console.log("only one")
+                var title=jQuery('.title')
+
+                if(title.hasClass('display-3')){
+                    title.removeClass('display-3')
+                    title.addClass('display-4')
+                }
+                if(title.hasClass('display-2')){
+                    title.removeClass('display-2')
+                    title.addClass('display-4')
+                }
+            }
+
+
+
+
+        });
+        $(window).resize(function(){
+            var width=$( window ).width();
+            if(width>=1000){
+                var title=jQuery('.title')
+
+                if(title.hasClass('display-3')){
+                    title.removeClass('display-3')
+                    title.addClass('display-2')
+                }
+
+
+            }
+            if(width>=768 && width<1000){
+                console.log("only two")
+                var title=jQuery('.title')
+                if(title.hasClass('display-2')){
+                    title.removeClass('display-2')
+                    title.addClass('display-3')
+                }
+                else{
+                    title.removeClass('display-4')
+                    title.addClass('display-3')
+                }
+
+            }
+            if(width<768){
+                console.log("only one")
+                var title=jQuery('.title')
+
+                if(title.hasClass('display-3')){
+                    title.removeClass('display-3')
+                    title.addClass('display-4')
+                }
+                if(title.hasClass('display-2')){
+                    title.removeClass('display-2')
+                    title.addClass('display-4')
+                }
+            }
+        });
+    </script>
 
 </html>
