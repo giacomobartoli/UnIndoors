@@ -38,7 +38,7 @@ function setUpTodayClasses(size) {
 
         snapshot.forEach(function (childSnapshot) {
             var lessonName=childSnapshot.child('name').val().toString();
-            console.log(lessonName,snapshot.numChildren())
+     
 
             childSnapshot.child('schedule').ref.once('value').then(function (scheduleSnapshot) {
                 var dayoflessons=[]
@@ -81,13 +81,7 @@ function setUpTodayClasses(size) {
 
                     }
                     if(dayoflessons.length==scheduleSnapshot.numChildren()){
-                        for(var i=0;i<dayoflessons.length;i++){
-                            //  console.log(dayoflessons[i].name)
-                            if(dayoflessons[i].name=='Business Intelligence'){
-                                console.log('BI',dayoflessons)
-                            }
-                        }
-
+                     
                         var closest=getClosestLesson(dayoflessons,today)
                         for(var i=0;i<closest.length;i++){
                             if(size>=768 && size<1000){
@@ -239,7 +233,7 @@ function fillCarouselRow(todayClass,carouselInnerElementID,carouselOuterElementI
     var row;
     var innerElement=$(carouselInnerElementID)
 
-    var elementOfRow='<div class="col"><div class="card" id="'+todayClass.type+'"><img class="card-img-top" src="'+imageUrl+'" alt="Card image cap"><div class="card-body"><h4 class="card-title">'+name+'</h4></div></div>';
+    var elementOfRow='<div class="col"><div class="card" id="'+todayClass.type+'"><img class="card-img-top" src="'+imageUrl+'" alt="Card image cap"><div class="card-body"><h4 class="card-title text-center">'+name+'</h4></div></div>';
 
     if(innerElement.children().length==0){
         var carouselItem=$('<div class="carousel-item" id="'+carouselOuterElementID+'" ></div>').appendTo(innerElement)     
@@ -323,8 +317,19 @@ function setClassDetailedInfo(name){
 }
 
 function getPlaceDetails(todayclass){
-        database.ref('CesenaCampus/'+todayclass.place+'/').on('value',function (snapshot){
-        $('#classroom_name').text(snapshot.child('name').val().toString())
+    var width=$(window).width()
+    database.ref('CesenaCampus/'+todayclass.place+'/').on('value',function (snapshot){
+        var name=snapshot.child('name').val().toString()
+
+        if(width<=350 && name=='Laboratorio Informatico 2'){
+            name='Lab. Inf. 2'
+
+        }
+        if(width<=350 && name=='Laboratorio Informatico 3'){
+            name='Lab. Inf. 3'
+
+        }
+        $('#classroom_name').text(name)
         $('#position').text(snapshot.child('floor').val().toString())
         var isFriendly=(snapshot.child('isFriendly').val().toString()=='true')
         if(isFriendly)       {
@@ -332,6 +337,7 @@ function getPlaceDetails(todayclass){
         } 
         else{
             $('#is_friendly').text('Ask for help')
+            $('#handy').click()
         }
         $('#teacher_name').text(todayclass.teacher)
         var date = new Date();
@@ -342,12 +348,26 @@ function getPlaceDetails(todayclass){
 
         }
         else{
-            $('#time_and_day').text(todayclass.day.toString()+", "+todayclass.timeStart+":00-"+todayclass.timeEnd+":00")
+            if(width<=350){
+                var truncatedDay=todayclass.day.toString().slice(0,3)
+                $('#time_and_day').text(truncatedDay+", "+todayclass.timeStart+":00-"+todayclass.timeEnd+":00")
+            }
+            else{
+                $('#time_and_day').text(todayclass.day.toString()+", "+todayclass.timeStart+":00-"+todayclass.timeEnd+":00")
+
+            }
         }
 
 
     })
 }
+
+function writeHelpRequest(place,time){
+    
+   
+
+}
+
 
 
 
