@@ -364,17 +364,7 @@ function getPlaceDetails(todayclass){
 
 function writeHelpRequest(place,time){
     
-    var user=firebase.auth().currentUser
-    console.log('gheiiiiii '+user.uid.toString()   )
-    firebase.database().ref('help_request/').on('value',function(snapshot){
-        if(snapshot.numChildren()==0){
-            database.ref('help_request/').set({
-               "user":user.uid.toString(),
-                "place":place,
-                "time":time
-            })
-        }
-    })
+   
 
 }
 
