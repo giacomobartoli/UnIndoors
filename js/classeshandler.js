@@ -341,7 +341,7 @@ function getPlaceDetails(todayclass){
             $('#handy').on('click', function(){
                 var helpcontainer=$('#help_request')
                 if(helpcontainer.children().length==0){
-                    var element='  <form style="margin-top: 50px"><div class="form-row"><div class="col-6"><input type="text" class="form-control form-control-lg" placeholder="Nome Cognome"id="first_name"></div><div class="col"><input type="text" class="form-control form-control-lg" placeholder="14:23" id="time"></div></div><div class="form-row" style="margin-top: 20px;"><div class="col"><textarea class="form-control form-control-lg" id="message" rows="3" placeholder="Write your message" id="message"></textarea></div></div> <div><button type="button" class="btn btn-primary btn-block d-block mx-auto btn-lg" onclick="onClickSubmit()" style="max-width: 200px; margin-top: 20Px;">Submit</button></div></form>'
+                    var element='  <form style="margin top:30px;"><div class="form-row" ><div class="col-6"><input type="text" class="form-control form-control-lg" placeholder="Nome Cognome"id="first_name"></div><div class="col"><input type="text" class="form-control form-control-lg" placeholder="14:23" id="time"></div></div><div class="form-row" style="margin-top: 20px;"><div class="col"><textarea class="form-control form-control-lg" id="message" rows="3" placeholder="Write your message" id="message"></textarea></div></div> <div><button type="button" class="btn btn-primary btn-block d-block mx-auto btn-lg" onclick="onClickSubmit()" style="max-width: 200px; margin-top: 20Px;">Submit</button></div></form>'
 
                     helpcontainer.append(element)
 
@@ -400,13 +400,16 @@ function onClickSubmit(){
                         }
                     }
                     console.log(help)
-                    database.ref('helprequests/'+id+'/').set(help)  
+                    database.ref('helprequests/'+id+'/').set(help).then(function(){
+                        $('#help_request').collapse('toggle')
+                    })        
                 }
                 else{
                     database.ref('helprequests/'+id+'/').orderByKey().limitToLast(1).once('child_added').then(function(snapshot){
                         var lastIndex=snapshot.key
                         console.log('last index '+lastIndex)
                         var newIndex=Number(lastIndex)+1
+                        var date=new Date()
                         var help=
                             {    
                                 'name':name,
@@ -414,12 +417,15 @@ function onClickSubmit(){
                                 'message':message,
                                 'state': 'pending',
                                 'operator_message':'No message yet',
-                                'place':$('#classroom_name').text()
+                                'place':$('#classroom_name').text(),
+                                'request_time': date.getHours()+':'+date.getMinutes(),
+                                'day':date.getDay()
+                                
                             }
 
                         console.log(help)
                         database.ref('helprequests/'+id+'/').child(newIndex).set(help).then(function(){
-                            $('#directions_container').collapse('toggle')
+                            $('#help_request').collapse('toggle')
                         })      
                     })
 
@@ -435,7 +441,7 @@ function listenToHelpRequestChanges(){
         if (user) {
             database.ref('helprequests/'+firebase.auth().currentUser.uid+'/').on('child_added',function(childsnapshot){
                 var index=childsnapshot.key
-                var domElement='<div class="jumbotron" style="background-color: #343a40"><div class=" row justify-content-center" style="margin-top: 50px;"><div class="col-2 align-self-center  icon_wrapper" style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/map.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left text-capitalize " id="whereabouts_'+index+'" style="color: white;"></p></div><div class="col-2 align-self-center icon_wrapper"  style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/clock.svg" ></div><div class="col align-self-center "  style="margin-top: 30px;"><p class="detail  display-4 text-left text-capitalize" id="time_'+index+'" style="color: white;"></p></div></div><div class=" row justify-content-center" ><div class="col-2 align-self-center icon_wrapper" style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/pending.svg" id="request_icon_'+index+'"></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left text-capitalize " id="request_status_'+index+'" style="color: white;"></p></div><div class="col-2 align-self-center icon_wrapper"  style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/message.svg" ></div><div class="col align-self-center "  style="margin-top: 30px;"><p class="detail  display-4 text-left" id="operator_message_'+index+'" style="color: white;"></p></div></div></div>'
+                var domElement='<div class="jumbotron" style="background-color:#57626E"><div class=" row justify-content-center" style="margin-top: 20px; " ><div class="col-2 align-self-center  icon_wrapper" style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/map.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left text-capitalize " id="whereabouts_'+index+'" style="color: white;"></p></div><div class="col-2 align-self-center icon_wrapper"  style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/clock.svg" ></div><div class="col align-self-center "  style="margin-top: 30px;"><p class="detail  display-4 text-left text-capitalize" id="time_'+index+'" style="color: white;"></p></div></div><div class=" row justify-content-center" ><div class="col-2 align-self-center icon_wrapper" style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/pending.svg" id="request_icon_'+index+'"></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left text-capitalize " id="request_status_'+index+'" style="color: white;"></p></div><div class="col-2 align-self-center icon_wrapper"  style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/message.svg" ></div><div class="col align-self-center "  style="margin-top: 30px;"><p class="detail  display-4 text-left" id="operator_message_'+index+'" style="color: white;"></p></div></div></div>'
                 $('#help_request_container').append(domElement)
                 console.log('index to listen to '+index)
                 database.ref('helprequests/'+firebase.auth().currentUser.uid+'/'+index+'/operator_message/').on('value',function(snapshot){
