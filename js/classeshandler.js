@@ -38,7 +38,7 @@ function setUpTodayClasses(size) {
 
         snapshot.forEach(function (childSnapshot) {
             var lessonName=childSnapshot.child('name').val().toString();
-     
+
 
             childSnapshot.child('schedule').ref.once('value').then(function (scheduleSnapshot) {
                 var dayoflessons=[]
@@ -81,7 +81,7 @@ function setUpTodayClasses(size) {
 
                     }
                     if(dayoflessons.length==scheduleSnapshot.numChildren()){
-                     
+
                         var closest=getClosestLesson(dayoflessons,today)
                         for(var i=0;i<closest.length;i++){
                             if(size>=768 && size<1000){
@@ -334,10 +334,23 @@ function getPlaceDetails(todayclass){
         var isFriendly=(snapshot.child('isFriendly').val().toString()=='true')
         if(isFriendly)       {
             $('#is_friendly').text('Facilities present')
+            $('#handy').unbind('click')
         } 
         else{
             $('#is_friendly').text('Ask for help')
-            $('#handy').click()
+            $('#handy').on('click', function(){
+                var helpcontainer=$('#help_request')
+                if(helpcontainer.children().length==0){
+                    var element='  <form style="margin-top: 50px"><div class="form-row"><div class="col-6"><input type="text" class="form-control form-control-lg" placeholder="Nome Cognome"id="first_name"></div><div class="col"><input type="text" class="form-control form-control-lg" placeholder="14:23" id="time"></div></div><div class="form-row" style="margin-top: 20px;"><div class="col"><textarea class="form-control form-control-lg" id="message" rows="3" placeholder="Write your message" id="message"></textarea></div></div> <div><button type="button" class="btn btn-primary btn-block d-block mx-auto btn-lg" onclick="onClickSubmit()" style="max-width: 200px; margin-top: 20Px;">Submit</button></div></form>'
+
+                    helpcontainer.append(element)
+
+                }
+            })
+            $('#handy').attr('data-toggle','collapse')
+            $('#handy').attr('data-target','#help_request')
+            $('#handy').attr('aria-expanded','false')
+            $('#handy').attr('aria-controls','#help_request')
         }
         $('#teacher_name').text(todayclass.teacher)
         var date = new Date();
@@ -362,11 +375,185 @@ function getPlaceDetails(todayclass){
     })
 }
 
-function writeHelpRequest(place,time){
-    
-   
+function onClickSubmit(){
+    console.log(firebase.auth().currentUser.uid)
+    var name=$('#first_name').val()
+    var time=$('#time').val()
+    var message=$('#message').val()
+    var helpRequest = {};
+    var id=firebase.auth().currentUser.uid.toString()
 
+
+
+    database.ref('helprequests/').once('value').then(function(snapshot){
+        if(snapshot.hasChild(id)){
+            database.ref('helprequests/'+id+'/').once('value').then(function(snapshot){
+                if(!snapshot.hasChildren()){
+                    var help={
+                        1:{
+                            'name':name,
+                            'time':time,
+                            'message':message,
+                            'state': 'pending',
+                            'operator_message':'No message yet',
+                            'place':$('#classroom_name').text()
+                        }
+                    }
+                    console.log(help)
+                    database.ref('helprequests/'+id+'/').set(help)  
+                }
+                else{
+                    database.ref('helprequests/'+id+'/').orderByKey().limitToLast(1).once('child_added').then(function(snapshot){
+                        var lastIndex=snapshot.key
+                        console.log('last index '+lastIndex)
+                        var newIndex=Number(lastIndex)+1
+                        var help=
+                            {    
+                                'name':name,
+                                'time':time,
+                                'message':message,
+                                'state': 'pending',
+                                'operator_message':'No message yet',
+                                'place':$('#classroom_name').text()
+                            }
+
+                        console.log(help)
+                        database.ref('helprequests/'+id+'/').child(newIndex).set(help).then(function(){
+                            $('#directions_container').collapse('toggle')
+                        })      
+                    })
+
+                }
+            })           
+
+        }
+    })
 }
+function listenToHelpRequestChanges(){
+    var userId;
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            database.ref('helprequests/'+firebase.auth().currentUser.uid+'/').on('child_added',function(childsnapshot){
+                var index=childsnapshot.key
+                var domElement='<div class="jumbotron" style="background-color: #343a40"><div class=" row justify-content-center" style="margin-top: 50px;"><div class="col-2 align-self-center  icon_wrapper" style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/map.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left text-capitalize " id="whereabouts_'+index+'" style="color: white;"></p></div><div class="col-2 align-self-center icon_wrapper"  style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/clock.svg" ></div><div class="col align-self-center "  style="margin-top: 30px;"><p class="detail  display-4 text-left text-capitalize" id="time_'+index+'" style="color: white;"></p></div></div><div class=" row justify-content-center" ><div class="col-2 align-self-center icon_wrapper" style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/pending.svg" id="request_icon_'+index+'"></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left text-capitalize " id="request_status_'+index+'" style="color: white;"></p></div><div class="col-2 align-self-center icon_wrapper"  style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/message.svg" ></div><div class="col align-self-center "  style="margin-top: 30px;"><p class="detail  display-4 text-left" id="operator_message_'+index+'" style="color: white;"></p></div></div></div>'
+                $('#help_request_container').append(domElement)
+                console.log('index to listen to '+index)
+                database.ref('helprequests/'+firebase.auth().currentUser.uid+'/'+index+'/operator_message/').on('value',function(snapshot){
+                    var operatorMessage=snapshot.val()
+                    console.log('operator message '+operatorMessage)
+                    $('#operator_message_'+index).last().text(operatorMessage)
+                })
+                database.ref('helprequests/'+firebase.auth().currentUser.uid+'/'+index+'/state/').on('value',function(snapshot){
+                    var requestStatus=snapshot.val()
+                    console.log('status request '+requestStatus)
+                    switch(requestStatus){
+                        case 'accepted':
+                            $('#request_icon_'+index).last().attr('src','css/assets/accepted.svg')
+                            $('#request_status_'+index).last().text('Status: accepted!')
+
+                            break;
+                        case 'refused':
+                            $('#request_icon_'+index).last().attr('src','css/assets/notaccepted.svg')
+                            $('#request_status_'+index).last().text('Status: refused!')
+
+                            break;
+                        case 'pending':
+                            $('#request_status_'+index).last().text('Status: pending...')
+
+                            break;
+
+
+                    }
+
+                })       
+                database.ref('helprequests/'+firebase.auth().currentUser.uid+'/'+index+'/place').once('value').then(function(snapshot){
+                    var place=snapshot.val()
+                    console.log('place for request '+place)
+                    $('#whereabouts_'+index).last().text(place)
+                })
+                database.ref('helprequests/'+firebase.auth().currentUser.uid+'/'+index+'/time').once('value').then(function(snapshot){
+                    var time=snapshot.val()
+                    console.log('place for request '+time)
+                    $('#time_'+index).last().text(time)
+                })
+                resize($(window).width())
+
+            })
+
+
+        } 
+        else {
+            // No user is signed in.
+        }
+    });  
+}
+
+function resize(width){
+    if(width>=1000){
+        var title=jQuery('.title')
+        var col=jQuery('.icon_wrapper')
+
+        console.log('ciaone '+getDirectionsButton)
+
+
+        if(title.hasClass('display-3')){
+
+            title.removeClass('display-3')
+            title.addClass('display-2')
+        }
+        if(col.hasClass('col-4')){
+            col.removeClass('col-4')
+            col.addClass('col-2 ')
+        }
+
+
+
+    }
+    if(width>=768 && width<1000){
+        var title=jQuery('.title')
+        var col=jQuery('.icon_wrapper')
+
+        if(title.hasClass('display-2')){
+            title.removeClass('display-2')
+            title.addClass('display-3')
+        }
+        else{
+            title.removeClass('display-4')
+            title.addClass('display-3')
+        }
+        if(col.hasClass('col-4')){
+            console.log("hi come stai")
+            col.removeClass('col-4')
+            col.addClass('col-2 ')
+        }
+
+    }
+    if(width<768){
+        var title=jQuery('.title')
+        var col=jQuery('.icon_wrapper')
+
+        if(title.hasClass('display-3')){
+            title.removeClass('display-3')
+            title.addClass('display-4')
+        }
+        if(title.hasClass('display-2')){
+            title.removeClass('display-2')
+            title.addClass('display-4')
+        }
+        if(col.hasClass('col-2')){
+            col.removeClass('col-2')
+            col.addClass('col-4 ')
+        }
+
+    }
+    var getDirectionsButton=jQuery('#getdirections')
+    if(width<400 && getDirectionsButton.hasClass('btn-lg')){
+        getDirectionsButton.removeClass('btn-lg')
+
+    }
+}
+
+
 
 
 
