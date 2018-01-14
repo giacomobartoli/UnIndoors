@@ -482,7 +482,7 @@ function listenToHelpRequestChanges(){
                     console.log('place for request '+time)
                     $('#time_'+index).last().text(time)
                 })
-                resize($(window).width())
+              
 
             })
 
@@ -492,6 +492,7 @@ function listenToHelpRequestChanges(){
             // No user is signed in.
         }
     });  
+      resize($(window).width())
 }
 
 function resize(width){
