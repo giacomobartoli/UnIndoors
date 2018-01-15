@@ -23,6 +23,7 @@ var todayClassesCarouselSlide=document.getElementById('carouselExampleControls')
 var classChosen;
 var lessons=[]
 var detailedClass
+var key=10000
 
 
 
@@ -220,7 +221,25 @@ function renderLessonImage(lessonName){
     }
 }
 
+function renderDay(dayNumber){
 
+    switch(dayNumber){
+        case 0:
+            return 'Sunday';
+        case 1:
+            return 'Monday';
+        case 2:
+            return 'Tuesday';
+        case 3:
+            return 'Wednesday';
+        case 4:
+            return 'Thursday';
+        case 5:
+            return 'Friday';
+        case 6:
+            return 'Saturday';
+    }
+}
 
 function fillCarouselRow(todayClass,carouselInnerElementID,carouselOuterElementID,numberOfImagesPerSlide){
 
@@ -385,71 +404,119 @@ function onClickSubmit(){
 
 
 
-    database.ref('helprequests/').once('value').then(function(snapshot){
-        if(snapshot.hasChild(id)){
-            database.ref('helprequests/'+id+'/').once('value').then(function(snapshot){
-                if(!snapshot.hasChildren()){
-                    var help={
-                        1:{
-                            'name':name,
-                            'time':time,
-                            'message':message,
-                            'state': 'pending',
-                            'operator_message':'No message yet',
-                            'place':$('#classroom_name').text()
-                        }
+    database.ref('users/'+id+'/helprequests/').once('value').then(function(snapshot){
+        if(!snapshot.hasChildren()){
+            var date=new Date()
+
+            var help={
+                10000:{
+                    'name':name,
+                    'time':time,
+                    'message':message,
+                    'state': 'pending',
+                    'operator_message':'No message yet',
+                    'place':$('#classroom_name').text(),
+                    'request_time': date.getHours()+':'+date.getMinutes(),
+                    'day':date.getDay()
+
+                }
+            }
+            console.log(help)
+            database.ref('users/'+id+'/helprequests/').set(help).then(function(){
+                $('#help_request').collapse('toggle')
+            })        
+        }
+        else{
+            database.ref('users/'+id+'/helprequests/').orderByKey().limitToLast(1).once('child_added').then(function(snapshot){
+                var lastIndex=snapshot.key
+                console.log('last index '+lastIndex)
+                var newIndex=Number(lastIndex)-1
+                var date=new Date()
+                var help=
+                    {    
+                        'name':name,
+                        'time':time,
+                        'message':message,
+                        'state': 'pending',
+                        'operator_message':'No message yet',
+                        'place':$('#classroom_name').text(),
+                        'request_time': date.getHours()+':'+date.getMinutes(),
+                        'day':date.getDay()
+
                     }
-                    console.log(help)
-                    database.ref('helprequests/'+id+'/').set(help).then(function(){
-                        $('#help_request').collapse('toggle')
-                    })        
-                }
-                else{
-                    database.ref('helprequests/'+id+'/').orderByKey().limitToLast(1).once('child_added').then(function(snapshot){
-                        var lastIndex=snapshot.key
-                        console.log('last index '+lastIndex)
-                        var newIndex=Number(lastIndex)+1
-                        var date=new Date()
-                        var help=
-                            {    
-                                'name':name,
-                                'time':time,
-                                'message':message,
-                                'state': 'pending',
-                                'operator_message':'No message yet',
-                                'place':$('#classroom_name').text(),
-                                'request_time': date.getHours()+':'+date.getMinutes(),
-                                'day':date.getDay()
-                                
-                            }
 
-                        console.log(help)
-                        database.ref('helprequests/'+id+'/').child(newIndex).set(help).then(function(){
-                            $('#help_request').collapse('toggle')
-                        })      
-                    })
-
-                }
-            })           
+                console.log(help)
+                database.ref('users/'+id+'/helprequests/').child(newIndex).set(help).then(function(){
+                    $('#help_request').collapse('toggle')
+                })      
+            })
 
         }
+
+
+
     })
 }
 function listenToHelpRequestChanges(){
     var userId;
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
-            database.ref('helprequests/'+firebase.auth().currentUser.uid+'/').on('child_added',function(childsnapshot){
+
+            database.ref('users/'+user.uid+'/helprequests/').once('value').then(function(snapshot){
+                if(snapshot.val()=='empty'){
+                    var jumbotronNoMessage='<div class="jumbotron" id="nomessage" style="background-color:#57626E"><h1 class="display-4 text-center text-capitalize" style="color:white;">no help request yet!</h1><img src="css/assets/error-404.svg" class="rounded mx-auto d-block" style="margin-top:30px;width:150px; height:"150px"></div>'
+                    $('#help_request_container').append(jumbotronNoMessage)
+
+                }
+            })
+            database.ref('users/'+user.uid+'/helprequests/').orderByKey().on('child_added',function(childsnapshot){
                 var index=childsnapshot.key
-                var domElement='<div class="jumbotron" style="background-color:#57626E"><div class=" row justify-content-center" style="margin-top: 20px; " ><div class="col-2 align-self-center  icon_wrapper" style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/map.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left text-capitalize " id="whereabouts_'+index+'" style="color: white;"></p></div><div class="col-2 align-self-center icon_wrapper"  style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/clock.svg" ></div><div class="col align-self-center "  style="margin-top: 30px;"><p class="detail  display-4 text-left text-capitalize" id="time_'+index+'" style="color: white;"></p></div></div><div class=" row justify-content-center" ><div class="col-2 align-self-center icon_wrapper" style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/pending.svg" id="request_icon_'+index+'"></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left text-capitalize " id="request_status_'+index+'" style="color: white;"></p></div><div class="col-2 align-self-center icon_wrapper"  style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/message.svg" ></div><div class="col align-self-center "  style="margin-top: 30px;"><p class="detail  display-4 text-left" id="operator_message_'+index+'" style="color: white;"></p></div></div></div>'
+                var domElement='<div class="jumbotron" style="background-color:#57626E" id="jumb_'+index+'"><div class="container"> <div class="row justify-content-center"><div class="col-8 "><h1 class="display-4 text-left" style="color:white;">'+renderDay(childsnapshot.child('day').val())+', '+childsnapshot.child('request_time').val()+'</h1></div><div class="col-3"><img src="css/assets/garbage.svg" class="icon-small float-right" id="garbage_'+index+'"></div></div><div class=" row justify-content-center" style="margin-top: 35px; " ><div class="col-2 align-self-center  icon_wrapper" style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/map.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left text-capitalize " id="whereabouts_'+index+'" style="color: white;"></p></div><div class="col-2 align-self-center icon_wrapper"  style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/clock.svg" ></div><div class="col align-self-center "  style="margin-top: 30px;"><p class="detail  display-4 text-left text-capitalize" id="time_'+index+'" style="color: white;"></p></div></div><div class=" row justify-content-center" ><div class="col-2 align-self-center icon_wrapper" style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/pending.svg" id="request_icon_'+index+'"></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left text-capitalize " id="request_status_'+index+'" style="color: white;"></p></div><div class="col-2 align-self-center icon_wrapper"  style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/message.svg" ></div><div class="col align-self-center "  style="margin-top: 30px;"><p class="detail  display-4 text-left" id="operator_message_'+index+'" style="color: white;"></p></div></div></div>'
+                $('#nomessage').remove()
                 $('#help_request_container').append(domElement)
+                $('#garbage_'+index).hover(function(){
+                    $(this).attr('src','css/assets/garbage_hover.svg')
+                },function(){
+                    $(this).attr('src','css/assets/garbage.svg')
+
+                })
+                $('#garbage_'+index).click(function(){
+                    database.ref('users/'+user.uid+'/helprequests/').once('value').then(function(snapshot){
+                        if(snapshot.numChildren()==1){
+
+                            database.ref('users/'+user.uid+'/helprequests/').set('empty').then(function(){
+                                $('#jumb_'+index).remove()
+                                console.log( $('#help_request_container').children().length)
+                                if($('#help_request_container').children().length==1){
+                                    var jumbotronNoMessage='<div class="jumbotron" id="nomessage" style="background-color:#57626E"><h1 class="display-4 text-center text-capitalize" style="color:white;">no help request yet!</h1><img src="css/assets/error-404.svg" class="rounded mx-auto d-block" style="margin-top:30px;width:150px; height:"150px"></div>'
+                                    $('#help_request_container').append(jumbotronNoMessage)
+                                }
+
+                            })
+
+
+
+                        }
+                        else{
+                            database.ref('users/'+user.uid+'/helprequests/'+index+'/').remove().then(function(){
+                                $('#jumb_'+index).remove()
+                                if($('#help_request_container').children().length==1){
+                                    var jumbotronNoMessage='<div class="jumbotron" id="nomessage" style="background-color:#57626E"><h1 class="display-4 text-center text-capitalize" style="color:white;">no help request yet!</h1><img src="css/assets/error-404.svg" class="rounded mx-auto d-block" style="margin-top:30px;width:150px; height:"150px"></div>'
+                                    $('#help_request_container').append(jumbotronNoMessage)
+                                }
+                            })
+                        }
+                    })
+
+                })
+
                 console.log('index to listen to '+index)
-                database.ref('helprequests/'+firebase.auth().currentUser.uid+'/'+index+'/operator_message/').on('value',function(snapshot){
+                database.ref('users/'+user.uid+'/helprequests/'+index+'/operator_message/').on('value',function(snapshot){
                     var operatorMessage=snapshot.val()
                     console.log('operator message '+operatorMessage)
                     $('#operator_message_'+index).last().text(operatorMessage)
                 })
-                database.ref('helprequests/'+firebase.auth().currentUser.uid+'/'+index+'/state/').on('value',function(snapshot){
+                database.ref('users/'+user.uid+'/helprequests/'+index+'/state/').on('value',function(snapshot){
                     var requestStatus=snapshot.val()
                     console.log('status request '+requestStatus)
                     switch(requestStatus){
@@ -472,17 +539,17 @@ function listenToHelpRequestChanges(){
                     }
 
                 })       
-                database.ref('helprequests/'+firebase.auth().currentUser.uid+'/'+index+'/place').once('value').then(function(snapshot){
+                database.ref('users/'+user.uid+'/helprequests/'+index+'/place').once('value').then(function(snapshot){
                     var place=snapshot.val()
                     console.log('place for request '+place)
                     $('#whereabouts_'+index).last().text(place)
                 })
-                database.ref('helprequests/'+firebase.auth().currentUser.uid+'/'+index+'/time').once('value').then(function(snapshot){
+                database.ref('users/'+user.uid+'/helprequests/'+index+'/time').once('value').then(function(snapshot){
                     var time=snapshot.val()
                     console.log('place for request '+time)
                     $('#time_'+index).last().text(time)
                 })
-              
+
 
             })
 
@@ -492,7 +559,7 @@ function listenToHelpRequestChanges(){
             // No user is signed in.
         }
     });  
-      resize($(window).width())
+    resize($(window).width())
 }
 
 function resize(width){
@@ -500,7 +567,6 @@ function resize(width){
         var title=jQuery('.title')
         var col=jQuery('.icon_wrapper')
 
-        console.log('ciaone '+getDirectionsButton)
 
 
         if(title.hasClass('display-3')){
