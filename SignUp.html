@@ -38,7 +38,7 @@
         <script src="js/userstatus.js"></script>
 
         <script>
-            
+
             function onClickSignUp(){
 
                 var email = $("#email_input").val();
@@ -46,7 +46,7 @@
                 var password = $("#password_input").val();
                 var name=$('#name_input').val();
                 var familyName=$('#surname_input').val();
-              
+
 
                 firebase.auth().createUserWithEmailAndPassword(email, password).then(function (user) {
 
@@ -88,7 +88,7 @@
                     //                    location.replace("Classes.html");
 
                 }).catch(function (error) {
-                  
+
                     var button=$('#sign_up_button');
                     alert(error.code)
                     if(button.hasClass('btn btn-primary')){
@@ -175,6 +175,6 @@
 
             </div>
         </div>
-
+       
     </body>
 </html>

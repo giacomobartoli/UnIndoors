@@ -45,26 +45,29 @@
 body{
     background-color: #343a40;
 }
-@media only screen and (max-width:850px){
-    .card{
-        width:300px;
-        height:400px;
-    }
 
-}
-@media only screen and (max-width:380px){
-    .card{
-        width:250px;
-        height:280px;
+    @media only screen and (max-width:850px){
+        .card{
+            width:300px;
+            height:400px;
+        }
 
     }
+    @media only screen and (max-width:380px){
+        .card{
+            width:250px;
+            height:280px;
+
+        }
 
 
-}
-@media only screen and (max-width:500px){
-    .card{
-        width:300px;
-        height:320px;
     }
-}
+    @media only screen and (max-width:500px){
+        .card{
+            width:300px;
+            height:320px;
+        }
+        
+
+    }
 

@@ -402,7 +402,7 @@ function onClickSubmit(){
     var helpRequest = {};
     var id=firebase.auth().currentUser.uid.toString()
     var firebaseTimeStamp=new Date().getMilliseconds()
-    
+
 
 
     database.ref('users/'+id+'/helprequests/').once('value').then(function(snapshot){
@@ -503,9 +503,10 @@ function listenToHelpRequestChanges(){
             })
             database.ref('users/'+user.uid+'/helprequests/').orderByKey().on('child_added',function(childsnapshot){
                 var index=childsnapshot.key
-                var domElement='<div class="jumbotron" style="background-color:#57626E" id="jumb_'+index+'"><div class="container"> <div class="row justify-content-center"><div class="col-8 "><h1 class="display-4 text-left" style="color:white;">'+renderDay(childsnapshot.child('day').val())+', '+childsnapshot.child('request_time').val()+'</h1></div><div class="col-3"><img src="css/assets/garbage.svg" class="icon-small float-right" id="garbage_'+index+'"></div></div><div class=" row justify-content-center" style="margin-top: 35px; " ><div class="col-2 align-self-center  icon_wrapper" style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/map.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left text-capitalize " id="whereabouts_'+index+'" style="color: white;"></p></div><div class="col-2 align-self-center icon_wrapper"  style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/clock.svg" ></div><div class="col align-self-center "  style="margin-top: 30px;"><p class="detail  display-4 text-left text-capitalize" id="time_'+index+'" style="color: white;"></p></div></div><div class=" row justify-content-center" ><div class="col-2 align-self-center icon_wrapper" style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/pending.svg" id="request_icon_'+index+'"></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left text-capitalize " id="request_status_'+index+'" style="color: white;"></p></div><div class="col-2 align-self-center icon_wrapper"  style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/message.svg" ></div><div class="col align-self-center "  style="margin-top: 30px;"><p class="detail  display-4 text-left" id="operator_message_'+index+'" style="color: white;"></p></div></div></div>'
+                var domElement='<div class="jumbotron" style="background-color:#57626E" id="jumb_'+index+'"><div class="container"> <div class="row justify-content-center"><div class="col-8 "><h1 class="display-4 text-left" style="color:white;">'+renderDay(childsnapshot.child('day').val())+', '+childsnapshot.child('request_time').val()+'</h1></div><div class="col-3"><img src="css/assets/garbage.svg" class="icon-small float-right" id="garbage_'+index+'"></div></div><div class=" row justify-content-center" style="margin-top: 35px; " ><div class="col-2 align-self-center  icon_wrapper" style="  margin-top:30px"><img  class="icon" src="css/assets/map.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" margin-left ><p class="detail display-4 text-left text-capitalize " id="whereabouts_'+index+'" style="color: white;"></p></div><div class="col-2 align-self-center icon_wrapper"  style=" margin-top:30px"><img  class="icon" src="css/assets/clock.svg" ></div><div class="col align-self-center "  style="margin-top: 30px;"><p class="detail  display-4 text-left text-capitalize" id="time_'+index+'" style="color: white;"></p></div></div><div class=" row justify-content-center" ><div class="col-2 align-self-center icon_wrapper" style="margin-top:30px"><img  class="icon" src="css/assets/pending.svg" id="request_icon_'+index+'"></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left text-capitalize " id="request_status_'+index+'" style="color: white;"></p></div><div class="col-2 align-self-center icon_wrapper"  style="margin-top:30px"><img  class="icon" src="css/assets/message.svg" ></div><div class="col align-self-center "  style="margin-top: 30px;"><p class="detail  display-4 text-left" id="operator_message_'+index+'" style="color: white;"></p></div></div></div>'
                 $('#nomessage').remove()
                 $('#help_request_container').append(domElement)
+                resizeHelprequests($(window).width())
                 $('#garbage_'+index).hover(function(){
                     $(this).attr('src','css/assets/garbage_hover.svg')
                 },function(){
@@ -519,7 +520,6 @@ function listenToHelpRequestChanges(){
                         var timestamp=snapshot.child(index).child('timestamp').val()
                         database.ref('helprequests/').once('value').then(function(snapshot){
                             snapshot.forEach(function(childsnapshot){
-                                alert(childsnapshot.key+" timestamp generale: "+childsnapshot.child('timestamp').val()+" dsfse "+timestamp)
                                 if(timestamp==childsnapshot.child('timestamp').val() && snapshot.numChildren()==1){
                                     var key=childsnapshot.key
                                     database.ref('helprequests/').set('empty')
@@ -531,7 +531,7 @@ function listenToHelpRequestChanges(){
                             })
                         })
                         //remove from personal help requests
-                        
+
                         if(snapshot.numChildren()==1){
 
                             database.ref('users/'+user.uid+'/helprequests/').set('empty').then(function(){
@@ -586,7 +586,7 @@ function listenToHelpRequestChanges(){
 
                             break;
                         case 'pending':
-                            $('#request_status_'+index).last().text('Status: pending...')
+                            $(window).width()<400?$('#request_status_'+index).last().text('Status: pending ...'):$('#request_status_'+index).last().text('Status: pending...')
 
                             break;
 
@@ -610,11 +610,12 @@ function listenToHelpRequestChanges(){
 
 
         } 
+
         else {
             // No user is signed in.
         }
     });  
-    resize($(window).width())
+
 }
 
 function resize(width){
@@ -680,14 +681,28 @@ function resize(width){
 
     }
 }
+function resizeHelprequests(width){
+    if(width<768){
+        var title=jQuery('.title')
+        var col=jQuery('.icon_wrapper')
 
-document.onreadystatechange = function(e)
-{
-    if (document.readyState === 'complete')
-    {
-        resize($(window).width())
+        if(title.hasClass('display-3')){
+            title.removeClass('display-3')
+            title.addClass('display-4')
+        }
+        if(title.hasClass('display-2')){
+            title.removeClass('display-2')
+            title.addClass('display-4')
+        }
+        if(col.hasClass('col-2')){
+            col.removeClass('col-2')
+            col.addClass('col-5 ')
+        }
     }
-};
+}
+
+
+
 
 
 
