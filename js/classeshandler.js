@@ -401,13 +401,15 @@ function onClickSubmit(){
     var message=$('#message').val()
     var helpRequest = {};
     var id=firebase.auth().currentUser.uid.toString()
-
+    var firebaseTimeStamp=new Date().getMilliseconds()
+    
 
 
     database.ref('users/'+id+'/helprequests/').once('value').then(function(snapshot){
         if(!snapshot.hasChildren()){
             var date=new Date()
-
+            var minutes=date.getMinutes()<10?'0'+date.getMinutes():date.getMinutes()
+            var hours=date.getHours()
             var help={
                 10000:{
                     'name':name,
@@ -416,22 +418,38 @@ function onClickSubmit(){
                     'state': 'pending',
                     'operator_message':'No message yet',
                     'place':$('#classroom_name').text(),
-                    'request_time': date.getHours()+':'+date.getMinutes(),
-                    'day':date.getDay()
+                    'request_time': hours+":"+minutes,
+                    'day':date.getDay(),
+                    'timestamp':firebaseTimeStamp
 
                 }
+            }
+            var help2={
+                'id':id,
+                'name':name,
+                'time':time,
+                'message':message,
+                'state': 'pending',
+                'operator_message':'No message yet',
+                'place':$('#classroom_name').text(),
+                'request_time': hours+":"+minutes,
+                'day':date.getDay(),
+                'timestamp':firebaseTimeStamp
             }
             console.log(help)
             database.ref('users/'+id+'/helprequests/').set(help).then(function(){
                 $('#help_request').collapse('toggle')
-            })        
+            }) 
+            database.ref('helprequests/').push(help2)
         }
         else{
-            database.ref('users/'+id+'/helprequests/').orderByKey().limitToLast(1).once('child_added').then(function(snapshot){
+            database.ref('users/'+id+'/helprequests/').orderByKey().limitToFirst(1).once('child_added').then(function(snapshot){
                 var lastIndex=snapshot.key
                 console.log('last index '+lastIndex)
                 var newIndex=Number(lastIndex)-1
                 var date=new Date()
+                var minutes=date.getMinutes()<10?'0'+date.getMinutes():date.getMinutes()
+                var hours=date.getHours()
                 var help=
                     {    
                         'name':name,
@@ -440,15 +458,29 @@ function onClickSubmit(){
                         'state': 'pending',
                         'operator_message':'No message yet',
                         'place':$('#classroom_name').text(),
-                        'request_time': date.getHours()+':'+date.getMinutes(),
-                        'day':date.getDay()
+                        'request_time':hours+":"+minutes,
+                        'day':date.getDay(),
+                        'timestamp':firebaseTimeStamp
 
                     }
+                var help2={
+                    'id':id,
+                    'name':name,
+                    'time':time,
+                    'message':message,
+                    'state': 'pending',
+                    'operator_message':'No message yet',
+                    'place':$('#classroom_name').text(),
+                    'request_time': hours+":"+minutes,
+                    'day':date.getDay(),
+                    'timestamp':firebaseTimeStamp
+                }
 
                 console.log(help)
                 database.ref('users/'+id+'/helprequests/').child(newIndex).set(help).then(function(){
                     $('#help_request').collapse('toggle')
-                })      
+                })
+                database.ref('helprequests/').push(help2)
             })
 
         }
@@ -482,6 +514,24 @@ function listenToHelpRequestChanges(){
                 })
                 $('#garbage_'+index).click(function(){
                     database.ref('users/'+user.uid+'/helprequests/').once('value').then(function(snapshot){
+                        //remove from general helprequests
+                        var numChildren=snapshot.numChildren()
+                        var timestamp=snapshot.child(index).child('timestamp').val()
+                        database.ref('helprequests/').once('value').then(function(snapshot){
+                            snapshot.forEach(function(childsnapshot){
+                                alert(childsnapshot.key+" timestamp generale: "+childsnapshot.child('timestamp').val()+" dsfse "+timestamp)
+                                if(timestamp==childsnapshot.child('timestamp').val() && snapshot.numChildren()==1){
+                                    var key=childsnapshot.key
+                                    database.ref('helprequests/').set('empty')
+                                }
+                                else if(timestamp==childsnapshot.child('timestamp').val()){
+                                    var key=childsnapshot.key
+                                    database.ref('helprequests/'+key+'/').remove()
+                                }
+                            })
+                        })
+                        //remove from personal help requests
+                        
                         if(snapshot.numChildren()==1){
 
                             database.ref('users/'+user.uid+'/helprequests/').set('empty').then(function(){
@@ -496,6 +546,8 @@ function listenToHelpRequestChanges(){
 
 
 
+
+
                         }
                         else{
                             database.ref('users/'+user.uid+'/helprequests/'+index+'/').remove().then(function(){
@@ -506,7 +558,10 @@ function listenToHelpRequestChanges(){
                                 }
                             })
                         }
+
                     })
+
+
 
                 })
 
@@ -626,7 +681,13 @@ function resize(width){
     }
 }
 
-
+document.onreadystatechange = function(e)
+{
+    if (document.readyState === 'complete')
+    {
+        resize($(window).width())
+    }
+};
 
 
 

@@ -16,13 +16,12 @@
 
         <script href="js/loginpage.js"></script>
 
-        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-auth.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-database.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-firestore.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-messaging.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
-
+        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-messaging.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
         <script>
             // Initialize Firebase
             var config = {
@@ -34,9 +33,12 @@
                 messagingSenderId: "484831871025"
             };
             firebase.initializeApp(config);
-
         </script>
+
+        <script src="js/userstatus.js"></script>
+
         <script>
+            
             function onClickSignUp(){
 
                 var email = $("#email_input").val();
@@ -44,27 +46,51 @@
                 var password = $("#password_input").val();
                 var name=$('#name_input').val();
                 var familyName=$('#surname_input').val();
-                firebase.auth().createUserWithEmailAndPassword(email, password).then(function (user) {
-                    if(email.includes('operatore')){
-                        var user=firebase.auth().currentUser
-                     alert('gheiiiiii '+user.uid.toString() +" "+  firebase.database().ref('operators/') )
+              
 
-                        firebase.database().ref('operators/').on('value',function(snapshot){
-                           alert('checking...'+ !snapshot.hasChild(user.uid))
-                            if(!snapshot.hasChild(user.uid)){
-                                alert('checking again...')
-                                firebase.database().ref('operators/').set({
-                                    "user":user.uid.toString()
+                firebase.auth().createUserWithEmailAndPassword(email, password).then(function (user) {
+
+                    var uid=user.uid
+                    if(email.includes('operatore')){
+
+                        firebase.database().ref('operators/'+uid+'/').once('value').then(function(snapshot){
+                            if(!snapshot.hasChild(uid)){
+                                firebase.database().ref('operators/'+uid+'/').set({
+
+                                    'status':'online',
+                                    'name':name,
+                                    'lastname':familyName
+
 
                                 })
-                                
+
+
+                            }
+
+                        })
+                    }
+                    else{
+                        firebase.database().ref('users/'+uid+'/').once('value').then(function(snapshot){
+                            if(!snapshot.hasChild(uid)){
+                                firebase.database().ref('users/'+uid+'/').set({
+
+                                    'helprequests':'empty',
+                                    'name':name,
+                                    'lastname':familyName
+
+
+                                })
+
+
                             }
                         })
                     }
-//                    location.replace("Classes.html");
-            
+                    //                    location.replace("Classes.html");
+
                 }).catch(function (error) {
+                  
                     var button=$('#sign_up_button');
+                    alert(error.code)
                     if(button.hasClass('btn btn-primary')){
                         button.removeClass('btn btn-primary').addClass('btn btn-danger');
                     }
