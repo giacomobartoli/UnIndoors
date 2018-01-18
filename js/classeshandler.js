@@ -728,7 +728,12 @@ function resizeHelprequests(width){
 
 
 
-
+function setRowsAndCols(){
+    var width=$(window).width()
+    if(width<=768){
+        
+    }
+}
 
 
 
