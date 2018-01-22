@@ -1,374 +1,195 @@
 <!doctype html>
 <html lang="en">
-
-    <head>
-        <title>Uniboors</title>
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Bootstrap CSS -->
-        <link href="css/bootstrap.min.css" rel="stylesheet" />
-        <link href="css/loginpagestylesheet.css" rel="stylesheet" />
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
-                crossorigin="anonymous"></script>
-        <script src="js/bootstrap.js"></script>
-
-        <script href="js/loginpage.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-auth.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-database.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-firestore.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-messaging.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
-
-        <script>
-            // Initialize Firebase
-            var config = {
-                apiKey: "AIzaSyAiVwf9orhjqFyH6i4HBSmmaZuLwrJyZnQ",
-                authDomain: "uniboindoors.firebaseapp.com",
-                databaseURL: "https://uniboindoors.firebaseio.com",
-                projectId: "uniboindoors",
-                storageBucket: "uniboindoors.appspot.com",
-                messagingSenderId: "484831871025"
-            };
-            firebase.initializeApp(config);
-
-        </script>
-        <script>
-
-
-            function onClickExplore(){
-                var positionY = $('#explore').first().offset().top;
-                $("html, body").animate({ scrollTop: positionY }, 500);
-            }
-
-            function onClickFindYourClass(){
-
-                var user=firebase.auth().currentUser;
-                if(user==null){
-                    console.log("User not logged")
-                    bootbox.confirm({
-                    message: '<center><img width=150 height=60 src="logo.png"><br><br><p>the user must be logged in</p></center>',
-                    buttons: {
-                        confirm: {
-                            label: 'Login',
-                            className: 'btn-success'
-                            },
-                        cancel: {
-                            label: 'Dismiss',
-                            className: 'btn-danger'
-                            }
-                    },
-                        callback: function (result) {
-                            console.log('Callback: ' + result);
-                            if(result){
-                                location.replace("Login.html");
-                            }
-                    }
-                    });
-                    
-                }
-                else{
-                    console.log(user);
-                    location.replace("Classes.html");
-
-                }
-
-            }
-
-        </script>
-
-    </head>
-
-    <body id="b">
-        <nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg">
-            <a class="navbar-brand" href="index.html"> <img height="80px" width="230px" src="logo.png"> </a>
-            <button id="button_toggle" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu_start" aria-controls="menu_start"
-                    aria-expanded="false" aria-label="Toggle navigation" onclick="onCollapseMenuClick()">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="menu_start">
-                <ul class="navbar-nav mr-auto mt-2 mt-lg-0 ">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Features
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" onclick="onClickFindYourClass()">My Classes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Operators</a>
-                    </li>
-
-                </ul>
-                <ul class="navbar-nav navbar-right" id="login_signup_navbar">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="SignUp.html">Sign up</a>
-                    </li>
-                    <li class="vl"></li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="LogIn.html">Log in</a>
-                    </li>
-                </ul>
-
-            </div>
-        </nav>
-                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                        
-                    </ol>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img class="d-block w-150" src="img1.jpg" alt="First slide">
-                <div class="carousel-caption d-none d-md-block">
-                    <h1 class="display-4">Welcome to Uniboors!</h1>
-                    <p class="lead" style="font-weight: 400">A web app designed to deliver the best indoors navigation experience right at the school of Computer Science and Engineering, in the heart of Cesena</p>
-                    <p class="alignlead text-lg-center">
-                        <button class="btn btn-primary btn-lg" style="width:200px;" role="button" onclick="onClickExplore()">Explore</button>
-                    </p>
-                </div>
-            </div>
-        <div class="carousel-item">
-            <img class="d-block w-150" src="img2.jpg" alt="Second slide">
-             <div class="carousel-caption d-none d-md-block">
-                    <h1 class="display-4">Welcome to Uniboors!</h1>
-                    <p class="lead" style="font-weight: 400">Never miss a lecture! UniIndoors will guide you through the university campus.</p>
-                    <p class="alignlead text-lg-center">
-                        <button class="btn btn-primary btn-lg" style="width:200px;" role="button" onclick="onClickExplore()">Explore</button>
-                    </p>
-                </div>
-        </div>
-          </div>
-          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-          </a>
-    </div>
-                
-
-        <div class="container-fluid" style="margin-top: 30px;" id="explore">
-            <h1 class="display-4 text-center"  >Finding your classroom shouldn't be a treasure hunt</h1>
-        </div>
-        <div class="container-fluid" >
-            <div class="row" style="margin-top: 30px;margin-bottom: 30px;">
-                <div class="col">
-
-                    <div>
-                        <img class="rounded w3-container w3-center w3-animate-left" src="css/assets/explore.svg" id="image_explore">
-                    </div>
-                </div>
-                <div class="col">
-
-                    <!--                    <div class="paragraph_centered">-->
-
-
-                    <p class="text-center font-italic" style="font-size: 30px;"> "For the lessons are dark, and full of terrors" </p>
-                    <p  class="text-center" style="font-size: 20px; margin-top: 30px;"> Every engineering student knows lessons are complicated enough, so why should get to class be hard as well? 
-                        Start using Uniboors right now and enjoy your trip to class!
-                    </p>
-                    <!--                        <div class="row">   -->
-                    <button class="btn btn-secondary btn-lg mx-auto" id="find_classes_btn" style="width:200px; margin-top: 40px;" onclick="onClickFindYourClass()">Find your class</button>
-                    <!--                        </div>-->
-                    <!--                    </div>-->
-
-
-                </div>
-
-            </div>
-        </div>
-
-        <div class="container-fluid" style=" margin-top: 30px; margin-bottom: 30px; ">  
-<hr>
-            <h1 class="display-4 text-center">Simple and intuitive</h1>
-
-            <div class="row" style="margin-top: 30px;margin-bottom: 30px;">
-
-                <div class="col">
-
-                    <p class="text-center font-italic" style="font-size: 30px;">All your lessons available everywhere, anytime</p>
-                    <p class="text-center" style="font-size: 20px; margin-top: 30px;">Uniboors strength is its simplicity: enter in the website and easily find your lesson. Did you forget where Web Applications' lesson is? Do you not remember if there is a laboratory session or a regular lecture? Not a problem! All the necessary information are daily updated for you
-                    </p>
-                </div>
-                <div class="col">
-                    <div>
-                        <img class="rounded w3-container w3-center w3-animate-right" src="css/assets/download.jpg" id="image_explore">
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="container-fluid">
-<hr>
-            <h1 class="display-4 text-center">Uniboors... right in your pocket!</h1>
-
-
-            <div class="row">
-                <div class="col">
-
-                    <img class="rounded w3-container w3-center w3-animate-left" src="css/assets/download.jpg" id="image_explore">
-
-                </div>
-                <div class="col">
-                        <p class="text-center font-italic " style="font-size: 30px;">PocketUniboors Android app is ready for download!</p>
-
-                        <p class="text-center" style="font-size: 20px; margin-top: 30px;">Empower your navigation with our android app. Just choose your lesson, and let bluetooth beacons guide you to your daily source of knowledge
-                        </p>
-                
-                </div>
-
-
-            </div>
-
-
-            <div class="container-fluid" style=" margin-top: 30px; margin-bottom: 30px; ">  
-<hr>
-                <h1 class="display-4 text-center">Accessibility is the key</h1>
-
-                <div class="row" style="margin-top: 30px;margin-bottom: 30px;">
-
-                    <div class="col">
-
-                            <p class="text-center font-italic" style="font-size: 30px;">Going to classroom should be an easy task for everyone</p>
-                            <p class="text-center" style="font-size: 20px; margin-top: 30px;">qui parla degli handicappati blah blah con gli operatori bla bla bla bla
-                            </p>
-                    </div>
-                    <div class="col">
-                        <div>
-                            <img class="rounded w3-container w3-center w3-animate-right" src="css/assets/kindness.svg" id="image_explore">
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-
-
-        </div>
-
-       
-       <div class="container-fluid" style=" margin-top: 30px; margin-bottom: 0px; background-color:#424949;" align="middle">
-           <p>&nbsp;</p>
-           <h2 style="color:white;font-weight:100;">Edge technology is the core of UnIndoors</h2>
-           <div class="col">
-                <img style=" margin-top: 20px;" height="80" width="80" src="css/assets/Boostrap_logo.svg">&nbsp;&nbsp;
-                <img style=" margin-top: 20px;" height="80" width="80" src="css/assets/html5.svg">&nbsp;&nbsp;
-                <img style=" margin-top: 20px;" height="80" width="80" src="css/assets/css-logo.svg">&nbsp;&nbsp;
-                <img style=" margin-top: 20px;" height="80" width="80" src="css/assets/javascript-logo.svg">&nbsp;&nbsp;
-            </div>
-           <p>&nbsp;</p>
-          <h2 style="color:white;font-weight:100;">Multi-Platform experience</h2>
-           <div class="col">
-                <img style=" margin-top: 20px;" height="80" width="80" src="css/assets/firebase-1.svg">&nbsp;&nbsp;
-                <img style=" margin-top: 20px;" height="80" width="80" src="css/assets/Android_robot.svg">&nbsp;&nbsp;
-                <img style=" margin-top: 20px;" height="80" width="80" src="css/assets/icon-bluetooth-option.svg">&nbsp;&nbsp;
-            </div>
-           <div class="col" align="middle" style="margin-top:30px;">
-                <img height="80" width="200" src=logo.png>
-               <h6 style="color:white; font-weight:100;">2018 - All rights reserved &copy;</h6>
-               <p>&nbsp;</p>
-           </div>
-           
-       </div>
-
-    </body>
-    <script>
-        $( document ).ready(function() {
-
-            var width=$( window ).width();
-
-
-            if(width>=1000){
-                var title=jQuery('.title')
-
-                if(title.hasClass('display-3')){
-                    title.removeClass('display-3')
-                    title.addClass('display-2')
-                }
-
-
-            }
-            if(width>=768 && width<1000){
-                console.log("only two")
-                var title=jQuery('.title')
-                if(title.hasClass('display-2')){
-                    title.removeClass('display-2')
-                    title.addClass('display-3')
-                }
-                else{
-                    title.removeClass('display-4')
-                    title.addClass('display-3')
-                }
-
-            }
-            if(width<768){
-                console.log("only one")
-                var title=jQuery('.title')
-
-                if(title.hasClass('display-3')){
-                    title.removeClass('display-3')
-                    title.addClass('display-4')
-                }
-                if(title.hasClass('display-2')){
-                    title.removeClass('display-2')
-                    title.addClass('display-4')
-                }
-            }
-
-
-
-
-        });
-        $(window).resize(function(){
-            var width=$( window ).width();
-            if(width>=1000){
-                var title=jQuery('.title')
-
-                if(title.hasClass('display-3')){
-                    title.removeClass('display-3')
-                    title.addClass('display-2')
-                }
-
-
-            }
-            if(width>=768 && width<1000){
-                console.log("only two")
-                var title=jQuery('.title')
-                if(title.hasClass('display-2')){
-                    title.removeClass('display-2')
-                    title.addClass('display-3')
-                }
-                else{
-                    title.removeClass('display-4')
-                    title.addClass('display-3')
-                }
-
-            }
-            if(width<768){
-                console.log("only one")
-                var title=jQuery('.title')
-
-                if(title.hasClass('display-3')){
-                    title.removeClass('display-3')
-                    title.addClass('display-4')
-                }
-                if(title.hasClass('display-2')){
-                    title.removeClass('display-2')
-                    title.addClass('display-4')
-                }
-            }
-        });
-    </script>
-
+	<head>
+		<title>Uniboors</title>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Bootstrap CSS -->
+		<link href="css/bootstrap.min.css" rel="stylesheet" />
+		<link href="css/loginpagestylesheet.css" rel="stylesheet" />
+		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+			crossorigin="anonymous"></script>
+		<script src="js/bootstrap.js"></script>
+		<script href="js/loginpage.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-app.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-auth.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-database.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-firestore.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-messaging.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+		<script>
+			// Initialize Firebase
+			var config = {
+			    apiKey: "AIzaSyAiVwf9orhjqFyH6i4HBSmmaZuLwrJyZnQ",
+			    authDomain: "uniboindoors.firebaseapp.com",
+			    databaseURL: "https://uniboindoors.firebaseio.com",
+			    projectId: "uniboindoors",
+			    storageBucket: "uniboindoors.appspot.com",
+			    messagingSenderId: "484831871025"
+			};
+			firebase.initializeApp(config);
+			
+		</script>
+		<script type="text/javascript" src="js/customalert.js"></script>
+	</head>
+	<body id="b">
+		<nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg">
+			<a class="navbar-brand" href="index.html"> <img height="80px" width="230px" src="logo.png"> </a>
+			<button id="button_toggle" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu_start" aria-controls="menu_start"
+				aria-expanded="false" aria-label="Toggle navigation" onclick="onCollapseMenuClick()">
+			<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="menu_start">
+				<ul class="navbar-nav mr-auto mt-2 mt-lg-0 ">
+					<li class="nav-item">
+						<a class="nav-link" href="#">Features
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" onclick="onClickFindYourClass()">My Classes</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Operators</a>
+					</li>
+				</ul>
+				<ul class="navbar-nav navbar-right" id="login_signup_navbar">
+					<li class="nav-item">
+						<a class="nav-link active" href="SignUp.html">Sign up</a>
+					</li>
+					<li class="vl"></li>
+					<li class="nav-item">
+						<a class="nav-link active" href="LogIn.html">Log in</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+			<ol class="carousel-indicators">
+				<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+				<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+			</ol>
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+					<img class="d-block w-150" src="img1.jpg" alt="First slide">
+					<div class="carousel-caption d-none d-md-block">
+						<h1 class="display-4">Welcome to Uniboors!</h1>
+						<p class="lead" style="font-weight: 400">A web app designed to deliver the best indoors navigation experience right at the school of Computer Science and Engineering, in the heart of Cesena</p>
+						<p class="alignlead text-lg-center">
+							<button class="btn btn-primary btn-lg" style="width:200px;" role="button" onclick="onClickExplore()">Explore</button>
+						</p>
+					</div>
+				</div>
+				<div class="carousel-item">
+					<img class="d-block w-150" src="img2.jpg" alt="Second slide">
+					<div class="carousel-caption d-none d-md-block">
+						<h1 class="display-4">Welcome to Uniboors!</h1>
+						<p class="lead" style="font-weight: 400">Never miss a lecture! UniIndoors will guide you through the university campus.</p>
+						<p class="alignlead text-lg-center">
+							<button class="btn btn-primary btn-lg" style="width:200px;" role="button" onclick="onClickExplore()">Explore</button>
+						</p>
+					</div>
+				</div>
+			</div>
+			<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			<span class="sr-only">Previous</span>
+			</a>
+			<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+			<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+			</a>
+		</div>
+		<div class="container-fluid" style="margin-top: 30px;" id="explore">
+			<h1 class="display-4 text-center"  >Finding your classroom shouldn't be a treasure hunt</h1>
+		</div>
+		<div class="container-fluid" >
+			<div class="row" style="margin-top: 30px;margin-bottom: 30px;">
+				<div class="col">
+					<div>
+						<img class="rounded w3-container w3-center w3-animate-left" src="css/assets/explore.svg" id="image_explore">
+					</div>
+				</div>
+				<div class="col">
+					<p class="text-center font-italic" style="font-size: 30px;"> "For the lessons are dark, and full of terrors" </p>
+					<p  class="text-center" style="font-size: 20px; margin-top: 30px;"> Every engineering student knows lessons are complicated enough, so why should get to class be hard as well? 
+						Start using Uniboors right now and enjoy your trip to class!
+					</p>
+					<button class="btn btn-secondary btn-lg mx-auto" id="find_classes_btn" style="width:200px; margin-top: 40px;" onclick="onClickFindYourClass()">Find your class</button>
+				</div>
+			</div>
+		</div>
+		<div class="container-fluid" style=" margin-top: 30px; margin-bottom: 30px; ">
+			<hr>
+			<h1 class="display-4 text-center">Simple and intuitive</h1>
+			<div class="row" style="margin-top: 30px;margin-bottom: 30px;">
+				<div class="col">
+					<p class="text-center font-italic" style="font-size: 30px;">All your lessons available everywhere, anytime</p>
+					<p class="text-center" style="font-size: 20px; margin-top: 30px;">Uniboors strength is its simplicity: enter in the website and easily find your lesson. Did you forget where Web Applications' lesson is? Do you not remember if there is a laboratory session or a regular lecture? Not a problem! All the necessary information are daily updated for you
+					</p>
+				</div>
+				<div class="col">
+					<div>
+						<img class="rounded w3-container w3-center w3-animate-right" src="css/assets/download.jpg" id="image_explore">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container-fluid">
+			<hr>
+			<h1 class="display-4 text-center">Uniboors... right in your pocket!</h1>
+			<div class="row">
+				<div class="col">
+					<img class="rounded w3-container w3-center w3-animate-left" src="css/assets/download.jpg" id="image_explore">
+				</div>
+				<div class="col">
+					<p class="text-center font-italic " style="font-size: 30px;">PocketUniboors Android app is ready for download!</p>
+					<p class="text-center" style="font-size: 20px; margin-top: 30px;">Empower your navigation with our android app. Just choose your lesson, and let bluetooth beacons guide you to your daily source of knowledge
+					</p>
+				</div>
+			</div>
+			<div class="container-fluid" style=" margin-top: 30px; margin-bottom: 30px; ">
+				<hr>
+				<h1 class="display-4 text-center">Accessibility is the key</h1>
+				<div class="row" style="margin-top: 30px;margin-bottom: 30px;">
+					<div class="col">
+						<p class="text-center font-italic" style="font-size: 30px;">Going to classroom should be an easy task for everyone</p>
+						<p class="text-center" style="font-size: 20px; margin-top: 30px;">qui parla degli handicappati blah blah con gli operatori bla bla bla bla
+						</p>
+					</div>
+					<div class="col">
+						<div>
+							<img class="rounded w3-container w3-center w3-animate-right" src="css/assets/kindness.svg" id="image_explore">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container-fluid" style=" margin-top: 30px; margin-bottom: 0px; background-color:#424949;" align="middle">
+			<p>&nbsp;</p>
+			<h2 style="color:white;font-weight:100;">Edge technology is the core of UnIndoors</h2>
+			<div class="col">
+				<img style=" margin-top: 20px;" height="80" width="80" src="css/assets/Boostrap_logo.svg">&nbsp;&nbsp;
+				<img style=" margin-top: 20px;" height="80" width="80" src="css/assets/html5.svg">&nbsp;&nbsp;
+				<img style=" margin-top: 20px;" height="80" width="80" src="css/assets/css-logo.svg">&nbsp;&nbsp;
+				<img style=" margin-top: 20px;" height="80" width="80" src="css/assets/javascript-logo.svg">&nbsp;&nbsp;
+			</div>
+			<p>&nbsp;</p>
+			<h2 style="color:white;font-weight:100;">Multi-Platform experience</h2>
+			<div class="col">
+				<img style=" margin-top: 20px;" height="80" width="80" src="css/assets/firebase-1.svg">&nbsp;&nbsp;
+				<img style=" margin-top: 20px;" height="80" width="80" src="css/assets/Android_robot.svg">&nbsp;&nbsp;
+				<img style=" margin-top: 20px;" height="80" width="80" src="css/assets/icon-bluetooth-option.svg">&nbsp;&nbsp;
+			</div>
+			<div class="col" align="middle" style="margin-top:30px;">
+				<img height="80" width="200" src=logo.png>
+				<h6 style="color:white; font-weight:100;">2018 - All rights reserved &copy;</h6>
+				<p>&nbsp;</p>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="js/responsive.js"></script>
 </html>
