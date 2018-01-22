@@ -73,7 +73,7 @@
     <body>
 
         <nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg">
-            <a class="navbar-brand" href="LandingPage.html"> Uniboors </a>
+            <a class="navbar-brand" href="index.html"> <img height="80px" width="230px" src="logo.png"> </a>
             <button id="button_toggle" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu_start" aria-controls="menu_start"
                     aria-expanded="false" aria-label="Toggle navigation" onclick="onCollapseMenuClick()">
                 <span class="navbar-toggler-icon"></span>
@@ -86,11 +86,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="Classes.html">My Classes</a>
+                        <a class="nav-link" onclick="onClickFindYourClass()">My Classes</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Operators</a>
                     </li>
+
                 </ul>
                 <ul class="navbar-nav navbar-right" id="login_signup_navbar">
                     <li class="nav-item">
@@ -105,7 +106,7 @@
             </div>
         </nav>
 
-        <div class="container-fluid mx-auto" style="margin-top: 90px; height: 100vh;">
+        <div class="container-fluid mx-auto" style="margin-top: 120px; height: 100vh;">
             <img src="css/assets/login_student.svg" class="rounded mx-auto d-block" id="login_student">
             <div id="form" class="mx-auto d-block">
 
