@@ -16,7 +16,7 @@
         <script src="js/bootstrap.js"></script>
 
         <script href="js/loginpage.js"></script>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
         <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-auth.js"></script>
         <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-database.js"></script>
@@ -50,8 +50,26 @@
                 var user=firebase.auth().currentUser;
                 if(user==null){
                     console.log("User not logged")
-                    alert("not logged in");
-                    //location.replace("index.html");
+                    bootbox.confirm({
+                    message: '<center><img width=150 height=60 src="logo.png"><br><br><p>the user must be logged in</p></center>',
+                    buttons: {
+                        confirm: {
+                            label: 'Login',
+                            className: 'btn-success'
+                            },
+                        cancel: {
+                            label: 'Dismiss',
+                            className: 'btn-danger'
+                            }
+                    },
+                        callback: function (result) {
+                            console.log('Callback: ' + result);
+                            if(result){
+                                location.replace("Login.html");
+                            }
+                    }
+                    });
+                    
                 }
                 else{
                     console.log(user);
@@ -258,7 +276,7 @@
             </div>
            <div class="col" align="middle" style="margin-top:30px;">
                 <img height="80" width="200" src=logo.png>
-               <h6 style="color:white; font-weight:100;">All rights reserved &copy;</h6>
+               <h6 style="color:white; font-weight:100;">2018 - All rights reserved &copy;</h6>
                <p>&nbsp;</p>
            </div>
            
