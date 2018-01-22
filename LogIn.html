@@ -10,7 +10,7 @@
         <link href="css/loginpagestylesheet.css" rel="stylesheet" />
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
                 crossorigin="anonymous"></script>
         <script src="js/bootstrap.js"></script>
@@ -62,8 +62,16 @@
 
                 }).catch(function (error) {
                     $(function () {
-                        alert('error');
-                        $('#input_email').popover('show')
+                       bootbox.alert({
+                    message: '<center><img width=150 height=60 src="logo.png"><br><br><p>Invalid email or password</p></center>',
+                   
+                        callback: function (result) {
+                            console.log('Callback: ' + result);
+                            
+                    }
+                    });
+                        
+                       
                     })
                 })
             }
