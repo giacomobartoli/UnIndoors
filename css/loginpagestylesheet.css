@@ -84,6 +84,10 @@
     margin-top: 15px;
     margin-bottom: 15px;
 }
+#logo{
+    width: 230px;
+    height:80px;
+}
 @media only screen and (max-width: 768px){
     #info,#download_app{
         width:170px;
@@ -94,6 +98,10 @@
         /*transform: scale(0.7);*/
         float: none; /*!the trick is to set float none!!!!!!*/
 
+    }
+    #logo{
+        height: 70px;
+        width: 190px;
     }
     #image_explore{
         min-width: 300px;
