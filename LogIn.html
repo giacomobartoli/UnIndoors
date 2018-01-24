@@ -44,6 +44,7 @@
                 var password = $("#password_input").val();
 
                 if(email.includes('operatore')){
+                    location.replace("helpRequests.html")
                     var user=firebase.auth().currentUser
                     console.log('gheiiiiii '+user.uid.toString()   )
                     firebase.database().ref('operators/').on('value',function(snapshot){
