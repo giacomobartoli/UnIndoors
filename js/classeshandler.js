@@ -24,7 +24,7 @@ var classChosen;
 var lessons=[]
 var detailedClass
 var key=10000
-
+var pageWidth=$(window).width()
 
 
 
@@ -360,9 +360,10 @@ function getPlaceDetails(todayclass){
             $('#handy').on('click', function(){
                 var helpcontainer=$('#help_request')
                 if(helpcontainer.children().length==0){
-                    var element='  <form style="margin top:30px;"><div class="form-row" ><div class="col-6"><input type="text" class="form-control form-control-lg" placeholder="Nome Cognome"id="first_name"></div><div class="col"><input type="text" class="form-control form-control-lg" placeholder="14:23" id="time"></div></div><div class="form-row" style="margin-top: 20px;"><div class="col"><textarea class="form-control form-control-lg" id="message" rows="3" placeholder="Write your message" id="message"></textarea></div></div> <div><button type="button" class="btn btn-primary btn-block d-block mx-auto btn-lg" onclick="onClickSubmit()" style="max-width: 200px; margin-top: 20Px;">Submit</button></div></form>'
+                    var element='  <form class="needs-validation" novalidate style="margin top:30px;"><div class="form-row" ><div class="col-6"><input type="text" class="form-control form-control-lg" placeholder="Nome Cognome"id="first_name"></div><div class="col"><input type="text" class="form-control form-control-lg" placeholder="14:23" id="time"><div class="invalid-feedback stye="color:white">Please insert a valid time</div></div></div><div class="form-row" style="margin-top: 20px;"><div class="col"><textarea class="form-control form-control-lg" id="message" rows="3" placeholder="Write your message" id="message"></textarea></div></div> <div><button type="button" class="btn btn-primary btn-block d-block mx-auto btn-lg" onclick="onClickSubmit()" style="max-width: 200px; margin-top: 20Px;">Submit</button></div></form>'
 
                     helpcontainer.append(element)
+                    resize(width)
 
                 }
             })
@@ -403,6 +404,8 @@ function onClickSubmit(){
     var id=firebase.auth().currentUser.uid.toString()
     var firebaseTimeStamp=new Date().getMilliseconds()
     var width=$(window).width()
+    var regex=/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/
+
     if(width<=350 && name=='Laboratorio Informatico 2'){
         name='Lab. Inf. 2'
 
@@ -500,10 +503,18 @@ function onClickSubmit(){
                 }
 
                 console.log(help)
-                database.ref('users/'+id+'/helprequests/').child(newIndex).set(help).then(function(){
-                    $('#help_request').collapse('toggle')
-                })
-                database.ref('helprequests/').push(help2)
+                if(time.match(regex)){
+                    database.ref('users/'+id+'/helprequests/').child(newIndex).set(help).then(function(){
+
+                        $('#help_request').collapse('toggle')
+                    })
+                    database.ref('helprequests/').push(help2)
+
+                }
+                else{
+                    $('#time').addClass('is-invalid')
+                }
+
             })
 
         }
@@ -524,6 +535,7 @@ function listenToHelpRequestChanges(){
 
                 }
             })
+
             database.ref('users/'+user.uid+'/helprequests/').orderByKey().on('child_added',function(childsnapshot){
                 var index=childsnapshot.key
                 var domElement='<div class="jumbotron" style="background-color:#57626E" id="jumb_'+index+'"><div class="container"> <div class="row justify-content-center"><div class="col-8 "><h1 class="display-4 text-left detail" style="color:white;">'+renderDay(childsnapshot.child('day').val())+', '+childsnapshot.child('dayofmonth').val()+'/'+childsnapshot.child('month').val()+'/'+childsnapshot.child('year').val()+' at '+childsnapshot.child('request_time').val()+'</h1></div><div class="col-3"><img src="css/assets/garbage.svg" class="icon-small float-right" id="garbage_'+index+'"></div></div><div class=" row justify-content-center" style="margin-top: 35px; " ><div class="col-2 align-self-center  icon_wrapper" style="  margin-top:30px"><img  class="icon" src="css/assets/map.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" margin-left ><p class="detail display-4 text-left text-capitalize " id="whereabouts_'+index+'" style="color: white;"></p></div><div class="col-2 align-self-center icon_wrapper"  style=" margin-top:30px"><img  class="icon" src="css/assets/clock.svg" ></div><div class="col align-self-center "  style="margin-top: 30px;"><p class="detail  display-4 text-left text-capitalize" id="time_'+index+'" style="color: white;"></p></div></div><div class=" row justify-content-center" ><div class="col-2 align-self-center icon_wrapper" style="margin-top:30px"><img  class="icon" src="css/assets/pending.svg" id="request_icon_'+index+'"></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left text-capitalize " id="request_status_'+index+'" style="color: white;"></p></div><div class="col-2 align-self-center icon_wrapper"  style="margin-top:30px"><img  class="icon" src="css/assets/message.svg" ></div><div class="col align-self-center "  style="margin-top: 30px;"><p class="detail  display-4 text-left" id="operator_message_'+index+'" style="color: white;"></p></div></div></div>'
@@ -619,6 +631,13 @@ function listenToHelpRequestChanges(){
                 })       
                 database.ref('users/'+user.uid+'/helprequests/'+index+'/place').once('value').then(function(snapshot){
                     var place=snapshot.val()
+
+                    if(place=='Laboratorio Informatico 3' && pageWidth <=500){
+                        place='Lab.Inf. 3'
+                    }
+                    if(place=='Laboratorio Informatico 2' && pageWidth <=500){
+                        place='Lab.Inf. 2'
+                    }
                     console.log('place for request '+place)
                     $('#whereabouts_'+index).last().text(place)
                 })
@@ -698,12 +717,24 @@ function resize(width){
         }
 
     }
-    var getDirectionsButton=jQuery('#getdirections')
-    if(width<400 && getDirectionsButton.hasClass('btn-lg')){
-        getDirectionsButton.removeClass('btn-lg')
+    var button=jQuery('.btn')
+    if(width<400 && button.hasClass('btn-lg')){
+        button.removeClass('btn-lg')
 
     }
+    else if(width>400 && !button.hasClass('btn-lg')){
+        button.addClass('btn-lg')
+    }
+    var formInput=$('.form-control')
+    if(width<400 && formInput.hasClass('form-control-lg')){
+        formInput.removeClass('form-control-lg')
+    }
+    else if(width>400 && !formInput.hasClass('form-control-lg')){
+        formInput.addClass('form-control-lg')
+    }
+    
 }
+
 function resizeHelprequests(width){
     if(width<768){
         var title=jQuery('.title')
@@ -728,12 +759,6 @@ function resizeHelprequests(width){
 
 
 
-function setRowsAndCols(){
-    var width=$(window).width()
-    if(width<=768){
-        
-    }
-}
 
 
 

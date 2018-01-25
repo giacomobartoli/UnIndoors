@@ -8,12 +8,12 @@
   
 }
 
-@media only screen and (max-width:900){
+@media only screen and (max-width:1000px){
     .detail{
         font-size: 40px;
     }
 }
-@media only screen and (max-width: 768px){
+@media only screen and (max-width: 800px){
     .icon{
         width:80px;
         height:80px;
