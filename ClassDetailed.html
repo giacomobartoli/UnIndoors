@@ -101,7 +101,7 @@
                 var container= $('#detailcontainer')
                 container.contents(':not(h1)').remove();
                 var row=' <div class=" row justify-content-center" style="margin-top: 30px;" >'
-                if(width<=780){
+                if(width<768){
 
                     console.log(width)
                     var classToAppend='<div class=" row justify-content-center" style="margin-top: 50px;" id="class_and_time"><div class="col-4 icon_wrapper justify-content-center align-self-center" style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/classroom.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left text-capitalize " id="classroom_name" style="color: white;"></p></div>'
@@ -266,7 +266,7 @@
             $(window).resize(function(){
                 var width=$( window ).width();
                 resize(width)
-                if(width<=770){
+                if(width<=768){
 
                     setNewLayout()
                     var value=JSON.parse(localStorage.getItem('todayclass'))

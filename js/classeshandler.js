@@ -68,7 +68,7 @@ function setUpTodayClasses(size) {
 
                     if (dayNumber == today) {
 
-                        if(size>768 && size<1000){
+                        if(size>=768 && size<1000){
                             fillCarouselRow(todayClass,'#today_classes_inner','#carousel_today_classes',2);
                         }
                         if(size<768){
@@ -105,7 +105,7 @@ function setUpTodayClasses(size) {
                     if(size>768 && size<1000){
                         fillCarouselRow(todayClass,'#week_classes_inner','#carousel_week_classes',2);
                     }
-                    if(size<768){
+                    if(size<=768){
                         fillCarouselRow(todayClass,'#week_classes_inner','#carousel_week_classes',1);
                     }
                     if(size>=1000){
@@ -248,19 +248,23 @@ function fillCarouselRow(todayClass,carouselInnerElementID,carouselOuterElementI
     var timeStart=todayClass.timeStart;
     var timeEnd=todayClass.timeEnd;
     var place=todayClass.place;
-    var day=todayClass.day;
     var row;
     var innerElement=$(carouselInnerElementID)
+    var date=new Date()
+    var day=todayClass.day.toUpperCase()==renderDay(date.getDay()).toUpperCase()?'Today':todayClass.day;
 
-    var elementOfRow='<div class="col"><div class="card" id="'+todayClass.type+'"><img class="card-img-top" src="'+imageUrl+'" alt="Card image cap"><div class="card-body"><h4 class="card-title text-center">'+name+'</h4></div></div>';
-
+//    var elementOfRow='<div class="col"><div class="card" id="'+todayClass.type+'"><img class="card-img-top" src="'+imageUrl+'" alt="Card image cap"><div class="card-body"><h4 class="card-title text-center">'+name+'</h4></div></div></div>';
+//    
+    
+    var elementOfRow='<div class="col col-grid"><div class="card" id="'+todayClass.type+'"><img class="card-img-top" src="'+imageUrl+'" alt="Card image cap"><div class="card-body"> <h4 class="card-title text-center">'+name+'</h4><div class="row justify-content-center style="margin-top:15px;"><div class="col-3 justify-content-center align-self-center icon_wrapper"  style="margin-left: 10px;  "><img src="css/assets/clock.svg" style="width:30px; height: 30px;" id="clock"></div><div class="col align-self-center justify-content-center"  ><p class="detail my-auto text-left text-capitalize" id="time_and_day" style="color: black; font-size:20px">'+day+', '+timeStart+':00</p></div></div></div></div></div>';
+    
     if(innerElement.children().length==0){
         var carouselItem=$('<div class="carousel-item" id="'+carouselOuterElementID+'" ></div>').appendTo(innerElement)     
-        row=$('<div class="row"></div>').appendTo(carouselItem)        
+        row=$('<div class="row row-grid"></div>').appendTo(carouselItem)        
         carouselItem.addClass('active')
 
     }
-    row=innerElement.find('.row').last()
+    row=innerElement.find('.row-grid').last()
 
     if(row.children().length==numberOfImagesPerSlide){
         carouselItem=$('<div class="carousel-item" id="'+carouselOuterElementID+'" ></div>').appendTo(innerElement)     
@@ -285,8 +289,8 @@ function getCarouselItems(carouselInnerElementID){
     var rowElements=[]
 
     $(carouselInnerElementID).find('.carousel-item').each(function(){
-        $(this).find('.row').each(function(){
-            $(this).find('.col').each(function(){
+        $(this).find('.row-grid').each(function(){
+            $(this).find('.col-grid').each(function(){
                 rowElements.push($(this))
             })
 
@@ -307,7 +311,7 @@ function resizeAlgorithm(numberOfItemsPerSlide,rowElements,carouselInnerElementI
 
         if(i%numberOfItemsPerSlide==0){
             var carouselItem=$('<div class="carousel-item"></div>').appendTo(carouselInnerElementID)
-            var itemContent=$('<div class="row"></div>').appendTo(carouselItem)
+            var itemContent=$('<div class="row row-grid"></div>').appendTo(carouselItem)
 
 
             }
@@ -732,7 +736,7 @@ function resize(width){
     else if(width>400 && !formInput.hasClass('form-control-lg')){
         formInput.addClass('form-control-lg')
     }
-    
+
 }
 
 function resizeHelprequests(width){
