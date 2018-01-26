@@ -80,7 +80,11 @@
                                     'lastname':familyName
 
 
+                                },function(success){
+                                    location.replace('Classes.html')
+
                                 })
+
 
 
                             }
@@ -107,8 +111,8 @@
 
     <body>
 
-       <nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg">
-            <a class="navbar-brand" href="index.html"> <img height="80px" width="230px" src="logo.png"> </a>
+        <nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg">
+            <a class="navbar-brand" href="index.html"> <img id="logo" src="logo.png"> </a>
             <button id="button_toggle" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu_start" aria-controls="menu_start"
                     aria-expanded="false" aria-label="Toggle navigation" onclick="onCollapseMenuClick()">
                 <span class="navbar-toggler-icon"></span>
@@ -176,6 +180,6 @@
 
             </div>
         </div>
-       
+
     </body>
 </html>

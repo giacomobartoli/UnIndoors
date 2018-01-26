@@ -12,6 +12,7 @@
     width:80px;
     height: 80px;
 }
+
 @media only screen and (max-width:500px){
     .icon-small{
         width: 40px;

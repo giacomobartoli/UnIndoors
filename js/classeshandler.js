@@ -111,6 +111,7 @@ function setUpTodayClasses(size) {
                     if(size>=1000){
                         fillCarouselRow(todayClass,'#week_classes_inner','#carousel_week_classes',3);
                     }
+                    $('.loader').remove()
 
                 });
 
@@ -253,11 +254,9 @@ function fillCarouselRow(todayClass,carouselInnerElementID,carouselOuterElementI
     var date=new Date()
     var day=todayClass.day.toUpperCase()==renderDay(date.getDay()).toUpperCase()?'Today':todayClass.day;
 
-//    var elementOfRow='<div class="col"><div class="card" id="'+todayClass.type+'"><img class="card-img-top" src="'+imageUrl+'" alt="Card image cap"><div class="card-body"><h4 class="card-title text-center">'+name+'</h4></div></div></div>';
-//    
-    
-    var elementOfRow='<div class="col col-grid"><div class="card" id="'+todayClass.type+'"><img class="card-img-top" src="'+imageUrl+'" alt="Card image cap"><div class="card-body"> <h4 class="card-title text-center">'+name+'</h4><div class="row justify-content-center style="margin-top:15px;"><div class="col-3 justify-content-center align-self-center icon_wrapper"  style="margin-left: 10px;  "><img src="css/assets/clock.svg" style="width:30px; height: 30px;" id="clock"></div><div class="col align-self-center justify-content-center"  ><p class="detail my-auto text-left text-capitalize" id="time_and_day" style="color: black; font-size:20px">'+day+', '+timeStart+':00</p></div></div></div></div></div>';
-    
+
+    var elementOfRow='<div class="col col-grid"><div class="card" id="'+todayClass.type+'"><img class="card-img-top" src="'+imageUrl+'" alt="Card image cap"><div class="card-body"> <h4 class="card-title text-center">'+name+'</h4><div class="container adjust items center" style="margin-top:10px"><div class="row align-items-center align-self-center style="margin-top:15px;"><div class="col-4 justify-content-center align-self-center icon_wrapper " ><img class="rounded float-right" src="css/assets/clock.svg" style="display:block;width:30px; height: 30px;" id="clock"></div><div class="col no-gutters align-self-center justify-content-center"  ><p class="detail my-auto text-left text-capitalize" id="time_and_day" style="color: black; font-size:20px">'+day+', '+timeStart+':00</p></div></div></div></div></div></div>';
+
     if(innerElement.children().length==0){
         var carouselItem=$('<div class="carousel-item" id="'+carouselOuterElementID+'" ></div>').appendTo(innerElement)     
         row=$('<div class="row row-grid"></div>').appendTo(carouselItem)        
@@ -267,8 +266,9 @@ function fillCarouselRow(todayClass,carouselInnerElementID,carouselOuterElementI
     row=innerElement.find('.row-grid').last()
 
     if(row.children().length==numberOfImagesPerSlide){
+        console.log("number of images per slide"+numberOfImagesPerSlide)
         carouselItem=$('<div class="carousel-item" id="'+carouselOuterElementID+'" ></div>').appendTo(innerElement)     
-        row=$('<div class="row"></div>').appendTo(carouselItem)
+        row=$('<div class="row row-grid"></div>').appendTo(carouselItem)
 
     }
     row.append(elementOfRow)
@@ -304,7 +304,6 @@ function getCarouselItems(carouselInnerElementID){
 
 function resizeAlgorithm(numberOfItemsPerSlide,rowElements,carouselInnerElementID,carouselOuterElementID){
 
-    console.log('working')
     $(carouselInnerElementID).empty()
 
     for(var i=0;i<rowElements.length;i++){
@@ -326,6 +325,7 @@ function resizeAlgorithm(numberOfItemsPerSlide,rowElements,carouselInnerElementI
 
         itemContent.append(rowElements[i])
 
+
     }
 
 
@@ -340,6 +340,7 @@ function setClassDetailedInfo(name){
 }
 
 function getPlaceDetails(todayclass){
+    console.log('i was called')
     var width=$(window).width()
     database.ref('CesenaCampus/'+todayclass.place+'/').on('value',function (snapshot){
         var name=snapshot.child('name').val().toString()
@@ -364,7 +365,7 @@ function getPlaceDetails(todayclass){
             $('#handy').on('click', function(){
                 var helpcontainer=$('#help_request')
                 if(helpcontainer.children().length==0){
-                    var element='  <form class="needs-validation" novalidate style="margin top:30px;"><div class="form-row" ><div class="col-6"><input type="text" class="form-control form-control-lg" placeholder="Nome Cognome"id="first_name"></div><div class="col"><input type="text" class="form-control form-control-lg" placeholder="14:23" id="time"><div class="invalid-feedback stye="color:white">Please insert a valid time</div></div></div><div class="form-row" style="margin-top: 20px;"><div class="col"><textarea class="form-control form-control-lg" id="message" rows="3" placeholder="Write your message" id="message"></textarea></div></div> <div><button type="button" class="btn btn-primary btn-block d-block mx-auto btn-lg" onclick="onClickSubmit()" style="max-width: 200px; margin-top: 20Px;">Submit</button></div></form>'
+                    var element='  <form class="needs-validation" novalidate style="margin top:30px;"><div class="form-row" ><div class="col-6"><input type="text" class="form-control form-control-lg" placeholder="Nome Cognome"id="first_name"><div class="invalid-feedback  " >Please insert a valid name and surname</div></div><div class="col"><input type="text" class="form-control form-control-lg" placeholder="14:23" id="time"><div class="invalid-feedback  " >Please insert a valid time</div></div></div><div class="form-row" style="margin-top: 20px;"><div class="col"><textarea class="form-control form-control-lg" id="message" rows="3" placeholder="Write your message" id="message"></textarea></div></div> <div><button type="button" class="btn btn-primary btn-block d-block mx-auto btn-lg" onclick="onClickSubmit()" style="max-width: 200px; margin-top: 20Px;">Submit</button></div></form>'
 
                     helpcontainer.append(element)
                     resize(width)
@@ -394,7 +395,7 @@ function getPlaceDetails(todayclass){
 
             }
         }
-
+        $('.loader').remove()
 
     })
 }
@@ -409,6 +410,7 @@ function onClickSubmit(){
     var firebaseTimeStamp=new Date().getMilliseconds()
     var width=$(window).width()
     var regex=/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/
+    var nameRegex=/[a-zA-Z]+/
 
     if(width<=350 && name=='Laboratorio Informatico 2'){
         name='Lab. Inf. 2'
@@ -437,7 +439,7 @@ function onClickSubmit(){
                     'request_time': hours+":"+minutes,
                     'day':date.getDay(),
                     'dayofmonth':date.getDate(),
-                    'year':date.getYear(),
+                    'year':date.getFullYear(),
                     'month':month,
                     'timestamp':firebaseTimeStamp
 
@@ -454,8 +456,9 @@ function onClickSubmit(){
                 'request_time': hours+":"+minutes,
                 'day':date.getDay(),
                 'dayofmonth':date.getDate(),
-                'year':date.getYear(),
+                'year':date.getFullYear(),
                 'month':month,
+                'index':10000,
                 'timestamp':firebaseTimeStamp
             }
             console.log(help)
@@ -485,7 +488,7 @@ function onClickSubmit(){
                         'request_time':hours+":"+minutes,
                         'day':date.getDay(),
                         'dayofmonth':date.getDate(),
-                        'year':date.getYear(),
+                        'year':date.getFullYear(),
                         'month':month,
                         'timestamp':firebaseTimeStamp
 
@@ -501,13 +504,20 @@ function onClickSubmit(){
                     'request_time': hours+":"+minutes,
                     'day':date.getDay(),
                     'dayofmonth':date.getDate(),
-                    'year':date.getYear(),
+                    'year':date.getFullYear(),
                     'month':month,
+                    index:newIndex,
                     'timestamp':firebaseTimeStamp
                 }
 
                 console.log(help)
-                if(time.match(regex)){
+                var nameDom= $('#first_name')
+                var timeDom=$('#time')
+                nameDom.removeClass('is-valid')
+                nameDom.removeClass('is-invalid')
+                timeDom.removeClass('is-valid')
+                timeDom.removeClass('is-invalid')
+                if(time.match(regex) && name.match(nameRegex)){
                     database.ref('users/'+id+'/helprequests/').child(newIndex).set(help).then(function(){
 
                         $('#help_request').collapse('toggle')
@@ -515,7 +525,20 @@ function onClickSubmit(){
                     database.ref('helprequests/').push(help2)
 
                 }
-                else{
+                else if(!time.match(regex) && name.match(nameRegex)){
+                    //    alert('wrong time')
+
+                    $('#first_name').addClass('is-valid')
+                    $('#time').addClass('is-invalid')
+                }
+                else if(time.match(regex) && !name.match(nameRegex)){
+                    // alert('wrong name')
+                    $('#first_name').addClass('is-invalid')
+                    $('#time').addClass('is-valid')
+                }
+                else if(!time.match(regex) && !name.match(nameRegex)){
+                    //  alert('both wrong')
+                    $('#first_name').addClass('is-invalid')
                     $('#time').addClass('is-invalid')
                 }
 
@@ -667,7 +690,7 @@ function listenToHelpRequestChanges(){
 function resize(width){
     if(width>=1000){
         var title=jQuery('.title')
-        var col=jQuery('.icon_wrapper')
+        var col=jQuery('.col-dir')
 
 
 
@@ -686,7 +709,7 @@ function resize(width){
     }
     if(width>=768 && width<1000){
         var title=jQuery('.title')
-        var col=jQuery('.icon_wrapper')
+        var col=jQuery('.col-dir')
 
         if(title.hasClass('display-2')){
             title.removeClass('display-2')
@@ -705,7 +728,7 @@ function resize(width){
     }
     if(width<768){
         var title=jQuery('.title')
-        var col=jQuery('.icon_wrapper')
+        var col=jQuery('.col-dir')
 
         if(title.hasClass('display-3')){
             title.removeClass('display-3')

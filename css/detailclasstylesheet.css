@@ -7,6 +7,10 @@
     font-size: 50px;
   
 }
+.invalid-feedback{
+    font-size: 15px;
+}
+
 
 @media only screen and (max-width:1000px){
     .detail{
