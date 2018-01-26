@@ -16,14 +16,14 @@
         <script src="js/bootstrap.js"></script>
 
         <script href="js/loginpage.js"></script>
+      
 
-        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-auth.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-database.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-firestore.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-messaging.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
-
+        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-messaging.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
         <script>
             // Initialize Firebase
             var config = {
@@ -37,40 +37,45 @@
             firebase.initializeApp(config);
 
         </script>
+        <script src="js/userstatus.js"></script>
+
         <script>
             
             function onClickLogin() {
                 var email = $("#email_input").val();
                 var password = $("#password_input").val();
-
-               
+                var emailDom=$('#email_input')
+                var passwordDom=$('#password_input')
+                emailDom.removeClass('is-valid')
+                emailDom.removeClass('is-invalid')
+                passwordDom.removeClass('is-valid')
+                passwordDom.removeClass('is-invalid')
+                
 
                 firebase.auth().signInWithEmailAndPassword(email, password).then(function (user) {
+                    if(email.includes('operatore')){
 
-                     if(email.includes('operatore')){
-                    location.replace("helpRequests.html")
-                    var user=firebase.auth().currentUser
-                    firebase.database().ref('operators/').on('value',function(snapshot){
-                        if(snapshot.numChildren()==0){
-                            database.ref('operators/').set({
-                                "user":user.uid.toString(),
+                        firebase.database().ref('operators/'+user.uid+'/status/').set('online',function(success){
+                            location.replace('helpRequests.html')
 
-                            })
-                        }
-                    })
-                }
+                        })
 
+
+
+                    }
+                    else{
+                        location.replace("Classes.html");
+                    }
                 }).catch(function (error) {
                     $(function () {
-                       bootbox.alert({
-                    message: '<center><img width=150 height=60 src="logo.png"><br><br><p>Invalid email or password</p></center>',
-                   
-                        callback: function (result) {
-                            console.log('Callback: ' + result);
+                        if(error.code.includes('user-not-found')){
+                            emailDom.addClass('is-invalid')
                             
-                    }
-                    });
-                        
+                        }
+                        if(error.code.includes('wrong-password')){
+                            passwordDom.addClass('is-invalid')
+                            emailDom.addClass('is-valid')
+                        }
                        
                     })
                 })
@@ -82,7 +87,10 @@
     <body>
 
         <nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg">
-            <a class="navbar-brand" href="index.html"> <img height="80px" width="230px" src="logo.png"> </a>
+            
+
+            <a class="navbar-brand" href="index.html"> <img src="logo.png" id="logo"> </a>
+
             <button id="button_toggle" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu_start" aria-controls="menu_start"
                     aria-expanded="false" aria-label="Toggle navigation" onclick="onCollapseMenuClick()">
                 <span class="navbar-toggler-icon"></span>
@@ -123,13 +131,16 @@
                     <div class="form-group">
                         <label for="email_input">E-mail address</label>
                         <input type="email" class="form-control" id="email_input" aria-describedby="email_help" placeholder="mymailaddress@emailprovider.com" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-                        <small id="email_help" class="form-text text-muted">Enter your e-mail</small>             
+                        <small id="email_help" class="form-text text-muted">Enter your e-mail</small>
+                        <div class="invalid-feedback">Wrong e-mail</div>
+                        <div class="valid-feedback">Looks good!</div>
                     </div>
                     <div class="form-group">
 
                         <label for="password_input">Password</label>
                         <input type="password" class="form-control" id="password_input" aria-describedby="password_help" placeholder="*************">
                         <small id="password_help" class="form-text text-muted">Enter your password</small>
+                        <div class="invalid-feedback">Wrong-password</div>
                     </div>
                     <div>
                         <button type="button" class="btn btn-primary btn-block d-block mx-auto"  onclick="onClickLogin()">Log in</button>
