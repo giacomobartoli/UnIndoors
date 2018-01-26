@@ -17,13 +17,12 @@
 
         <script href="js/loginpage.js"></script>
 
-        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-auth.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-database.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-firestore.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-messaging.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
-
+        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-messaging.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
         <script>
             // Initialize Firebase
             var config = {
@@ -35,9 +34,12 @@
                 messagingSenderId: "484831871025"
             };
             firebase.initializeApp(config);
-
         </script>
+
+        <script src="js/userstatus.js"></script>
+
         <script>
+
             function onClickSignUp(){
 
                 var email = $("#email_input").val();
@@ -45,23 +47,55 @@
                 var password = $("#password_input").val();
                 var name=$('#name_input').val();
                 var familyName=$('#surname_input').val();
-                firebase.auth().createUserWithEmailAndPassword(email, password).then(function (user) {
-                    var button=$('#sign_up_button');
-                    location.replace("Classes.html");
-//                    if(button.hasClass('btn btn-primary')){
-//                        button.removeClass('btn btn-primary').addClass('btn btn-success');
-//                    }
-//                    else{
-//                        button.removeClass('btn btn-danger').addClass('btn btn-success').then(function(){
-//
-//
-//
-//                        });
-//                    }
 
+
+                firebase.auth().createUserWithEmailAndPassword(email, password).then(function (user) {
+
+                    var uid=user.uid
+                    if(email.includes('operatore')){
+
+                        firebase.database().ref('operators/'+uid+'/').once('value').then(function(snapshot){
+                            if(!snapshot.hasChild(uid)){
+                                firebase.database().ref('operators/'+uid+'/').set({
+
+                                    'status':'online',
+                                    'name':name,
+                                    'lastname':familyName
+
+
+                                })
+
+
+                            }
+
+                        })
+                    }
+                    else{
+                        firebase.database().ref('users/'+uid+'/').once('value').then(function(snapshot){
+                            if(!snapshot.hasChild(uid)){
+                                firebase.database().ref('users/'+uid+'/').set({
+
+                                    'helprequests':'empty',
+                                    'name':name,
+                                    'lastname':familyName
+
+
+                                },function(success){
+                                    location.replace('Classes.html')
+
+                                })
+
+
+
+                            }
+                        })
+                    }
+                    //                    location.replace("Classes.html");
 
                 }).catch(function (error) {
+
                     var button=$('#sign_up_button');
+                    alert(error.code)
                     if(button.hasClass('btn btn-primary')){
                         button.removeClass('btn btn-primary').addClass('btn btn-danger');
                     }
@@ -77,8 +111,8 @@
 
     <body>
 
-       <nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg">
-            <a class="navbar-brand" href="index.html"> <img height="80px" width="230px" src="logo.png"> </a>
+        <nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg">
+            <a class="navbar-brand" href="index.html"> <img id="logo" src="logo.png"> </a>
             <button id="button_toggle" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu_start" aria-controls="menu_start"
                     aria-expanded="false" aria-label="Toggle navigation" onclick="onCollapseMenuClick()">
                 <span class="navbar-toggler-icon"></span>
