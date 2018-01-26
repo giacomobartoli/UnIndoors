@@ -40,7 +40,7 @@
         <script src="js/userstatus.js"></script>
 
         <script>
-
+            
             function onClickLogin() {
                 var email = $("#email_input").val();
                 var password = $("#password_input").val();
@@ -51,7 +51,6 @@
                 passwordDom.removeClass('is-valid')
                 passwordDom.removeClass('is-invalid')
                 
-
 
                 firebase.auth().signInWithEmailAndPassword(email, password).then(function (user) {
                     if(email.includes('operatore')){
@@ -78,7 +77,6 @@
                             emailDom.addClass('is-valid')
                         }
 
-                        
                        
                     })
                 })
@@ -146,8 +144,9 @@
                         <div class="invalid-feedback">Wrong-password</div>
                     </div>
                     <div>
-                        <button type="button" class="btn btn-primary btn-block d-block mx-auto" onclick="onClickLogin()">Log in</button>
+                        <button type="button" class="btn btn-primary btn-block d-block mx-auto"  onclick="onClickLogin()">Log in</button>
                     </div>
+                
                 </form>
 
 
