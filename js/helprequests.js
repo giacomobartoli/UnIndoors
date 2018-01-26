@@ -38,14 +38,11 @@ function myFunction() {
             tbody.append('<tr><th scope="row">'+id+'</th><td>'+from+'</td><td>'+status+'</td><td>'+msg+'</td><td>'+place+'</td><td><button type="button" class="btn btn-outline-success" id="'+count+'">Accept</button><button type="button" class="btn btn-outline-danger" id="'+count+'R'+'">Refuse</button></td></tr>')
             
             $('#'+count).click(function(){
-                
-                setRequests(id,childSnapshotIndex)
+                setRequests(id,childSnapshotIndex,$(this).attr('id'))
                
             })
             $('#'+count+'R').click(function(){
-                
-                setRequestDenied(id,childSnapshotIndex)
-               
+                setRequestDenied(id,childSnapshotIndex,$(this).attr('id'))
             })
             count++
         
@@ -57,16 +54,25 @@ function myFunction() {
                 
                                         
 
-function setRequests(id,childSnapshotIndex){
+function setRequests(id,childSnapshotIndex,butcount){
     //alert(childSnapshotIndex)
-    database.ref('helprequests/'+childSnapshotIndex+'/state/').set('accepted');
+    var idButton = butcount
+    database.ref('helprequests/'+childSnapshotIndex+'/state/').set('accepted').then(function(){
+       $('#'+idButton).attr("disabled","");
+       $('#'+idButton+'R').attr("disabled","");
+    });
+    
+    //document.getElementById(idButton).setAttribute("disabled","disabled");
 }
 
-function setRequestDenied(id,childSnapshotIndex){
+function setRequestDenied(id,childSnapshotIndex,count){
     //alert(childSnapshotIndex)
+    var idButton = count
+    var idButton2 = idButton.slice(0,1)
     database.ref('helprequests/'+childSnapshotIndex+'/state/').set('refused');
+    $('#'+idButton).attr("disabled","");
+    $('#'+idButton2).attr("disabled","");
 }
-
 
 
 
