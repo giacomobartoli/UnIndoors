@@ -17,12 +17,15 @@ function myFunction() {
                   
     
      database.ref('helprequests/').on('value', function (snapshot) {
-        //qui ho tutto
-        var count=0
-        var status = snapshot.val();
-       // var tbody = document.querySelector("#myTable tbody");
+         
          var tbody=$('#table_body')
-        snapshot.forEach(function (childSnapshot) {
+         tbody.empty();
+        //qui ho tutto
+            var count=0
+            var status = snapshot.val();
+       // var tbody = document.querySelector("#myTable tbody");
+            
+            snapshot.forEach(function (childSnapshot) {
             var id = childSnapshot.child('id').val().toString();
             var msg = childSnapshot.child('message').val().toString();
             var from = childSnapshot.child('name').val().toString();
@@ -32,11 +35,16 @@ function myFunction() {
             //Using this alert to check if values are retrieved correctly
             //alert(from);
             
-            tbody.append('<tr><th scope="row">'+id+'</th><td>'+from+'</td><td>'+status+'</td><td>'+msg+'</td><td>'+place+'</td><td><button type="button" class="btn btn-outline-success" id="'+count+'">Accept</button><button type="button" class="btn btn-outline-danger">Refuse</button></td></tr>')
+            tbody.append('<tr><th scope="row">'+id+'</th><td>'+from+'</td><td>'+status+'</td><td>'+msg+'</td><td>'+place+'</td><td><button type="button" class="btn btn-outline-success" id="'+count+'">Accept</button><button type="button" class="btn btn-outline-danger" id="'+count+'R'+'">Refuse</button></td></tr>')
             
             $('#'+count).click(function(){
                 
                 setRequests(id,childSnapshotIndex)
+               
+            })
+            $('#'+count+'R').click(function(){
+                
+                setRequestDenied(id,childSnapshotIndex)
                
             })
             count++
@@ -50,11 +58,15 @@ function myFunction() {
                                         
 
 function setRequests(id,childSnapshotIndex){
-    //alert(id+' '+index)
-   
+    //alert(childSnapshotIndex)
     database.ref('helprequests/'+childSnapshotIndex+'/state/').set('accepted');
-
 }
+
+function setRequestDenied(id,childSnapshotIndex){
+    //alert(childSnapshotIndex)
+    database.ref('helprequests/'+childSnapshotIndex+'/state/').set('refused');
+}
+
 
 
 
