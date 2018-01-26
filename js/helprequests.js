@@ -15,11 +15,12 @@ var table=document.getElementById('myTable');
 
 function myFunction() {
        
-     database.ref('helprequests').once('value', function (snapshot) {
+     database.ref('helprequests/').once('value', function (snapshot) {
         //qui ho tutto
         var status = snapshot.val();
         var tbody = document.querySelector("#myTable tbody");
         snapshot.forEach(function (childSnapshot) {
+            alert('problema regole')
             
             var id = childSnapshot.child('id').val().toString();
             var msg = childSnapshot.child('message').val().toString();
