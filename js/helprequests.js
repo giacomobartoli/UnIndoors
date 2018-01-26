@@ -68,7 +68,7 @@ function setRequests(id,childSnapshotIndex,butcount){
 function setRequestDenied(id,childSnapshotIndex,count){
     //alert(childSnapshotIndex)
     var idButton = count
-    var idButton2 = idButton.slice(0,1)
+    var idButton2 = idButton.slice(0,-1)
     database.ref('helprequests/'+childSnapshotIndex+'/state/').set('refused');
     $('#'+idButton).attr("disabled","");
     $('#'+idButton2).attr("disabled","");
