@@ -24,18 +24,9 @@
         <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-firestore.js"></script>
         <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-messaging.js"></script>
         <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+        <script src="js/connector.js"></script>
         <script>
-            // Initialize Firebase
-            var config = {
-                apiKey: "AIzaSyAiVwf9orhjqFyH6i4HBSmmaZuLwrJyZnQ",
-                authDomain: "uniboindoors.firebaseapp.com",
-                databaseURL: "https://uniboindoors.firebaseio.com",
-                projectId: "uniboindoors",
-                storageBucket: "uniboindoors.appspot.com",
-                messagingSenderId: "484831871025"
-            };
-            firebase.initializeApp(config);
-
+            firebase.initializeApp(fb_connector());
         </script>
         <script type="text/javascript" src="js/customalert.js"></script>
     </head>
