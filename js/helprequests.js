@@ -61,8 +61,7 @@ function setRequests(id,childSnapshotIndex,butcount){
        $('#'+idButton).attr("disabled","");
        $('#'+idButton+'R').attr("disabled","");
     });
-    
-    //document.getElementById(idButton).setAttribute("disabled","disabled");
+    updateRequestForStudent(id,'accepted')
 }
 
 function setRequestDenied(id,childSnapshotIndex,count){
@@ -72,6 +71,12 @@ function setRequestDenied(id,childSnapshotIndex,count){
     database.ref('helprequests/'+childSnapshotIndex+'/state/').set('refused');
     $('#'+idButton).attr("disabled","");
     $('#'+idButton2).attr("disabled","");
+    updateRequestForStudent(id,'refused')
+}
+
+function updateRequestForStudent(idReq,stateToSet){
+    var index=10000;
+    database.ref('users/'+idReq+'/helprequests/'+index+'/state/').set(stateToSet)
 }
 
 
