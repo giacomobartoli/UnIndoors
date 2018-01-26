@@ -57,7 +57,7 @@
                     if(email.includes('operatore')){
 
                         firebase.database().ref('operators/'+user.uid+'/status/').set('online',function(success){
-                            location.replace('Operator.html')
+                            location.replace('helpRequests.html')
 
                         })
 
@@ -78,15 +78,6 @@
                             emailDom.addClass('is-valid')
                         }
 
-//                        alert('error '+error+' code '+error.code );
-//                       bootbox.alert({
-//                    message: '<center><img width=150 height=60 src="logo.png"><br><br><p>Invalid email or password</p></center>',
-//                   
-//                        callback: function (result) {
-//                            console.log('Callback: ' + result);
-//                            
-//                    }
-//                    });
                         
                        
                     })
