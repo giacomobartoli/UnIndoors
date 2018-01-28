@@ -1,4 +1,4 @@
-![](logo.png)
+<center><img src="logo.png" alt="UnIndoors" width="200px"></center>
 
 ## UnIndoors
 
