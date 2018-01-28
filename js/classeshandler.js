@@ -748,7 +748,7 @@ function resize(width){
         }
         if(col.hasClass('col-2')){
             col.removeClass('col-2')
-            col.addClass('col-4 ')
+            col.addClass('col-3 ')
         }
 
     }
