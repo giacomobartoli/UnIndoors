@@ -1,0 +1,49 @@
+#image_profile{
+    cursor:pointer
+}
+
+body{
+    background-color: #343a40;
+}
+
+.dropdown-menu{
+    background-color: #5e646b;
+    max-width: 180px;
+}
+.dropdown-menu>a{
+    color: white
+}
+.list-group>li{
+    background-color: #5e646b;
+    color:white;
+    cursor: pointer;
+
+}
+.icon{
+    width: 50px;
+    height: 50px;
+}
+.classroom_info{
+    font-size: 25px;
+    color: white;
+}
+.place_name{
+    font-size: 40px;
+}
+
+@media only screen and (max-width:500px){
+    small{
+        margin-right: -10px;
+    }
+    .classroom_info{
+        font-size: 15px;
+        color: white;
+    }
+    .place_name{
+        font-size: 25px;
+    }
+    .icon{
+        width: 40px;
+        height: 40px;
+    }
+}
