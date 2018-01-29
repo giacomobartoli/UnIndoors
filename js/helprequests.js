@@ -40,13 +40,29 @@ function myFunction() {
             
             $('#'+count).click(function(){
                 setRequests(id,childSnapshotIndex,$(this).attr('id'),index)
+                
                
             })
             $('#'+count+'R').click(function(){
                 setRequestDenied(id,childSnapshotIndex,$(this).attr('id'),index)
             })
+            
+            database.ref('helprequests/'+childSnapshotIndex+'/state/').on('value',  snapshot => {
+                
+                    var requestStatus = snapshot.val().toString()
+                    if(requestStatus == 'accepted'){
+                        var idButton = count;
+                        alert('ciaone')
+                        $('#'+idButton).attr("disabled","");
+                        $('#'+idButton+'R').attr("disabled","");
+                    }
+                })    
+                
+                
             count++
         
+            
+                
     })
     
 })
@@ -54,6 +70,8 @@ function myFunction() {
 }
                 
                                         
+
+
 
 function setRequests(id,childSnapshotIndex,butcount,index){
     //alert(childSnapshotIndex)
