@@ -39,63 +39,72 @@
                 var password = $("#password_input").val();
                 var name=$('#name_input').val();
                 var familyName=$('#surname_input').val();
+                var buttonContainer=$('#button_container')
+                var nameRegex=/[a-zA-Z]+/
+                buttonContainer.append( '<div class="loader submit-loader d-block mx-auto"></div>')
+                if(!name.match(nameRegex)){
+                    $('#name_input').removeClass('valid-feedback')
+                    $('#name_input').addClass('invalid-feedback')
+                }
+                if(name.match(nameRegex)){
+                    firebase.auth().createUserWithEmailAndPassword(email, password).then(function (user) {
+                        var uid=user.uid
+                        if(email.includes('operatore')){
+
+                            firebase.database().ref('operators/'+uid+'/').once('value').then(function(snapshot){
+                                if(!snapshot.hasChild(uid)){
+                                    firebase.database().ref('operators/'+uid+'/').set({
+
+                                        'status':'online',
+                                        'name':name,
+                                        'lastname':familyName
 
 
-                firebase.auth().createUserWithEmailAndPassword(email, password).then(function (user) {
+                                    }).then(function(success){
+                                        $('.loader').remove()
 
-                    var uid=user.uid
-                    if(email.includes('operatore')){
-
-                        firebase.database().ref('operators/'+uid+'/').once('value').then(function(snapshot){
-                            if(!snapshot.hasChild(uid)){
-                                firebase.database().ref('operators/'+uid+'/').set({
-
-                                    'status':'online',
-                                    'name':name,
-                                    'lastname':familyName
+                                        location.replace('helpRequests.html')
+                                    })
 
 
-                                })
+                                }
+
+                            })
+                        }
+                        else{
+                            firebase.database().ref('users/'+uid+'/').once('value').then(function(snapshot){
+                                if(!snapshot.hasChild(uid)){
+                                    firebase.database().ref('users/'+uid+'/').set({
+
+                                        'helprequests':'empty',
+                                        'name':name,
+                                        'lastname':familyName
 
 
-                            }
+                                    },function(success){
+                                        $('.loader').remove()
 
-                        })
-                    }
-                    else{
-                        firebase.database().ref('users/'+uid+'/').once('value').then(function(snapshot){
-                            if(!snapshot.hasChild(uid)){
-                                firebase.database().ref('users/'+uid+'/').set({
+                                        location.replace('Classes.html')
 
-                                    'helprequests':'empty',
-                                    'name':name,
-                                    'lastname':familyName
-
-
-                                },function(success){
-                                    location.replace('Classes.html')
-
-                                })
+                                    })
 
 
 
-                            }
-                        })
-                    }
-                    //                    location.replace("Classes.html");
+                                }
+                            })
+                        }
+                        //                    location.replace("Classes.html");
 
-                }).catch(function (error) {
+                    }).catch(function (error) {
+                        $('.loader').remove()
 
-                    var button=$('#sign_up_button');
-                    alert(error.code)
-                    if(button.hasClass('btn btn-primary')){
-                        button.removeClass('btn btn-primary').addClass('btn btn-danger');
-                    }
-                    else{
-                        button.removeClass('btn btn-success').addClass('btn btn-danger');
-                    }
+                        alert(error.code)
 
-                });
+                    }); 
+                }
+
+
+
             }
 
         </script>
@@ -145,25 +154,34 @@
                     <div class="form-group">
                         <label for="username_input">Name</label>
                         <input type="text" class="form-control" id="name_input" aria-describedby="name_help" placeholder="William">
-                        <small id="name_help" class="form-text text-muted">Enter your name</small>             
+                        <small id="name_help" class="form-text text-muted">Enter your name</small>
+                        <div class="invalid-feedback">Please give a valid name</div>
+                        <div class="valid-feedback">Nice name you got there!</div>
                     </div>
                     <div class="form-group">
                         <label for="surname_input">Family Name</label>
                         <input type="text" class="form-control" id="surname_input" aria-describedby="surname_help" placeholder="Shakespear">
                         <small id="surname_help" class="form-text text-muted">Enter your family name</small>             
+                        <div class="invalid-feedback">Please give a valid surname</div>
+                        <div class="valid-feedback">Correct!</div>
+
                     </div>
                     <div class="form-group">
                         <label for="email_input">E-mail address</label>
                         <input type="email" class="form-control" id="email_input" aria-describedby="email_help" placeholder="mymailaddress@emailprovider.com">
-                        <small id="email_help" class="form-text text-muted">We won't share it with anybody else</small>             
+                        <small id="email_help" class="form-text text-muted">We won't share it with anybody else</small>
+                        <div class="invalid-feedback">Please insert a valid email</div>
+                        <div class="valid-feedback">Looks good!</div>
                     </div>
                     <div class="form-group">
 
                         <label for="password_input">Password</label>
                         <input type="password" class="form-control" id="password_input" aria-describedby="password_help" placeholder="*************">
                         <small id="password_help" class="form-text text-muted">At least 8 characters</small>
+                        <div class="invalid-feedback">Please insert a valid email</div>
+                        <div class="valid-feedback">Looks good!</div>
                     </div>
-                    <div>
+                    <div id='button_container' style="margin-bottom: 100px;">
                         <button type="button" class="btn btn-primary btn-block d-block mx-auto" id="sign_up_button" onclick="onClickSignUp()">Sign up!</button>
                     </div>
                 </form>
