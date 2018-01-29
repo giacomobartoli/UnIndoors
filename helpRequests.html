@@ -74,9 +74,9 @@
                     $('#toggle-event').change(function() {
                     var propState = $(this).prop('checked').toString()
                     if(propState=='true'){
-                        filterTable()
+                        myFunction('yes')
                     }else{
-                        myFunction()
+                        myFunction('no')
                     }
                     })
                   })
@@ -117,7 +117,7 @@
 	</body>
     <script>
     
-    $(document).ready(myFunction())
+    $(document).ready(myFunction('no'))
     
     </script>
 	<script type="text/javascript" src="js/responsive.js"></script>
