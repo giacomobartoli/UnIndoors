@@ -15,3 +15,5 @@ function logOut(){
     //alert('mi sono sloggato')
     document.cookie = "UniIndoors=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 }
+
+

@@ -27,8 +27,8 @@
         <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-firestore.js"></script>
         <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-messaging.js"></script>
         <script src="js/loginpage.js"></script>
-        <script src="js/classeshandler.js">
-        </script>
+        <script src="js/classeshandler.js"></script>
+        <script src="js/operators.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
         <script>
             moment().format();
@@ -71,14 +71,10 @@
         
 
         <div class="container" style="margin-top: 70px; justify-content: center" id="detailcontainer"> 
-            <h1 class="display-3 text-center title" style="color: white;" id="class_name" ></h1>
-
-
-
-
-
-
+            <h1 class="display-3 text-center title" style="color: white;" id="class_name" ></h1> 
+            <h1 class="display-4"style="color: white; display: block;text-align: center;font-size: 20px"> available operators <span class="badge badge-pill badge-success" id="myBadge"></span></h1>
         </div>
+        
         <div class="container collapse" id="directions_container" style="margin-top: 30px;" id="first_direction">
 
         </div>
@@ -311,4 +307,7 @@
         </div>
         
     </body>
+    <script>
+        $(document).ready(countOperators())
+    </script>
 </html>
