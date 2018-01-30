@@ -451,7 +451,6 @@ function onClickSubmit(){
                 'time':time,
                 'message':message,
                 'state': 'pending',
-                'operator_message':'No message yet',
                 'place':$('#classroom_name').text(),
                 'request_time': hours+":"+minutes,
                 'day':date.getDay(),
@@ -499,7 +498,6 @@ function onClickSubmit(){
                     'time':time,
                     'message':message,
                     'state': 'pending',
-                    'operator_message':'No message yet',
                     'place':$('#classroom_name').text(),
                     'request_time': hours+":"+minutes,
                     'day':date.getDay(),
@@ -650,7 +648,7 @@ function listenToHelpRequestChanges(){
                             break;
                         case 'refused':
                             $('#request_icon_'+index).last().attr('src','css/assets/notaccepted.svg')
-                             var text=pageWidth<500?'Nope!':'Refused!'
+                            var text=pageWidth<500?'Nope!':'Refused!'
                             $('#request_status_'+index).last().text(text)
 
                             break;
@@ -696,6 +694,7 @@ function listenToHelpRequestChanges(){
 }
 
 function resize(width){
+
     if(width>=1000){
         var title=jQuery('.title')
         var col=jQuery('.col-dir')
@@ -754,6 +753,7 @@ function resize(width){
     }
     var button=jQuery('.btn')
     if(width<400 && button.hasClass('btn-lg')){
+
         button.removeClass('btn-lg')
 
     }
