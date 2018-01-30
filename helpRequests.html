@@ -27,6 +27,7 @@
         <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
         <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
         <script src="js/navbar.js"></script>
+        <script src="js/operators.js"></script>
     </head>
     <body id="b">
         <nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg">
@@ -67,6 +68,7 @@
 
             <h2 class="display-4 text-center"  >List of open requests 
                 <input id="toggle-event" type="checkbox" data-toggle="toggle" data-style="ios" data-off="Filter" data-on="off"> </h2>
+            <h1 class="display-4"style="display: block;text-align: center;font-size: 20px"> Pending requests: <span class="badge badge-pill badge-danger" id="myBadgeReq">2</span></h1>
             <script>
                 $(function() {
                     $('#toggle-event').bootstrapToggle();
@@ -112,9 +114,9 @@
         </div>
     </body>
     <script>
-
         $(document).ready(myFunction('no'))
         $(document).ready(setNavbar())
+        $(document).ready(countRequests())
     </script>
     <script type="text/javascript" src="js/responsive.js"></script>
 </html>
