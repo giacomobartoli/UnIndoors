@@ -8,6 +8,11 @@ connectedRef.on("value", function(snap) {
         firebase.auth().onAuthStateChanged(function(user){
             if(user && user.email.includes('operatore')){
                 firebase.database().ref('operators/'+user.uid+'/status/').set('online')
+                
+                var date = new Date()
+                date.setDate(date.getDate() + 1);
+                //Setting cookie
+                document.cookie = "UniIndoors=ORACOLO; expires="+date+"; path=/";
             }
 
 

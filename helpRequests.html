@@ -26,7 +26,7 @@
         <link href="css/helprequeststylesheet.css" rel="stylesheet">
         <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
         <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-
+        <script src="js/navbar.js"></script>
     </head>
     <body id="b">
         <nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg">
@@ -51,7 +51,7 @@
                         <a class="nav-link active" href="SignUp.html">Sign up</a>
                     </li>
                     <li class="vl"></li>
-                    <li class="nav-item">
+                    <li class="nav-item" id="login">
                         <a class="nav-link active" href="LogIn.html">Log in</a>
                     </li>
                 </ul>
@@ -114,7 +114,7 @@
     <script>
 
         $(document).ready(myFunction('no'))
-
+        $(document).ready(setNavbar())
     </script>
     <script type="text/javascript" src="js/responsive.js"></script>
 </html>

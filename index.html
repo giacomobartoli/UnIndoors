@@ -25,6 +25,7 @@
         <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-messaging.js"></script>
         <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
         <script src="js/connector.js"></script>
+        <script src="js/navbar.js"></script>
         <script>
             firebase.initializeApp(fb_connector());
         </script>
@@ -166,5 +167,9 @@
         </div>
     </body>
     <script type="text/javascript" src="js/responsive.js"></script>
+    <script>
+        //deleting previous stored cookies
+        $(document).ready(logOut())
+    </script>
     
 </html>
