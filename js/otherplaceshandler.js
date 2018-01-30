@@ -1,41 +1,98 @@
-var width=$(window).width()
-//listGroupClassrooms.append('<h1>gehdufbj</h1>')
 window.setInterval(checkTimeAndLesson,15000)
+
+
 function listOtherPlaces(){
-    database.ref('otherplaces/').once('value').then(function(snapshot){
+    $('.list-group-item-interest').remove()
 
-        snapshot.forEach(function(childsnapshot){
+    database.ref('otherplaces/').on('child_added',function(interestSnapshot){
 
-        })
+        var type=interestSnapshot.child('type').val()
+        var name=interestSnapshot.child('name').val()
+        var key=interestSnapshot.key
+        var imageUrl=getUrlImage(type)
+        var listGroupContainer=$('#interest_list')
 
-    })
-}
-function listClassrooms(){
-    database.ref('CesenaCampus/').on('child_added',childsnapshot=>{
-        var classroomName=childsnapshot.child('name').val()
-        var key=childsnapshot.key
-        var listGroupClassrooms=$('#classrooms_list')
         var domToAdd
-        if(width>500){
-            domToAdd='<li class="list-group-item  flex-column align-items-start "><div class="d-flex w-100 justify-content-between"><div class="row justify-content-start" style="max-width: 900px;"><div class="col-auto" ><p class="mb-1 display-4 place_name" >'+classroomName+'</p></div><div class="col-auto" style="padding-left: 0px;"> <img  class=" d-block mx-auto" src="css/assets/information.svg" data-toggle="tooltip" data-placement="right" title="Click for more info" style="width: 15px; height: 15px;"></div></div><span class="badge badge-pill badge-info" style="height: 17px;" id="badge_'+key+'"></span></div><div class=" row justify-content-center" style=" max-width: 1100px; margin-top: 20px;" id="class_and_time"><div class="col-auto"><img  class="icon d-block mx-auto" src="css/assets/lesson.svg" ></div>    <div class="col"><p class=" text-left text-capitalize d-block mx-auto my-auto classroom_info" id="lesson_'+key+'" ></p></div><div class="col-auto col-dir  no-gutters" style="max-width: 70px;" ><img  class="icon d-block mx-auto" src="css/assets/clock.svg" ></div>    <div class="col"><p class=" text-left text-capitalize d-block mx-auto my-auto classroom_info" id="time_'+key+'"></p></div></div></li>'
+        if($(window).width()>500){
+            domToAdd='<li class="list-group-item list-group-item-interest flex-column align-items-start "><div class="d-flex w-100 justify-content-between"><div class="row justify-content-start" style="max-width: 900px;"><div class="col-auto" ><p class="mb-1 display-4 place_name" >'+name+'</p></div><div class="col-auto" style="padding-left: 0px;"> <img  class=" d-block mx-auto" src="css/assets/information.svg" data-toggle="tooltip" data-placement="right" title="Click for more info" style="width: 15px; height: 15px;" id="info_'+key+'"></div></div><span class="badge badge-pill badge-info" style="height: 17px;" id="badge_'+key+'"></span></div><div class=" row justify-content-center" style=" max-width: 1100px; margin-top: 20px;" id="class_and_time"><div class="col-auto"><img  class="icon d-block mx-auto" src="css/assets/lesson.svg" ></div><div class="col"><p class=" text-left text-capitalize d-block mx-auto my-auto classroom_info" id="lesson_'+key+'" ></p></div><div class="col-auto col-dir  no-gutters" style="max-width: 70px;" ><img  class="icon d-block mx-auto" src="css/assets/clock.svg" ></div>    <div class="col"><p class=" text-left text-capitalize d-block mx-auto my-auto classroom_info" id="time_'+key+'"></p></div></div></li>'
 
         }
         else{
-            
-            
+            domToAdd='<li class="list-group-item  flex-column align-items-start "><div class="d-flex justify-content-between"><div class="row justify-content-start" style="width: 500px;"><div class="col-auto" ><p class="mb-1 display-4 place_name" >'+name+'</p></div><div class="col-auto"   style="padding-left: 0px;"><img  class=" d-block mx-auto" src="css/assets/information.svg" data-toggle="tooltip" data-placement="right" title="Click for more info" style="width: 15px; height: 15px;" id="info_'+key+'"></div></div><span class="badge badge-pill badge-info" id="badge_'+key+'" style="height: 17px;"></span></div><div class=" row justify-content-center" style=" max-width: 1100px; margin-top: 20px;" id="class_and_time"><div class="col-auto col-dir  no-gutters" style="max-width: 70px;" ><img  class="icon d-block mx-auto" src="css/assets/lesson.svg" ></div>    <div class="col"><p class=" text-left text-capitalize d-block mx-auto my-auto classroom_info" id="lesson_'+key+'" ></p></div></div><div class=" row justify-content-center" style=" max-width: 1100px; margin-top: 20px;" id="class_and_time"><div class="col-auto col-dir  no-gutters" style="max-width: 70px;" ><img  class="icon d-block mx-auto" src="css/assets/clock.svg" ></div>    <div class="col"><p class=" text-left text-capitalize d-block mx-auto my-auto classroom_info" id="time_'+key+'" ></p></div></div></li>'
         }
-            
-        if(key!='Corsi' && key!='name'){
+        $('.loader-interest').remove()
+
+        listGroupContainer.append(domToAdd)
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+        $('#info_'+key).click(function(){
+            var key=$(this).attr('id').split("_",2)
+            var interestPlaceInfo={
+                'type':type,
+                'name':name,
+                'key':key,
+                'imageUrl':imageUrl
+            }
+            localStorage.setItem('place_clicked',JSON.stringify(interestPlaceInfo))
+            location.replace("ClassDetailed.html");
+        })
+
+
+
+
+    })
+}
+
+
+
+
+
+
+function listClassrooms(){
+    $('.list-group-item-classrooms').remove()
+    database.ref('CesenaCampus/').on('child_added',childsnapshot=>{
+
+        var key=childsnapshot.key
+
+        if(key!='Corsi' && key!='name') {
+            var listGroupClassrooms=$('#classrooms_list')
+            var classroomName=childsnapshot.child('name').val()
+            if(classroomName=="Laboratorio Informatico 2" && $(window).width()<500){
+                classroomName='Lab. Inf. 2'
+            }
+            if(classroomName=="Laboratorio Informatico 3" && $(window).width()<500){
+                classroomName='Lab. Inf. 3'
+            } 
+
+            var domToAdd
+            if($(window).width()>500){
+                domToAdd='<li class="list-group-item list-group-item-classrooms flex-column align-items-start "><div class="d-flex w-100 justify-content-between"><div class="row justify-content-start" style="max-width: 900px;"><div class="col-auto" ><p class="mb-1 display-4 place_name" >'+classroomName+'</p></div><div class="col-auto" style="padding-left: 0px;"> <img  class=" d-block mx-auto" src="css/assets/information.svg" data-toggle="tooltip" data-placement="right" title="Click for more info" style="width: 15px; height: 15px;" id="info_'+key+'"></div></div><span class="badge badge-pill badge-info" style="height: 17px;" id="badge_'+key+'"></span></div><div class=" row justify-content-center" style=" max-width: 1100px; margin-top: 20px;" id="class_and_time"><div class="col-auto"><img  class="icon d-block mx-auto" src="css/assets/lesson.svg" ></div><div class="col"><p class=" text-left text-capitalize d-block mx-auto my-auto classroom_info" id="lesson_'+key+'" ></p></div><div class="col-auto col-dir  no-gutters" style="max-width: 70px;" ><img  class="icon d-block mx-auto" src="css/assets/clock.svg" ></div>    <div class="col"><p class=" text-left text-capitalize d-block mx-auto my-auto classroom_info" id="time_'+key+'"></p></div></div></li>'
+
+            }
+            else{
+                domToAdd='<li class="list-group-item list-group-item-classrooms flex-column align-items-start "><div class="d-flex justify-content-between"><div class="row justify-content-start" style="width: 500px;"><div class="col-auto" ><p class="mb-1 display-4 place_name" >'+classroomName+'</p></div><div class="col-auto"   style="padding-left: 0px;"><img  class=" d-block mx-auto" src="css/assets/information.svg"  style="width: 15px; height: 15px;" id="info_'+key+'"></div></div><span class="badge badge-pill badge-info" id="badge_'+key+'" style="height: 17px;"></span></div><div class=" row justify-content-center" style=" max-width: 1100px; margin-top: 20px;" id="class_and_time"><div class="col-auto col-dir  no-gutters" style="max-width: 70px;" ><img  class="icon d-block mx-auto" src="css/assets/lesson.svg" ></div>    <div class="col"><p class=" text-left text-capitalize d-block mx-auto my-auto classroom_info" id="lesson_'+key+'" ></p></div></div><div class=" row justify-content-center" style=" max-width: 1100px; margin-top: 20px;" id="class_and_time"><div class="col-auto col-dir  no-gutters" style="max-width: 70px;" ><img  class="icon d-block mx-auto" src="css/assets/clock.svg" ></div>    <div class="col"><p class=" text-left text-capitalize d-block mx-auto my-auto classroom_info" id="time_'+key+'" ></p></div></div></li>'
+
+            }
+
             listGroupClassrooms.append(domToAdd)
+            $('.loader-classes').remove()
+
 
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip()
             })
 
+
+            var lessonsPerClassroom=[]
+            setCurrentOrNextLesson(lessonsPerClassroom,key,classroomName)
         }
-        var lessonsPerClassroom=[]
-        setCurrentOrNextLesson(lessonsPerClassroom,key,classroomName)
     })
+
+
+
+
 }
 
 function checkTimeAndLesson(){
@@ -52,9 +109,12 @@ function checkTimeAndLesson(){
 function setCurrentOrNextLesson(lessonsPerClassroom,classroomKey,classroomName){
     database.ref('CesenaCampus/Corsi/').once('value').then(lessons=>{
         // alert(lessonSnapshot.key)
+
         lessons.forEach(function(lessonSnapshot){ 
 
+
             var lessonName=lessonSnapshot.child('name').val()
+            var teacher=lessonSnapshot.child('teacher').val()
             //console.log(lessonName.val())
             var scheduleChild=lessonSnapshot.child('schedule')
             scheduleChild.forEach(daysSnapshot=>{
@@ -62,6 +122,8 @@ function setCurrentOrNextLesson(lessonsPerClassroom,classroomKey,classroomName){
                 var timeStart=daysSnapshot.child('timeStart').val()
                 var timeEnd=daysSnapshot.child('timeEnd').val()
                 var dayValue=daysSnapshot.child('value').val()
+
+
                 var date=new Date()
                 var isLessonOnGoing=timeStart<=date.getHours() && timeEnd>new Date().getHours()
                 if(lessonClassroom==classroomKey ){//controllo se la lezione è nella classe indicata dalla chiave
@@ -70,18 +132,19 @@ function setCurrentOrNextLesson(lessonsPerClassroom,classroomKey,classroomName){
                         'timeStart':timeStart,
                         'timeEnd':timeEnd,
                         'dayValue':dayValue,
-                        'place':classroomName
+                        'day':daysSnapshot.key,
+                        'place':lessonClassroom,
+                        'teacher':teacher,
+                        'name':lessonName
+
 
                     }
                     lessonsPerClassroom.push(place)
-                    //  console.log(place)
                 }
 
 
             })
-            //            for(var j=0;j<lessonsPerClassroom.length;j++){
-            //                console.log(lessonsPerClassroom[j])
-            //            }
+
             if(lessonsPerClassroom.length>0){
                 getLesson(lessonsPerClassroom,classroomKey)
             }
@@ -131,7 +194,7 @@ function getLesson(lessonsPerClassroom,id){
         //caso in cui nessuna delle due è oggi, devo prendere quella più vicino
 
         //se una differenza è < 0 e l'altra no prendo quella positiva
-        else if(temp.dayValue-currentDay<0 && lessonToCompare.dayValue-currentDay>0){
+        else if(temp.dayValue-currentDay<0 && lessonToCompare.day-currentDay>0){
             temp=lessonToCompare
         }
         // in tutti gli altri casi devo sempre prendere quella più piccola
@@ -139,45 +202,6 @@ function getLesson(lessonsPerClassroom,id){
             temp=lessonToCompare
         }
 
-        //            if(dayDifference==0){
-        //                if(timeDiff1<timeDiff2 && currentHour<=16 && currentHour>lessonsPerClassroom[i].timeEnd){
-        //                    var isLessonGoing=currentHour>= lessonsPerClassroom[i].timeStart && currentHour<lessonsPerClassroom[i].timeEnd
-        //
-        //                    var text=isLessonGoing?'Current lesson: '+lessonsPerClassroom[i].lessonName:'Next Lesson: '+lessonsPerClassroom[i].lessonName
-        //                    $('#lesson_'+id).text(text)
-        //                    var dayString='Today'
-        //                    var time=lessonsPerClassroom[i].timeStart.toString()+':00'
-        //                    $('#time_'+id).text(dayString+', '+time)
-        //                    getTime(lessonsPerClassroom[i].timeStart,currentHour<lessonsPerClassroom[i].timeEnd,id,lessonsPerClassroom[i].dayValue)
-        //                    return
-        //                    //            return lessonsPerClassroom[i]
-        //
-        //
-        //                }
-        //                
-        //                else if( timeDiff1>timeDiff2 && currentHour<=16 && currentHour>temp.timeEnd){
-        //                    var isLessonGoing=currentHour>= temp.timeStart && temp.timeEnd>currentHour
-        //
-        //                    var text=isLessonGoing?'Current lesson: '+temp.lessonName:'Next Lesson: '+temp.lessonName
-        //                    $('#lesson_'+id).text(text)
-        //                    var dayString='Today'
-        //                    var time=temp.timeStart.toString()+':00'
-        //
-        //                    $('#time_'+id).text(dayString+', '+time)
-        //                    getTime(temp.timeStart,temp.timeEnd,id,temp.dayValue)
-        //
-        //                    return         
-        //                }
-        //            }
-        //
-        //
-        //            else if(currentHour<=16 && currentDay-temp.dayValue>currentDay-lessonsPerClassroom[i].dayValue  ){
-        //                var startHourDifference=temp.timeStart-lessonsPerClassroom[i].timeStart
-        //                if(startHourDifference<0){
-        //                    temp=lessonsPerClassroom[i]
-        //                }
-        //            }
-        //        }
 
         var isLessonGoingAndToday=currentHour>= temp.timeStart && temp.timeEnd>currentHour && temp.dayValue==currentDay
         var dayString=temp.dayValue==currentDay?'Today':renderDay(temp.dayValue)
@@ -186,8 +210,13 @@ function getLesson(lessonsPerClassroom,id){
         var text=isLessonGoingAndToday?'Current lesson: '+temp.lessonName:'Next Lesson: '+temp.lessonName
         $('#lesson_'+id).text(text)
         getTime(temp.timeStart,temp.timeEnd,id,temp.dayValue)
+        localStorage.setItem('todayClass_'+id,JSON.stringify(temp))
 
-
+        $('#info_'+id).click(function(){
+            var value=JSON.parse(localStorage.getItem('todayClass_'+id))
+            localStorage.setItem('todayClass',JSON.stringify(value))
+            location.replace('ClassDetailed.html')
+        })
 
 
     }
@@ -230,39 +259,7 @@ function getTime(timeStart,timeEnd,id,lessonDayValue){
                 break;
             default:
                 $('#badge_'+id).text(timeToPrint)
-                //            case 1:
-                //                if(timeStart==currentHour){
-                //                    var time=currentMinute.toString()+' minutes ago'
-                //                    $('#badge_'+id).text(time)
-                //                }
-                //                if( timeStart<currentHour){
-                //                    var minuteMinor10=currentMinute<10?'0'+currentMinute:(60-currentMinute)
-                //
-                //                    var time=(Math.abs(timeDifference)).toString()+':'+(minuteMinor10).toString()+' hours ago'
-                //                    $('#badge_'+id).text(time)
-                //                }
-                //                if( timeStart>currentHour){
-                //                    var minuteMinor10=(60-currentMinute)<10?'0'+(60-currentMinute):(60-currentMinute)
-                //                    var time=(Math.abs(timeDifference)).toString()+':'+minuteMinor10.toString()+' hours hence'
-                //                    $('#badge_'+id).text(time)
-                //
-                //                }
-                //                break;
-                //            default:
-                //
-                //                if( timeStart>currentHour){
-                //                    var minuteMinor10=(60-currentMinute)<10?'0'+(60-currentMinute):(60-currentMinute)
-                //
-                //                    var time=(Math.abs(timeDifference)-1).toString()+':'+minuteMinor10.toString()+' hours hence'
-                //                    $('#badge_'+id).text(time)
-                //
-                //                }
-                //                if(timeStart<=currentHour){
-                //                    var minuteMinor10=currentMinute<10?'0'+currentMinute:(60-currentMinute)
-                //
-                //                    $('#badge_'+id).text(Math.abs(timeDifference)-1+':'+minuteMinor10+' hours ago')
-                //
-                //                }   
+
 
 
                 break;
@@ -293,4 +290,78 @@ function renderDay(dayNumber){
         case 6:
             return 'saturday';
     }
+}
+function getUrlImage(type){
+    switch(type){
+        case 'biblioteca':
+            return 'css/assets/library.svg'
+        case 'recreation':
+            return 'css/assets/vending-machine.svg'
+        case 'office':
+            return 'css/assets/office.svg'
+
+    }
+}
+function resize(width){
+
+    if(width>=1000){
+        var title=jQuery('.title')
+
+
+
+        if(title.hasClass('display-3')){
+
+            title.removeClass('display-3')
+            title.addClass('display-2')
+        }
+
+
+
+
+    }
+    if(width>=768 && width<1000){
+        var title=jQuery('.title')
+
+        if(title.hasClass('display-2')){
+            title.removeClass('display-2')
+            title.addClass('display-3')
+        }
+        else{
+            title.removeClass('display-4')
+            title.addClass('display-3')
+        }
+
+
+    }
+    if(width<768){
+        var title=jQuery('.title')
+
+        if(title.hasClass('display-3')){
+            title.removeClass('display-3')
+            title.addClass('display-4')
+        }
+        if(title.hasClass('display-2')){
+            title.removeClass('display-2')
+            title.addClass('display-4')
+        }
+
+
+    }
+    var button=jQuery('.btn')
+    if(width<400 && button.hasClass('btn-lg')){
+
+        button.removeClass('btn-lg')
+
+    }
+    else if(width>400 && !button.hasClass('btn-lg')){
+        button.addClass('btn-lg')
+    }
+    var formInput=$('.form-control')
+    if(width<400 && formInput.hasClass('form-control-lg')){
+        formInput.removeClass('form-control-lg')
+    }
+    else if(width>400 && !formInput.hasClass('form-control-lg')){
+        formInput.addClass('form-control-lg')
+    }
+
 }

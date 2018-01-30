@@ -207,7 +207,7 @@ function renderLessonImage(lessonName){
             return 'css/assets/internetofthings.svg';
         case 'Distributed Systems':
             return 'css/assets/distributed_systems.svg';
-        case 'Informative Systems':
+        case 'Information Systems':
             return 'css/assets/sistemi_informativi.svg';
         case 'Robotic Systems':
             return 'css/assets/robots.svg'
@@ -340,7 +340,7 @@ function setClassDetailedInfo(name){
 }
 
 function getPlaceDetails(todayclass){
-    console.log('i was called')
+    console.log('i was called '+todayclass.place)
     var width=$(window).width()
     database.ref('CesenaCampus/'+todayclass.place+'/').on('value',function (snapshot){
         var name=snapshot.child('name').val().toString()
