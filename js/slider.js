@@ -28,7 +28,7 @@ window.addEventListener('resize', function(event){
 }else{
     newSlider.innerHTML = "";
     newSlider.innerHTML = responsiveMode;
-    location.reload();
+    
     }
 });
 
