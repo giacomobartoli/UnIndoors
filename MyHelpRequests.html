@@ -12,7 +12,6 @@
         <link href="css/bootstrap.min.css" rel="stylesheet" />
         <link href="css/loginpagestylesheet.css" rel="stylesheet" />
         <link href="css/classesstylesheet.css" rel="stylesheet" />
-        <link href="css/detailclasstylesheet.css" rel="stylesheet" />
         <link href="css/helprequest.css" rel="stylesheet" />
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -77,12 +76,15 @@
         <script>
             $(document).ready(function(){
                 listenToHelpRequestChanges()
-                resize($(window).width())
+                resizeHelprequests($(window).width())
 
             })
-//            $(window).resize(function(){
-//                resize($(window).width())
-//            })
+            $(window).resize(function(){
+                
+              //  $('h1').text($(window).width())
+
+                resizeHelprequests($(window).width())
+            })
             $(document).ready(setNavbar())
 
 
