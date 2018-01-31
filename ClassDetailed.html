@@ -21,11 +21,13 @@
 
         <script href="js/loginpage.js"></script>
 
+
         <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
 
 
       
         <script src="js/classeshandler.js"></script>
+
 
 
         <script src="js/userstatus.js"></script>
@@ -34,7 +36,7 @@
     </head>
     <body>
         <nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg">
-            <a class="navbar-brand" href="index.html"> Uniboors </a>
+            <a class="navbar-brand" href="index.html"> <img id="logo" src="logo.png"> </a>
             <button id="button_toggle" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu_start" aria-controls="menu_start"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -50,10 +52,6 @@
 
                         <a class="nav-link" href="Classes.html">My Classes</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Operators</a>
-                    </li>
-
                 </ul>
                 <ul class="navbar-nav navbar-right" id="login_signup_navbar">
                     <img src="css/assets/boy.svg" style="width:90px; max-height:65px;">
@@ -64,13 +62,11 @@
         </nav>
 
         <div class="container" style="margin-top: 70px; justify-content: center" id="detailcontainer"> 
-            <h1 class="display-3 text-center title" style="color: white;" id="class_name" ></h1>
-
-
-
-
+            <h1 class="display-3 text-center title" style="color: white;" id="class_name" ></h1> 
+            <h1 class="display-4"style="color: white; display: block;text-align: center;font-size: 20px"> available operators <span class="badge badge-pill badge-success" id="myBadge"></span></h1>
 
         </div>
+        
         <div class="container collapse" id="directions_container" style="margin-top: 30px;" id="first_direction">
 
 
@@ -87,6 +83,7 @@
                 <a class="carousel-control-prev control" href="#carousel_next_classes" role="button" data-slide="prev" id="today_carousel_controls"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="sr-only">Previous</span></a><a class="carousel-control-next control" href="#carousel_next_classes" role="button" data-slide="next" id="today_carousel_controls"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="sr-only">Next</span></a>
             </div>
         </div>
+
 
 
         <script>
@@ -293,6 +290,17 @@
 
         </script>
 
-
+        <div class="container-fluid" style=" margin-top: 30px; margin-bottom: 0;  background-color:#424949;" align="middle">			
+            <p>&nbsp;</p>			
+            <div class="col" align="middle" style="margin-top:30px; ">
+                <img height="80" width="200" src=logo.png>
+                <h6 style="color:white; font-weight:100;">2018 - All rights reserved &copy;</h6>
+                <p>&nbsp;</p>
+            </div>
+        </div>
+        
     </body>
+    <script>
+        $(document).ready(countOperators())
+    </script>
 </html>

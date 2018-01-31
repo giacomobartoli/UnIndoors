@@ -14,27 +14,21 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
                 crossorigin="anonymous"></script>
         <script src="js/bootstrap.js"></script>
-        <script src="js/connector.js"></script>
-        <script href="js/loginpage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+        <script>
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyAiVwf9orhjqFyH6i4HBSmmaZuLwrJyZnQ",
+                authDomain: "uniboindoors.firebaseapp.com",
+                databaseURL: "https://uniboindoors.firebaseio.com",
+                projectId: "uniboindoors",
+                storageBucket: "uniboindoors.appspot.com",
+                messagingSenderId: "484831871025"
+            };
+            firebase.initializeApp(config);
+        </script>
 
-
-        <!--
-<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
-
-
-<script>
-// Initialize Firebase
-var config = {
-apiKey: "AIzaSyAiVwf9orhjqFyH6i4HBSmmaZuLwrJyZnQ",
-authDomain: "uniboindoors.firebaseapp.com",
-databaseURL: "https://uniboindoors.firebaseio.com",
-projectId: "uniboindoors",
-storageBucket: "uniboindoors.appspot.com",
-messagingSenderId: "484831871025"
-};
-firebase.initializeApp(config);
-</script>
--->
+ 
         <script src="js/userstatus.js"></script>
 
         <script>
@@ -104,16 +98,7 @@ firebase.initializeApp(config);
 
             <div class="collapse navbar-collapse" id="menu_start">
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0 ">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Features
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" onclick="onClickFindYourClass()">My Classes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Operators</a>
-                    </li>
+                    
 
                 </ul>
                 <ul class="navbar-nav navbar-right" id="login_signup_navbar">
@@ -159,19 +144,16 @@ firebase.initializeApp(config);
 
             </div>
         </div>
-        <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
-        <script>
-            // Initialize Firebase
-            var config = {
-                apiKey: "AIzaSyAiVwf9orhjqFyH6i4HBSmmaZuLwrJyZnQ",
-                authDomain: "uniboindoors.firebaseapp.com",
-                databaseURL: "https://uniboindoors.firebaseio.com",
-                projectId: "uniboindoors",
-                storageBucket: "uniboindoors.appspot.com",
-                messagingSenderId: "484831871025"
-            };
-            firebase.initializeApp(config);
-        </script>
+        <div class="container-fluid" style=" margin-top: 30px; margin-bottom: 0px; background-color:#424949;" align="middle">			
+            <p>&nbsp;</p>			
+            <div class="col" align="middle" style="margin-top:30px;">
+                <img height="80" width="200" src=logo.png>
+                <h6 style="color:white; font-weight:100;">2018 - All rights reserved &copy;</h6>
+                <p>&nbsp;</p>
+            </div>
+        </div>
+  
+      
     </body>
 
 </html>
