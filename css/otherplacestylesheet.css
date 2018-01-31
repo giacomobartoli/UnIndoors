@@ -19,6 +19,7 @@ body{
     cursor: pointer;
 
 }
+
 .icon{
     width: 50px;
     height: 50px;
@@ -30,13 +31,32 @@ body{
 .place_name{
     font-size: 40px;
 }
+.loader{
+    border: 4px solid #f3f3f3;
+    border-radius: 100%;
+    border-top: 4px solid #5e646b;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+}
 
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+h1{
+    color:white
+}
 @media only screen and (max-width:500px){
+    h1{
+        font-size: 10px;
+        color:white;
+    }
     small{
         margin-right: -10px;
     }
     .classroom_info{
-        font-size: 15px;
+        font-size: 18px;
         color: white;
     }
     .place_name{
@@ -46,4 +66,40 @@ body{
         width: 40px;
         height: 40px;
     }
+}
+@media only screen and (max-width:850px){
+
+    .loader {
+        border: 4px solid #f3f3f3;
+        border-radius: 100%;
+        border-top: 4px solid #5e646b;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+    }
+
+}
+@media only screen and (max-width:380px){
+
+    .loader {
+        border: 4px solid #f3f3f3;
+        border-radius: 100%;
+        border-top: 4px solid #5e646b;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+    }
+
+}
+@media only screen and (min-width:380px) and (max-width:500px){
+
+    .loader {
+        border: 4px solid #f3f3f3;
+        border-radius: 100%;
+        border-top: 4px solid #5e646b;
+        width: 45px;
+        height: 45px;
+        animation: spin 1s linear infinite;
+    }
+
 }
