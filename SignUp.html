@@ -17,15 +17,24 @@
 
         <script href="js/loginpage.js"></script>
 
-        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-auth.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-database.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-firestore.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-messaging.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
-        <script src="js/connector.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-messaging.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+
         <script>
-            firebase.initializeApp(fb_connector());
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyAiVwf9orhjqFyH6i4HBSmmaZuLwrJyZnQ",
+                authDomain: "uniboindoors.firebaseapp.com",
+                databaseURL: "https://uniboindoors.firebaseio.com",
+                projectId: "uniboindoors",
+                storageBucket: "uniboindoors.appspot.com",
+                messagingSenderId: "484831871025"
+            };
+            firebase.initializeApp(config);
         </script>
 
         <script src="js/userstatus.js"></script>
@@ -46,7 +55,7 @@
                     $('#name_input').removeClass('valid-feedback')
                     $('#name_input').addClass('invalid-feedback')
                 }
-                if(name.match(nameRegex)){
+                else{
                     firebase.auth().createUserWithEmailAndPassword(email, password).then(function (user) {
                         var uid=user.uid
                         if(email.includes('operatore')){

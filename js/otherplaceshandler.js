@@ -13,8 +13,8 @@ function listOtherPlaces(){
         var listGroupContainer=$('#interest_list')
 
         var domToAdd
-        if($(window).width()>500){
-            domToAdd='<li class="list-group-item list-group-item-interest flex-column align-items-start "><div class="d-flex w-100 justify-content-between"><div class="row justify-content-start" style="max-width: 900px;"><div class="col-auto" ><p class="mb-1 display-4 place_name" >'+name+'</p></div><div class="col-auto" style="padding-left: 0px;"> <img  class=" d-block mx-auto" src="css/assets/information.svg" data-toggle="tooltip" data-placement="right" title="Click for more info" style="width: 15px; height: 15px;" id="info_'+key+'"></div></div><span class="badge badge-pill badge-info" style="height: 17px;" id="badge_'+key+'"></span></div><div class=" row justify-content-center" style=" max-width: 1100px; margin-top: 20px;" id="class_and_time"><div class="col-auto"><img  class="icon d-block mx-auto" src="css/assets/lesson.svg" ></div><div class="col"><p class=" text-left text-capitalize d-block mx-auto my-auto classroom_info" id="lesson_'+key+'" ></p></div><div class="col-auto col-dir  no-gutters" style="max-width: 70px;" ><img  class="icon d-block mx-auto" src="css/assets/clock.svg" ></div>    <div class="col"><p class=" text-left text-capitalize d-block mx-auto my-auto classroom_info" id="time_'+key+'"></p></div></div></li>'
+        if($(window).width()>700){
+            domToAdd='<li class="list-group-item list-group-item-interest flex-column align-items-start "><div class="d-flex w-100 justify-content-between"><div class="row justify-content-start" style="max-width: 900px;"><div class="col-auto" ><p class="mb-1 display-4 place_name" >'+name+'</p></div><div class="col-auto" style="padding-left: 0px;"> <img  class=" d-block mx-auto" src="css/assets/information.svg" data-toggle="tooltip" data-placement="right" title="Click for more info" style="width: 15px; height: 15px;" id="info_'+key+'"></div></div><span class="badge badge-pill badge-info" style="height: 17px;" id="badge_'+key+'"></span></div><div class=" row justify-content-center" style=" max-width: 1100px; margin-top: 20px;" ><div class="col-auto"><img  class="icon d-block mx-auto" src="'+imageUrl+'" ></div><div class="col"><p class=" text-left text-capitalize d-block mx-auto my-auto classroom_info" id="lesson_'+key+'" ></p></div><div class="col-auto col-dir  no-gutters" style="max-width: 70px;" ><img  class="icon d-block mx-auto" src="css/assets/clock.svg" ></div>    <div class="col"><p class=" text-left text-capitalize d-block mx-auto my-auto classroom_info" id="time_'+key+'"></p></div></div></li>'
 
         }
         else{
@@ -59,15 +59,15 @@ function listClassrooms(){
         if(key!='Corsi' && key!='name') {
             var listGroupClassrooms=$('#classrooms_list')
             var classroomName=childsnapshot.child('name').val()
-            if(classroomName=="Laboratorio Informatico 2" && $(window).width()<500){
+            if(classroomName=="Laboratorio Informatico 2" && $(window).width()<700){
                 classroomName='Lab. Inf. 2'
             }
-            if(classroomName=="Laboratorio Informatico 3" && $(window).width()<500){
+            if(classroomName=="Laboratorio Informatico 3" && $(window).width()<700){
                 classroomName='Lab. Inf. 3'
             } 
 
             var domToAdd
-            if($(window).width()>500){
+            if($(window).width()>700){
                 domToAdd='<li class="list-group-item list-group-item-classrooms flex-column align-items-start "><div class="d-flex w-100 justify-content-between"><div class="row justify-content-start" style="max-width: 900px;"><div class="col-auto" ><p class="mb-1 display-4 place_name" >'+classroomName+'</p></div><div class="col-auto" style="padding-left: 0px;"> <img  class=" d-block mx-auto" src="css/assets/information.svg" data-toggle="tooltip" data-placement="right" title="Click for more info" style="width: 15px; height: 15px;" id="info_'+key+'"></div></div><span class="badge badge-pill badge-info" style="height: 17px;" id="badge_'+key+'"></span></div><div class=" row justify-content-center" style=" max-width: 1100px; margin-top: 20px;" id="class_and_time"><div class="col-auto"><img  class="icon d-block mx-auto" src="css/assets/lesson.svg" ></div><div class="col"><p class=" text-left text-capitalize d-block mx-auto my-auto classroom_info" id="lesson_'+key+'" ></p></div><div class="col-auto col-dir  no-gutters" style="max-width: 70px;" ><img  class="icon d-block mx-auto" src="css/assets/clock.svg" ></div>    <div class="col"><p class=" text-left text-capitalize d-block mx-auto my-auto classroom_info" id="time_'+key+'"></p></div></div></li>'
 
             }
@@ -96,7 +96,6 @@ function listClassrooms(){
 }
 
 function checkTimeAndLesson(){
-    console.log(new Date().getSeconds())
     database.ref('CesenaCampus/').on('child_added',childsnapshot=>{
         var classroomName=childsnapshot.child('name').val()
         var key=childsnapshot.key
@@ -125,8 +124,7 @@ function setCurrentOrNextLesson(lessonsPerClassroom,classroomKey,classroomName){
 
 
                 var date=new Date()
-                var isLessonOnGoing=timeStart<=date.getHours() && timeEnd>new Date().getHours()
-                if(lessonClassroom==classroomKey ){//controllo se la lezione è nella classe indicata dalla chiave
+                if(lessonClassroom==classroomKey){//controllo se la lezione è nella classe indicata dalla chiave
                     var place={
                         'lessonName':lessonName,
                         'timeStart':timeStart,
@@ -145,9 +143,9 @@ function setCurrentOrNextLesson(lessonsPerClassroom,classroomKey,classroomName){
 
             })
 
-            if(lessonsPerClassroom.length>0){
-                getLesson(lessonsPerClassroom,classroomKey)
-            }
+
+            getLesson(lessonsPerClassroom,classroomKey)
+
         })
 
 
@@ -162,12 +160,10 @@ function getLesson(lessonsPerClassroom,id){
     var currentDay=date.getDay()
     var temp=lessonsPerClassroom[0]
 
-    // if(temp.place=='Aula A')
 
     for(var i=0;i<lessonsPerClassroom.length;i++){
 
-        //var lessonNamefordebug=lessonsPerClassroom[i].lessonName
-        //  console.log(lessonsPerClassroom[i])
+     
         var dayDifference=lessonsPerClassroom[i].dayValue-temp.dayValue
 
         var timeDiffStart1= Math.abs(lessonsPerClassroom[i].timeStart-currentHour)
@@ -175,6 +171,7 @@ function getLesson(lessonsPerClassroom,id){
         var lessonToCompare=lessonsPerClassroom[i]
         var dayDiff1=lessonToCompare.dayValue-currentDay
         var dayDiff2=temp.dayValue-currentDay
+        
         //caso in cui temp è oggi, ma è già finità la lezione
         if(temp.dayValue==currentDay && temp.timeEnd<currentHour){
             temp=lessonToCompare
@@ -194,7 +191,7 @@ function getLesson(lessonsPerClassroom,id){
         //caso in cui nessuna delle due è oggi, devo prendere quella più vicino
 
         //se una differenza è < 0 e l'altra no prendo quella positiva
-        else if(temp.dayValue-currentDay<0 && lessonToCompare.day-currentDay>0){
+        else if(temp.dayValue-currentDay<0 && lessonToCompare.dayValue-currentDay>0){
             temp=lessonToCompare
         }
         // in tutti gli altri casi devo sempre prendere quella più piccola
@@ -209,6 +206,7 @@ function getLesson(lessonsPerClassroom,id){
         $('#time_'+id).text(dayString+', '+time)
         var text=isLessonGoingAndToday?'Current lesson: '+temp.lessonName:'Next Lesson: '+temp.lessonName
         $('#lesson_'+id).text(text)
+        //  if(id='LaboratorioInformatico3')
         getTime(temp.timeStart,temp.timeEnd,id,temp.dayValue)
         localStorage.setItem('todayClass_'+id,JSON.stringify(temp))
 
@@ -226,11 +224,9 @@ function getTime(timeStart,timeEnd,id,lessonDayValue){
     var date=new Date()
     var currentHour=date.getHours()
     var currentMinute=date.getMinutes()
-    // console.log('I have been called '+date.getSeconds())
     var timeDifference=currentHour-timeStart.toString().split(":",1)
-    //var isLessonGoing=timeStart<= currentHour && timeDifference>currentHour
     var minuteToPrint=currentMinute<10?'0'+currentMinute:currentMinute
-    var timeToPrint= timeDifference>0?(currentHour-timeStart)+':'+currentMinute+' ago':(Math.abs(timeDifference)-1).toString()+':'+(60-currentMinute).toString()+' hence'
+    var timeToPrint= timeDifference>0?(currentHour-timeStart)+':'+minuteToPrint+' hours ago':(Math.abs(timeDifference)-1).toString()+':'+(60-currentMinute).toString()+' hours hence'
 
     var abs=Math.abs(timeDifference)
     if(lessonDayValue-date.getDay()==1){
@@ -244,6 +240,13 @@ function getTime(timeStart,timeEnd,id,lessonDayValue){
     else if(lessonDayValue-date.getDay()<0){
         var time=7-(date.getDay()-lessonDayValue)+' days hence'
         $('#badge_'+id).text(time)
+    }
+    else if(lessonDayValue-date.getDay()==0 && timeEnd<=currentHour){
+
+        var time=7-(date.getDay()-lessonDayValue)+' days hence'
+        $('#badge_'+id).text(time)
+
+
     }
     else{
         switch(Math.abs(timeDifference)){
@@ -259,8 +262,6 @@ function getTime(timeStart,timeEnd,id,lessonDayValue){
                 break;
             default:
                 $('#badge_'+id).text(timeToPrint)
-
-
 
                 break;
 

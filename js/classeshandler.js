@@ -1,4 +1,3 @@
-'use strict'
 
 var config = {
     apiKey: "AIzaSyAiVwf9orhjqFyH6i4HBSmmaZuLwrJyZnQ",
@@ -8,7 +7,6 @@ var config = {
     storageBucket: "uniboindoors.appspot.com",
     messagingSenderId: "484831871025"
 };
-
 firebase.initializeApp(config);
 
 var database = firebase.database();
@@ -33,7 +31,7 @@ var pageWidth=$(window).width()
 function setUpTodayClasses(size) {
     var date = new Date();
     var today = date.getDay();
-
+ 
     database.ref('CesenaCampus/Corsi/').on('value',function (snapshot) {
 
 
@@ -266,7 +264,6 @@ function fillCarouselRow(todayClass,carouselInnerElementID,carouselOuterElementI
     row=innerElement.find('.row-grid').last()
 
     if(row.children().length==numberOfImagesPerSlide){
-        console.log("number of images per slide"+numberOfImagesPerSlide)
         carouselItem=$('<div class="carousel-item" id="'+carouselOuterElementID+'" ></div>').appendTo(innerElement)     
         row=$('<div class="row row-grid"></div>').appendTo(carouselItem)
 
@@ -276,7 +273,12 @@ function fillCarouselRow(todayClass,carouselInnerElementID,carouselOuterElementI
 
     var id="#"+todayClass.type;
     $(id).bind('click',function(){
-        setClassDetailedInfo(todayClass)
+        console.log('before '+todayClass.place+' '+todayClass.name)
+        localStorage.removeItem('todayClass')
+        localStorage.setItem('todayClass',JSON.stringify(todayClass))
+
+        location.replace('ClassDetailed.html')        
+
     })
 
 
@@ -335,7 +337,7 @@ function resizeAlgorithm(numberOfItemsPerSlide,rowElements,carouselInnerElementI
 
 function setClassDetailedInfo(name){
     localStorage.setItem('todayclass',JSON.stringify(name))
-    location.replace("ClassDetailed.html");
+    // location.replace("ClassDetailed.html");
 
 }
 
