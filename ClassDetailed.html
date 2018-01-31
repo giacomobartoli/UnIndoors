@@ -21,21 +21,15 @@
 
         <script href="js/loginpage.js"></script>
 
-        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-auth.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-database.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-firestore.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-messaging.js"></script>
-        <script src="js/loginpage.js"></script>
-        <script src="js/classeshandler.js"></script>
-        <script src="js/operators.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
-        <script>
-            moment().format();
-        </script>
 
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
+        <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+
+
+      
+        <script src="js/classeshandler.js"></script>
+
+
+
         <script src="js/userstatus.js"></script>
 
 
@@ -70,9 +64,12 @@
         <div class="container" style="margin-top: 70px; justify-content: center" id="detailcontainer"> 
             <h1 class="display-3 text-center title" style="color: white;" id="class_name" ></h1> 
             <h1 class="display-4"style="color: white; display: block;text-align: center;font-size: 20px"> available operators <span class="badge badge-pill badge-success" id="myBadge"></span></h1>
+
         </div>
         
         <div class="container collapse" id="directions_container" style="margin-top: 30px;" id="first_direction">
+
+
 
         </div>
         <div class="container" style="margin-top: 70px;" >
@@ -87,9 +84,7 @@
             </div>
         </div>
 
-        <style>
 
-        </style>
 
         <script>
 
@@ -151,7 +146,7 @@
                 if(directionDiv.children().length==0){
 
                     var database = firebase.database();
-                    var todayClass=JSON.parse(localStorage.getItem('todayclass'))
+                    var todayClass=JSON.parse(localStorage.getItem('todayClass'))
                     var classroomName=todayClass.place
                     database.ref('CesenaCampus/'+classroomName+'/directions/').on('value',function (snapshot){
                         var newRow='<div class="row justify-content-center " style="margin-top: 50px;" ></div>'
@@ -235,8 +230,8 @@
                             }
                         })
                         var width=$(window).width()
-//                        var positionY = $('#first_direction').offset().top;
-//                        $("html, body").animate({ scrollTop: positionY }, 500);
+                        //                        var positionY = $('#first_direction').offset().top;
+                        //                        $("html, body").animate({ scrollTop: positionY }, 500);
                         resize(width)
 
                     })
@@ -249,13 +244,13 @@
             $( document ).ready(function() {
                 var width=$( window ).width();
 
-                var value=JSON.parse(localStorage.getItem('todayclass'))
+                var value=JSON.parse(localStorage.getItem('todayClass'))
                 console.log(value)
                 $('#class_name').text(value.name)
-                getPlaceDetails(value)
                 setNewLayout()
+                getPlaceDetails(value)
                 setUpTodayClasses(width)
-              //  resize(width)
+                resize(width)
 
 
 
@@ -269,18 +264,19 @@
                 resize(width)
                 if(width<=768){
 
-                    setNewLayout()
-                    var value=JSON.parse(localStorage.getItem('todayclass'))
+                    var value=JSON.parse(localStorage.getItem('todayClass'))
                     console.log(value)
                     $('#class_name').text(value.name)
+                    setNewLayout()
                     getPlaceDetails(value)
                     setUpTodayClasses(width)
                     resize(width)
+
                 }
                 else{
 
                     setNewLayout()
-                    var value=JSON.parse(localStorage.getItem('todayclass'))
+                    var value=JSON.parse(localStorage.getItem('todayClass'))
                     console.log(value)
                     $('#class_name').text(value.name)
                     getPlaceDetails(value)

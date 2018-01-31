@@ -16,6 +16,7 @@ var table=document.getElementById('myTable');
 function myFunction(filter) {
 
 
+
     database.ref('helprequests/').on('value', function (snapshot) {
 
         var tbody=$('#table_body')
@@ -63,6 +64,7 @@ function myFunction(filter) {
             })
             $('#myModal').on('shown.bs.modal', function () {
                 $('#myInput').trigger('focus')
+
             })
             $('#'+count+'R').click(function(){
                 setRequestDenied(id,childSnapshotIndex,$(this).attr('id'),index)
@@ -78,6 +80,7 @@ function myFunction(filter) {
                     $('#'+idButton+'R').attr("disabled","");
                 }
             })    
+
 
 
             count++

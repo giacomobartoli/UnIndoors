@@ -1,4 +1,3 @@
-'use strict'
 
 var config = {
     apiKey: "AIzaSyAiVwf9orhjqFyH6i4HBSmmaZuLwrJyZnQ",
@@ -8,7 +7,6 @@ var config = {
     storageBucket: "uniboindoors.appspot.com",
     messagingSenderId: "484831871025"
 };
-
 firebase.initializeApp(config);
 
 var database = firebase.database();
@@ -33,7 +31,7 @@ var pageWidth=$(window).width()
 function setUpTodayClasses(size) {
     var date = new Date();
     var today = date.getDay();
-
+ 
     database.ref('CesenaCampus/Corsi/').on('value',function (snapshot) {
 
 
@@ -207,7 +205,7 @@ function renderLessonImage(lessonName){
             return 'css/assets/internetofthings.svg';
         case 'Distributed Systems':
             return 'css/assets/distributed_systems.svg';
-        case 'Informative Systems':
+        case 'Information Systems':
             return 'css/assets/sistemi_informativi.svg';
         case 'Robotic Systems':
             return 'css/assets/robots.svg'
@@ -266,7 +264,6 @@ function fillCarouselRow(todayClass,carouselInnerElementID,carouselOuterElementI
     row=innerElement.find('.row-grid').last()
 
     if(row.children().length==numberOfImagesPerSlide){
-        console.log("number of images per slide"+numberOfImagesPerSlide)
         carouselItem=$('<div class="carousel-item" id="'+carouselOuterElementID+'" ></div>').appendTo(innerElement)     
         row=$('<div class="row row-grid"></div>').appendTo(carouselItem)
 
@@ -276,7 +273,12 @@ function fillCarouselRow(todayClass,carouselInnerElementID,carouselOuterElementI
 
     var id="#"+todayClass.type;
     $(id).bind('click',function(){
-        setClassDetailedInfo(todayClass)
+        console.log('before '+todayClass.place+' '+todayClass.name)
+        localStorage.removeItem('todayClass')
+        localStorage.setItem('todayClass',JSON.stringify(todayClass))
+
+        location.replace('ClassDetailed.html')        
+
     })
 
 
@@ -335,12 +337,12 @@ function resizeAlgorithm(numberOfItemsPerSlide,rowElements,carouselInnerElementI
 
 function setClassDetailedInfo(name){
     localStorage.setItem('todayclass',JSON.stringify(name))
-    location.replace("ClassDetailed.html");
+    // location.replace("ClassDetailed.html");
 
 }
 
 function getPlaceDetails(todayclass){
-    console.log('i was called')
+    console.log('i was called '+todayclass.place)
     var width=$(window).width()
     database.ref('CesenaCampus/'+todayclass.place+'/').on('value',function (snapshot){
         var name=snapshot.child('name').val().toString()
@@ -451,7 +453,6 @@ function onClickSubmit(){
                 'time':time,
                 'message':message,
                 'state': 'pending',
-                'operator_message':'No message yet',
                 'place':$('#classroom_name').text(),
                 'request_time': hours+":"+minutes,
                 'day':date.getDay(),
@@ -499,7 +500,6 @@ function onClickSubmit(){
                     'time':time,
                     'message':message,
                     'state': 'pending',
-                    'operator_message':'No message yet',
                     'place':$('#classroom_name').text(),
                     'request_time': hours+":"+minutes,
                     'day':date.getDay(),
@@ -650,7 +650,7 @@ function listenToHelpRequestChanges(){
                             break;
                         case 'refused':
                             $('#request_icon_'+index).last().attr('src','css/assets/notaccepted.svg')
-                             var text=pageWidth<500?'Nope!':'Refused!'
+                            var text=pageWidth<500?'Nope!':'Refused!'
                             $('#request_status_'+index).last().text(text)
 
                             break;
@@ -696,6 +696,7 @@ function listenToHelpRequestChanges(){
 }
 
 function resize(width){
+
     if(width>=1000){
         var title=jQuery('.title')
         var col=jQuery('.col-dir')
@@ -754,6 +755,7 @@ function resize(width){
     }
     var button=jQuery('.btn')
     if(width<400 && button.hasClass('btn-lg')){
+
         button.removeClass('btn-lg')
 
     }

@@ -33,3 +33,4 @@ function setDailyCookie(){
     //Setting cookie
     document.cookie = "UniIndoors=ORACOLO; expires="+date+"; path=/";
 }
+
