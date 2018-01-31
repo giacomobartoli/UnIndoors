@@ -696,7 +696,6 @@ function listenToHelpRequestChanges(){
 }
 
 function resize(width){
-
     if(width>=1000){
         var title=jQuery('.title')
         var col=jQuery('.col-dir')
@@ -728,11 +727,11 @@ function resize(width){
             title.removeClass('display-4')
             title.addClass('display-3')
         }
-        if(col.hasClass('col-4')){
-            console.log("hi come stai")
-            col.removeClass('col-4')
-            col.addClass('col-2 ')
-        }
+//        if(col.hasClass('col-4')){
+//            console.log("hi come stai")
+//            col.removeClass('col-4')
+//            col.addClass('col-2 ')
+//        }
 
     }
     if(width<768){
