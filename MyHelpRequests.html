@@ -21,15 +21,8 @@
                 crossorigin="anonymous"></script>
         <script src="js/bootstrap.js"></script>
 
-        <script href="js/loginpage.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-auth.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-database.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-firestore.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-messaging.js"></script>
-        <script src="js/loginpage.js"></script>
-        <script src="js/classeshandler.js">
-        </script>
+
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
         <script>
             moment().format();
@@ -38,23 +31,15 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
 
-        <script src="js/userstatus.js"></script>
         <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-       
+
         <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
 
-        <script>
-            // Initialize Firebase
-            var config = {
-                apiKey: "AIzaSyAiVwf9orhjqFyH6i4HBSmmaZuLwrJyZnQ",
-                authDomain: "uniboindoors.firebaseapp.com",
-                databaseURL: "https://uniboindoors.firebaseio.com",
-                projectId: "uniboindoors",
-                storageBucket: "uniboindoors.appspot.com",
-                messagingSenderId: "484831871025"
-            };
-            firebase.initializeApp(config);
-        </script>
+        <script src="js/navbar.js"></script>
+        <script src="js/classeshandler.js"></script>
+        <script src="js/userstatus.js"></script>
+
+
     </head>
 
     <body>
@@ -95,6 +80,10 @@
                 resize($(window).width())
 
             })
+//            $(window).resize(function(){
+//                resize($(window).width())
+//            })
+            $(document).ready(setNavbar())
 
 
 

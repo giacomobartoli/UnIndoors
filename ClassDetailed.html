@@ -25,13 +25,14 @@
         <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
 
 
-      
+
         <script src="js/classeshandler.js"></script>
-
-
 
         <script src="js/userstatus.js"></script>
 
+        <script src="js/operators.js"></script>
+
+        <script src="js/navbar.js"></script>
 
     </head>
     <body>
@@ -61,12 +62,15 @@
             </div>
         </nav>
 
+
+
+
         <div class="container" style="margin-top: 70px; justify-content: center" id="detailcontainer"> 
             <h1 class="display-3 text-center title" style="color: white;" id="class_name" ></h1> 
-            <h1 class="display-4"style="color: white; display: block;text-align: center;font-size: 20px"> available operators <span class="badge badge-pill badge-success" id="myBadge"></span></h1>
+            <h1 class="display-4"style="color: white; display: block;text-align: center;font-size: 20px"> available operators <span class="badge badge-pill badge-success" id="myBadge">...</span></h1>
 
         </div>
-        
+
         <div class="container collapse" id="directions_container" style="margin-top: 30px;" id="first_direction">
 
 
@@ -230,8 +234,7 @@
                             }
                         })
                         var width=$(window).width()
-                        //                        var positionY = $('#first_direction').offset().top;
-                        //                        $("html, body").animate({ scrollTop: positionY }, 500);
+
                         resize(width)
 
                     })
@@ -286,7 +289,9 @@
 
 
             })
+          
 
+            $(document).ready(setNavbar())
 
         </script>
 
@@ -298,9 +303,7 @@
                 <p>&nbsp;</p>
             </div>
         </div>
-        
+
     </body>
-    <script>
-        $(document).ready(countOperators())
-    </script>
+   
 </html>
