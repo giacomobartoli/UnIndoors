@@ -17,8 +17,25 @@
                 crossorigin="anonymous"></script>
         <script src="js/bootstrap.js"></script>
         <script href="js/loginpage.js"></script>
-        <script type="text/javascript" src="js/customalert.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+
+        <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+
+        <script>
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyAiVwf9orhjqFyH6i4HBSmmaZuLwrJyZnQ",
+                authDomain: "uniboindoors.firebaseapp.com",
+                databaseURL: "https://uniboindoors.firebaseio.com",
+                projectId: "uniboindoors",
+                storageBucket: "uniboindoors.appspot.com",
+                messagingSenderId: "484831871025"
+            };
+            firebase.initializeApp(config);
+        </script>
+
         <script src="js/navbar.js"></script>
+        <script type="text/javascript" src="js/customalert.js"></script>
     </head>
     <body id="b">
         <nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg">
@@ -55,10 +72,10 @@
                 <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                 <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
             </ol>
-        
-        <div id="sliderDiv">
-        </div>
-        <script src="js/slider.js"></script>
+
+            <div id="sliderDiv">
+            </div>
+            <script src="js/slider.js"></script>
 
             <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -162,6 +179,6 @@
         //deleting previous stored cookies
         $(document).ready(logOut())
     </script>
-    
+
 </html>
 
