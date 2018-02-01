@@ -2,22 +2,6 @@
 
 
 
-firebase.database().ref("operators/").on("value", function(operators){
-    var count = 0;
-
-    operators.forEach(operator_snapshot=>{
-        if(operator_snapshot.child('status').val()=='online'){
-            count++;
-            updateLabel(count)
-        }
-
-
-    })
-    if(count==0){
-        updateLabel(0)
-    }
-
-});
 
 
 firebase.database().ref('helprequests/').on('value', function (snapshot) {
@@ -40,10 +24,6 @@ firebase.database().ref('helprequests/').on('value', function (snapshot) {
 
 
 
-function updateLabel(count){
-    //alert(''+count)
-    $('#myBadge').text(''+count)
-}
 
 function updateLabelreq(req){
     //alert(''+count)

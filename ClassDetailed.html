@@ -26,13 +26,31 @@
 
 
 
-        <script src="js/classeshandler.js"></script>
+        <script>
+
+            var config = {
+                apiKey: "AIzaSyAiVwf9orhjqFyH6i4HBSmmaZuLwrJyZnQ",
+                authDomain: "uniboindoors.firebaseapp.com",
+                databaseURL: "https://uniboindoors.firebaseio.com",
+                projectId: "uniboindoors",
+                storageBucket: "uniboindoors.appspot.com",
+                messagingSenderId: "484831871025"
+            };
+            firebase.initializeApp(config);
+
+            var database = firebase.database();
+
+        </script>
 
         <script src="js/userstatus.js"></script>
 
         <script src="js/operators.js"></script>
 
         <script src="js/navbar.js"></script>
+
+        <script src="js/classdetailedhandler.js"></script>
+
+        <script src="js/newonlineoperator.js"></script>
 
     </head>
     <body>
@@ -93,157 +111,6 @@
         <script>
 
 
-
-            function setNewLayout(){
-                var width=$(window).width()
-                var container= $('#detailcontainer')
-                container.contents(':not(h1)').remove();
-                var row=' <div class=" row justify-content-center" style="margin-top: 30px;" >'
-                if(width<990){
-
-                    console.log(width)
-                    var classToAppend='<div class=" row justify-content-center" style=" margin-top: 50px;" id="class_and_time"><div class="col-4 col-dir icon_wrapper justify-content-center align-self-center" style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/classroom.svg" ></div><div class="col col-dir align-self-center " style="margin-top: 30px;" ><div class="loader d-block mx-auto my-auto"  ></div><p class="detail display-4 text-left text-capitalize " id="classroom_name" style="color: white;"></p></div>'
-                    var clock=' <div class="col-4 col-dir  justify-content-center align-self-center icon_wrapper"  style="margin-left:50px; margin-top:30px"><img  class="icon" src="css/assets/clock.svg" ></div><div class="col col-dir  align-self-center "  style=" margin-top: 30px;"><div class="loader d-block mx-auto my-auto"  ></div><p class="detail  display-4 text-left text-capitalize" id="time_and_day" style="color: white;"></p></div>'
-                    var teacher='<div class="col-4 col-dir justify-content-center align-self-center icon_wrapper "style="margin-left:50px; margin-top:30px"><img  class="icon"  src="css/assets/teacher.svg"></div><div class="col col-dir  align-self-center " style="margin-top: 30px;"><div class="loader d-block mx-auto my-auto"  ></div><p class="detail display-4 text-left text-capitalize" id="teacher_name" style="color: white;"></p></div>'
-                    var handy='<div class="col-4 col-dir  justify-content-center align-self-center icon_wrapper"style="margin-left:50px; margin-top:30px"><img  class="icon" src="css/assets/handicapped.svg" id="handy" ></div><div class="col col-dir  align-self-center " style="margin-top: 30px;"><div class="loader d-block mx-auto my-auto"  ></div><p class="detail display-4 text-left text-capitalize" id="is_friendly" style="color: white;"></p></div><div class="container" id="help_request" style="max-width: 600px; margin-top:30px;"></div>'
-                    var map='<div class="col-4 col-dir  justify-content-center align-self-center icon_wrapper" style="margin-left:50px; margin-top:0px"><img  class="icon" src="css/assets/map.svg" ></div><div class="col col-dir  align-self-center " style="margin-top: 30px;"><div class="loader d-block mx-auto my-auto"  ></div><p class=" detail display-4 text-left text-capitalize" id="position" style="color: white;"></p></div>'
-                    var directions='<div class="col-4 col-dir justify-content-center align-self-center icon_wrapper" style="margin-left:50px; margin-top:30px"><img class="icon" src="css/assets/panel.svg" ></div><div class="col col-dir align-self-center " style="margin-top: 30px;"><button type="button" class="btn btn-success btn-lg " id="getdirections" onclick="getClassroomDirections()" data-toggle="collapse" data-target="#directions_container" aria-expanded="false" aria-controls="directions_container">Get directions!</button></div></div>'
-                    container.append(classToAppend)
-                    container.append(row)
-                    var rowAppended=$('#detailcontainer').find('.row').last()
-                    rowAppended.append(clock)
-                    container.append(row)
-                    rowAppended=$('#detailcontainer').find('.row').last()
-                    rowAppended.append(teacher)
-                    container.append(row)
-                    rowAppended=$('#detailcontainer').find('.row').last()
-                    rowAppended.append(handy)
-                    container.append(row)
-                    rowAppended=$('#detailcontainer').find('.row').last()
-                    rowAppended.append(map)
-                    container.append(row)
-                    rowAppended=$('#detailcontainer').find('.row').last()
-                    rowAppended.append(directions)
-
-
-
-
-
-
-                }else{
-                    console.log('greater  '+width)
-                    var container= $('#detailcontainer')
-
-                    var elements='<div class=" row justify-content-center" style="margin-top: 50px;" id="class_and_time"><div class="col-2 col-dir icon_wrapper justify-content-center align-self-center" style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/classroom.svg" ></div>    <div class="col col-dir  align-self-center " style="margin-top: 30px;" ><div class="loader d-block mx-auto my-auto"  ></div><p class="detail display-4 text-left text-capitalize " id="classroom_name" style="color: white;"></p></div><div class="col-2 col-dir justify-content-center align-self-center icon_wrapper"  style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/clock.svg" ></div><div class="col col-dir  align-self-center "  style="margin-top: 30px;"><div class="loader d-block mx-auto my-auto"  ></div><p class="detail  display-4 text-left text-capitalize" id="time_and_day" style="color: white;"></p></div></div><div class="row justify-content-center" ><div class="col-2 col-dir justify-content-center align-self-center icon_wrapper "style="margin-left: 50px; margin-top:30px"><img  class="icon"  src="css/assets/teacher.svg"></div><div class="col col-dir  align-self-center " style="margin-top: 30px;"><div class="loader d-block mx-auto my-auto"  ></div><p class="detail display-4 text-left text-capitalize" id="teacher_name" style="color: white;"></p></div><div class="col-2 justify-content-center align-self-center icon_wrapper col-dir "style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/handicapped.svg" id="handy" ></div><div class="col col-dir  align-self-center " style="margin-top: 30px;"><div class="loader d-block mx-auto my-auto"  ></div><p class="detail display-4 text-left text-capitalize" id="is_friendly" style="color: white;"></p></div></div><div class="container" id="help_request" style="max-width: 600px; margin-top:30px" ></div><div class="row justify-content-center"><div class="col-2 col-dir justify-content-center align-self-center icon_wrapper" style="margin-left: 50px; margin-top:30px"><img  class="icon" src="css/assets/map.svg" ></div><div class="col col-dir  align-self-center " style="margin-top: 30px;"><div class="loader d-block mx-auto my-auto"  ></div> <p class=" detail display-4 text-left text-capitalize" id="position" style="color: white;"></p></div><div class="col-2 col-dir  justify-content-center align-self-center icon_wrapper" style="margin-left: 50px; margin-top:30px"><img class="icon" src="css/assets/panel.svg" ></div><div class="col col-dir  align-self-center " style="margin-top: 30px;"><button type="button" class="btn btn-success btn-lg " id="getdirections" onclick="getClassroomDirections()" data-toggle="collapse" data-target="#directions_container" aria-expanded="false" aria-controls="directions_container">Get directions!</button></div></div>'
-
-                    container.append(elements)
-                }
-                return true
-            }
-
-
-
-            function getClassroomDirections(){
-                var directionDiv=$('#directions_container')
-
-
-                if(directionDiv.children().length==0){
-
-                    var database = firebase.database();
-                    var todayClass=JSON.parse(localStorage.getItem('todayClass'))
-                    var classroomName=todayClass.place
-                    database.ref('CesenaCampus/'+classroomName+'/directions/').on('value',function (snapshot){
-                        var newRow='<div class="row justify-content-center " style="margin-top: 50px;" ></div>'
-                        var firstDirection='<div class="col-3 icon_wrapper justify-content-center align-self-center" style="margin-left: 30px; margin-top:30px" ><img class="icon" src="css/assets/entrance.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left "style="color: white;">Walk through the main gate</p></div>'
-                        directionDiv.append(newRow)
-                        var row=directionDiv.find('.row').last()
-                        row.append(firstDirection)
-                        snapshot.forEach(function(childSnapshot){
-                            var directionKey=childSnapshot.key
-
-                            if(directionKey.includes('left')){
-                                var row=directionDiv.find('.row').last()
-                                if(row.children().length==2){
-                                    directionDiv.append(newRow)
-                                    row=directionDiv.find('.row').last()
-                                    var cols='<div class="col-3 icon_wrapper justify-content-center align-self-center" style="margin-left: 30px; margin-top:30px"><img  class="icon" src="css/assets/left.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left "  style="color: white;">'+childSnapshot.val().toString()+'</p></div>'
-                                    row.append(cols)
-
-                                }
-                                else{
-                                    var cols='<div class="col-3 icon_wrapper justify-content-center align-self-center" style="margin-left: 30px; margin-top:30px"><img  class="icon" src="css/assets/left.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left "  style="color: white;">'+childSnapshot.val().toString()+'</p></div>'
-                                    row.append(cols) 
-                                }
-                            }
-
-                            if(directionKey.includes('stairsup')){
-                                var row=directionDiv.find('.row').last()
-                                if(row.children().length==2){
-                                    directionDiv.append(newRow)
-                                    row=directionDiv.find('.row').last()
-                                    var cols='<div class="col-3 icon_wrapper justify-content-center align-self-center" style="margin-left:30px; margin-top:30px"><img  class="icon" src="css/assets/stairs-up.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left "  style="color: white;">'+childSnapshot.val().toString()+'</p></div>'
-                                    row.append(cols)
-
-                                }
-                                else{
-                                    var cols='<div class="col-3 icon_wrapper justify-content-center align-self-center" style="margin-left: 30px; margin-top:30px"><img  class="icon" src="css/assets/stairs-up.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left "   style="color: white;">'+childSnapshot.val().toString()+'</p></div>'
-                                    row.append(cols) 
-                                }
-                            }
-                            if(directionKey.includes('final')){
-                                var row=directionDiv.find('.row').last()
-                                if(row.children().length==2){
-                                    directionDiv.append(newRow)
-                                    row=directionDiv.find('.row').last()
-                                    var cols='<div class="col-3 icon_wrapper justify-content-center align-self-center" style="margin-left: 30px; margin-top:30px"><img  class="icon" src="css/assets/destination.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left "  style="color: white;">'+childSnapshot.val().toString()+'</p></div>'
-                                    row.append(cols)
-
-                                }
-                                else{
-                                    var cols='<div class="col-3 icon_wrapper justify-content-center align-self-center" style="margin-left: 30px; margin-top:30px"><img  class="icon" src="css/assets/destination.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left "   style="color: white;">'+childSnapshot.val().toString()+'</p></div>'
-                                    row.append(cols) 
-                                }
-                            }
-                            if(directionKey.includes('straight')){
-                                var row=directionDiv.find('.row').last()
-                                if(row.children().length==2){
-                                    directionDiv.append(newRow)
-                                    row=directionDiv.find('.row').last()
-                                    var cols='<div class="col-3 icon_wrapper justify-content-center align-self-center" style="margin-left: 30px; margin-top:30px"><img  class="icon" src="css/assets/up.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left "  style="color: white;">'+childSnapshot.val().toString()+'</p></div>'
-                                    row.append(cols)
-
-                                }
-                                else{
-                                    var cols='<div class="col-3 icon_wrapper justify-content-center align-self-center" style="margin-left: 30px; margin-top:30px"><img  class="icon" src="css/assets/up.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left "   style="color: white;">'+childSnapshot.val().toString()+'</p></div>'
-                                    row.append(cols) 
-                                }
-                            }
-                            if(directionKey.includes('right')){
-                                var row=directionDiv.find('.row').last()
-                                if(row.children().length==2){
-                                    directionDiv.append(newRow)
-                                    row=directionDiv.find('.row').last()
-                                    var cols='<div class="col-3 icon_wrapper justify-content-center align-self-center" style="margin-left: 30px; margin-top:30px"><img  class="icon" src="css/assets/right.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left "  style="color: white;">'+childSnapshot.val().toString()+'</p></div>'
-                                    row.append(cols)
-
-                                }
-                                else{
-                                    var cols='<div class="col-3 icon_wrapper justify-content-center align-self-center" style="margin-left: 30px; margin-top:30px"><img  class="icon" src="css/assets/right.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left "   style="color: white;">'+childSnapshot.val().toString()+'</p></div>'
-                                    row.append(cols)    
-                                }
-                            }
-                        })
-                        var width=$(window).width()
-
-                        resize(width)
-
-                    })
-
-
-
-                }
-            }
-
             $( document ).ready(function() {
                 var width=$( window ).width();
 
@@ -264,7 +131,7 @@
 
             $(window).resize(function(){
                 var width=$( window ).width();
-//                $('#class_name').text(    width)            
+                //                $('#class_name').text(    width)            
                 if(width<=980){
 
                     var value=JSON.parse(localStorage.getItem('todayClass'))
