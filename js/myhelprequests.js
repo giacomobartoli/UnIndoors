@@ -93,18 +93,18 @@ function listenToHelpRequestChanges(){
                     switch(requestStatus){
                         case 'accepted':
                             $('#request_icon_'+index).last().attr('src','css/assets/accepted.svg')
-                            var text=pageWidth<500?'OK!':'Approved!'
+                            var text=pageWidth<350?'OK!':'Approved!'
                             $('#request_status_'+index).last().text(text)
 
                             break;
                         case 'refused':
                             $('#request_icon_'+index).last().attr('src','css/assets/notaccepted.svg')
-                            var text=pageWidth<500?'Nope!':'Refused!'
+                            var text=pageWidth<350?'Nope!':'Refused!'
                             $('#request_status_'+index).last().text(text)
 
                             break;
                         case 'pending':
-                            var text=pageWidth<500?'Wait!':'Pending...'
+                            var text=pageWidth<350?'Wait!':'Pending...'
                             $('#request_status_'+index).last().text(text)
 
                             break;
