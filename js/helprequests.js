@@ -48,8 +48,13 @@ function myFunction(filter) {
             $('#'+count).click(function(){
                 setRequests(id,childSnapshotIndex,$(this).attr('id'),index)
                 //$('#myModal_'+$(this).attr('id')).modal('show');
+                
 
             })
+            
+           // $('#REP').click(setRequests())
+            
+            
             $('#'+count+'REP').click(function(){
             
             var string=$(this).attr('id').toString(); //0REP
@@ -119,6 +124,7 @@ function setReplyMsg(idReq,msg,index){
 
 function updateRequestForStudent(idReq,stateToSet,index){
     database.ref('users/'+idReq+'/helprequests/'+index+'/state/').set(stateToSet)
+
 }
 
 
