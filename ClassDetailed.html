@@ -22,13 +22,7 @@
 
 
         <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
-
-
-        <script src="js/classeshandler.js"></script>
-
-<!--
         <script>
-
             var config = {
                 apiKey: "AIzaSyAiVwf9orhjqFyH6i4HBSmmaZuLwrJyZnQ",
                 authDomain: "uniboindoors.firebaseapp.com",
@@ -38,11 +32,22 @@
                 messagingSenderId: "484831871025"
             };
             firebase.initializeApp(config);
+            var worker=new Worker('js/updater.js')
 
-            var database = firebase.database();
+
+
+
+            window.setInterval(function(){
+               // console.log('hi')
+                worker.postMessage('start')
+
+            },30000)
+
 
         </script>
--->
+
+        <script src="js/classeshandler.js"></script>
+
 
         <script src="js/userstatus.js"></script>
 
@@ -53,7 +58,7 @@
         <script src="js/classdetailedhandler.js"></script>
 
         <script src="js/newonlineoperator.js"></script>
-        
+
 
     </head>
     <body>
@@ -65,19 +70,17 @@
             </button>
 
             <div class="collapse navbar-collapse" id="menu_start">
-                <ul class="navbar-nav mr-auto mt-2 mt-lg-0 ">
+                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0 ">
                     <li class="nav-item">
-                        <a class="nav-link" href="MyHelpRequests.html">My Help Requests
-                        </a>
+                        <a class="nav-link" href="MyHelpRequests.html">My Help Requests</a>
                     </li>
                     <li class="nav-item">
-
                         <a class="nav-link" href="Classes.html">My Classes</a>
                     </li>
-                </ul>
-                <ul class="navbar-nav navbar-right" id="login_signup_navbar">
-                    <img src="css/assets/boy.svg" style="width:90px; max-height:65px;">
-
+                   <li>
+                   <a class="nav-link" href="OtherPlaces.html">All Places</a>
+                   
+                   </li>
                 </ul>
 
             </div>
@@ -93,6 +96,7 @@
         </div>
 
         <div class="container collapse" id="directions_container" style="margin-top: 30px;" id="first_direction">
+
 
 
 

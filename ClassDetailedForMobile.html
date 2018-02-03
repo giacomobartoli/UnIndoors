@@ -1,0 +1,620 @@
+<!doctype html>
+
+<html>
+
+    <head>
+        <title>Uniboors</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Bootstrap CSS -->
+
+        <link rel="stylesheet"
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+              crossorigin="anonymous">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+                integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+                crossorigin="anonymous"></script>
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+        <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+        <script>
+            var config = {
+                apiKey: "AIzaSyAiVwf9orhjqFyH6i4HBSmmaZuLwrJyZnQ",
+                authDomain: "uniboindoors.firebaseapp.com",
+                databaseURL: "https://uniboindoors.firebaseio.com",
+                projectId: "uniboindoors",
+                storageBucket: "uniboindoors.appspot.com",
+                messagingSenderId: "484831871025"
+            };
+            firebase.initializeApp(config);
+
+            var database = firebase.database();
+
+
+            firebase.auth().signInWithEmailAndPassword('gzano93@gmail.com', 'metallaro93').then(success=>{
+
+                firebase.database().ref('operators/').on('value',snapshot=>{
+                    var count = 0
+
+                    snapshot.forEach(operatorSnapshot=>{
+
+                        var operatorStatus=operatorSnapshot.child('status').val()
+                        if(operatorStatus=='online'){
+                            count++
+
+                            $('#myBadge').text(''+count)
+                        }
+
+                    })
+                    //alert('number online '+count)
+                    if(count==0){
+                        $('#myBadge').text(''+0)
+                    }
+                })
+                var width=$(window).width()
+                database.ref('CesenaCampus/AulaA/').on('value',function (snapshot){
+                    console.log('Nice im in Firebase')
+                    var name=snapshot.child('name').val().toString()
+                    var teacher=snapshot.child('teacher').val()
+
+                    if(width<=350 && name=='Laboratorio Informatico 2'){
+                        name='Lab. Inf. 2'
+
+                    }
+                    if(width<=350 && name=='Laboratorio Informatico 3'){
+                        name='Lab. Inf. 3'
+
+                    }
+                    $('#classroom_name').text(name)
+                    $('#position').text(snapshot.child('floor').val().toString())
+                    var isFriendly=(snapshot.child('isFriendly').val().toString()=='true')
+                    if(isFriendly)       {
+                        $('#is_friendly').text('Facilities present')
+                        $('#handy').unbind('click')
+                    }
+                    else{
+                        $('#is_friendly').text('Ask for help')
+                        $('#handy').on('click', function(){
+                            var helpcontainer=$('#help_request')
+                            if(helpcontainer.children().length==0){
+                                var element='  <form class="needs-validation" novalidate style="margin top:30px;"><div class="form-row" ><div class="col-6"><input type="text" class="form-control form-control-lg" placeholder="Nome Cognome"id="first_name"><div class="invalid-feedback  " >Please insert a valid name and surname</div></div><div class="col"><input type="text" class="form-control form-control-lg" placeholder="14:23" id="time"><div class="invalid-feedback  " >Please insert a valid time</div></div></div><div class="form-row" style="margin-top: 20px;"><div class="col"><textarea class="form-control form-control-lg" id="message" rows="3" placeholder="Write your message" id="message"></textarea></div></div> <div><button type="button" class="btn btn-primary btn-block d-block mx-auto btn-lg" onclick="onClickSubmit()" style="max-width: 200px; margin-top: 20Px;">Submit</button></div></form>'
+
+                                helpcontainer.append(element)
+
+                            }
+                        })
+                        $('#handy').attr('data-toggle','collapse')
+                        $('#handy').attr('data-target','#help_request')
+                        $('#handy').attr('aria-expanded','false')
+                        $('#handy').attr('aria-controls','#help_request')
+                    }
+                    $('#teacher_name').text(teacher)
+                    var date = new Date();
+                    var today = date.getDay();
+
+                    if(4==today){
+                        $('#time_and_day').text('Today, '+9+":00-"+11+":00")
+
+                    }
+                    else{
+                        var truncatedDay='Wednesday'.slice(0,3)
+                        $('#time_and_day').text("Ciaone orario")
+
+
+                    }
+                    $('.loader').remove()
+
+                })
+
+
+
+            })
+
+
+
+
+
+
+
+
+        </script>
+
+
+        <script>
+
+
+
+            function getPlaceDetails(todayclass){
+                console.log('Place details called')
+
+                var width=$(window).width()
+                database.ref('CesenaCampus/AulaA/').on('value',function (snapshot){
+                    console.log('Nice im in Firebase')
+                    var lessonName=snapshot.child('lesson').child('lessonName').val()
+                    var state=snapshot.child('lesson').child('state').val()
+                    var teacher=snapshot.child('lesson').child('teacher')
+                    var name=snapshot.child('name').val().toString()
+                    var timeStart=snapshot.child('lesson').child('timeStart').val()
+                    var timeEnd=snapshot.child('lesson').child('timeEnd').val()
+                    var dayValue=snapshot.child('lesson').child('dayValue').val()
+                    if( name=='Laboratorio Informatico 2'){
+                        name='Lab. Inf. 2'
+
+                    }
+                    if(name=='Laboratorio Informatico 3'){
+                        name='Lab. Inf. 3'
+
+                    }
+                    $('#classroom_name').text(name)
+                    $('#position').text(snapshot.child('floor').val().toString())
+                    var isFriendly=(snapshot.child('isFriendly').val().toString()=='true')
+                    if(isFriendly)       {
+                        $('#is_friendly').text('Facilities present')
+                        $('#handy').unbind('click')
+                    }
+                    else{
+                        $('#is_friendly').text('Ask for help')
+                        $('#handy').on('click', function(){
+                            var helpcontainer=$('#help_request')
+                            if(helpcontainer.children().length==0){
+                                var element='  <form class="needs-validation" novalidate style="margin top:30px;"><div class="form-row" ><div class="col-6"><input type="text" class="form-control form-control-lg" placeholder="Nome Cognome"id="first_name"><div class="invalid-feedback  " >Please insert a valid name and surname</div></div><div class="col"><input type="text" class="form-control form-control-lg" placeholder="14:23" id="time"><div class="invalid-feedback  " >Please insert a valid time</div></div></div><div class="form-row" style="margin-top: 20px;"><div class="col"><textarea class="form-control form-control-lg" id="message" rows="3" placeholder="Write your message" id="message"></textarea></div></div> <div><button type="button" class="btn btn-primary btn-block d-block mx-auto btn-lg" onclick="onClickSubmit()" style="max-width: 200px; margin-top: 20Px;">Submit</button></div></form>'
+
+                                helpcontainer.append(element)
+
+                                //  resize(width)
+
+                            }
+                        })
+                        $('#handy').attr('data-toggle','collapse')
+                        $('#handy').attr('data-target','#help_request')
+                        $('#handy').attr('aria-expanded','false')
+                        $('#handy').attr('aria-controls','#help_request')
+                    }
+                    $('#teacher_name').text(teacher)
+                    var date = new Date();
+                    var today = date.getDay();
+
+                    if(dayValue==today){
+                        $('#time_and_day').text('Today, '+timeStart+":00-"+timeEnd+":00")
+
+                    }
+                    else{
+                       
+                            var truncatedDay=renderDay(dayValue).slice(0,3)
+                            $('#time_and_day').text(truncatedDay+", "+timeStart+":00-"+timeEnd+":00")
+                        
+
+                    }
+                    $('.loader').remove()
+
+                })
+            }
+
+            function onClickSubmit(){
+                console.log(firebase.auth().currentUser.uid)
+                var name=$('#first_name').val()
+                var time=$('#time').val()
+                var message=$('#message').val()
+                var helpRequest = {};
+                var id=firebase.auth().currentUser.uid.toString()
+                var firebaseTimeStamp=new Date().getMilliseconds()
+                var width=$(window).width()
+                var regex=/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/
+                var nameRegex=/[a-zA-Z]+/
+
+                if(width<=350 && name=='Laboratorio Informatico 2'){
+                    name='Lab. Inf. 2'
+
+                }
+                if(width<=350 && name=='Laboratorio Informatico 3'){
+                    name='Lab. Inf. 3'
+
+                }
+
+
+                database.ref('users/'+id+'/helprequests/').once('value').then(function(snapshot){
+                    if(!snapshot.hasChildren()){
+                        var date=new Date()
+                        var minutes=date.getMinutes()<10?'0'+date.getMinutes():date.getMinutes()
+                        var hours=date.getHours()
+                        var month=date.getMonth()==0?'01':date.getMonth()
+                        var help={
+                            10000:{
+                                'name':name,
+                                'time':time,
+                                'message':message,
+                                'state': 'pending',
+                                'operator_message':'No message yet',
+                                'place':$('#classroom_name').text(),
+                                'request_time': hours+":"+minutes,
+                                'day':date.getDay(),
+                                'dayofmonth':date.getDate(),
+                                'year':date.getFullYear(),
+                                'month':month,
+                                'timestamp':firebaseTimeStamp
+
+                            }
+                        }
+                        var help2={
+                            'id':id,
+                            'name':name,
+                            'time':time,
+                            'message':message,
+                            'state': 'pending',
+                            'place':$('#classroom_name').text(),
+                            'request_time': hours+":"+minutes,
+                            'day':date.getDay(),
+                            'dayofmonth':date.getDate(),
+                            'year':date.getFullYear(),
+                            'month':month,
+                            'index':10000,
+                            'timestamp':firebaseTimeStamp
+                        }
+                        console.log(help)
+                        database.ref('users/'+id+'/helprequests/').set(help).then(function(){
+                            $('#help_request').collapse('toggle')
+                        })
+                        database.ref('helprequests/').push(help2)
+                    }
+                    else{
+                        database.ref('users/'+id+'/helprequests/').orderByKey().limitToFirst(1).once('child_added').then(function(snapshot){
+
+                            var lastIndex=snapshot.key
+                            console.log('last index '+lastIndex)
+                            var newIndex=Number(lastIndex)-1
+                            var date=new Date()
+                            var minutes=date.getMinutes()<10?'0'+date.getMinutes():date.getMinutes()
+                            var hours=date.getHours()
+                            var month=date.getMonth()==0?'01':date.getMonth()
+                            var help=
+                                {
+                                    'name':name,
+                                    'time':time,
+                                    'message':message,
+                                    'state': 'pending',
+                                    'operator_message':'No message yet',
+                                    'place':$('#classroom_name').text(),
+                                    'request_time':hours+":"+minutes,
+                                    'day':date.getDay(),
+                                    'dayofmonth':date.getDate(),
+                                    'year':date.getFullYear(),
+                                    'month':month,
+                                    'timestamp':firebaseTimeStamp
+
+                                }
+                            var help2={
+                                'id':id,
+                                'name':name,
+                                'time':time,
+                                'message':message,
+                                'state': 'pending',
+                                'place':$('#classroom_name').text(),
+                                'request_time': hours+":"+minutes,
+                                'day':date.getDay(),
+                                'dayofmonth':date.getDate(),
+                                'year':date.getFullYear(),
+                                'month':month,
+                                index:newIndex,
+                                'timestamp':firebaseTimeStamp
+                            }
+
+                            console.log(help)
+                            var nameDom= $('#first_name')
+                            var timeDom=$('#time')
+                            nameDom.removeClass('is-valid')
+                            nameDom.removeClass('is-invalid')
+                            timeDom.removeClass('is-valid')
+                            timeDom.removeClass('is-invalid')
+                            if(time.match(regex) && name.match(nameRegex)){
+                                database.ref('users/'+id+'/helprequests/').child(newIndex).set(help).then(function(){
+
+                                    $('#help_request').collapse('toggle')
+                                })
+                                database.ref('helprequests/').push(help2)
+
+                            }
+                            else if(!time.match(regex) && name.match(nameRegex)){
+                                //    alert('wrong time')
+
+                                $('#first_name').addClass('is-valid')
+                                $('#time').addClass('is-invalid')
+                            }
+                            else if(time.match(regex) && !name.match(nameRegex)){
+                                // alert('wrong name')
+                                $('#first_name').addClass('is-invalid')
+                                $('#time').addClass('is-valid')
+                            }
+                            else if(!time.match(regex) && !name.match(nameRegex)){
+                                //  alert('both wrong')
+                                $('#first_name').addClass('is-invalid')
+                                $('#time').addClass('is-invalid')
+                            }
+
+                        })
+
+                    }
+
+
+
+                })
+            }
+
+
+        </script>
+        <style>
+
+            #profile_info{
+                float: right;
+                margin-top: 80px;
+            }
+            .card-img-top{
+                /*
+                max-width: 100%;
+                max-height: 250px;
+                */
+                width:100%;
+                height:auto;
+                max-height: 260px;
+            }
+            .card{
+
+                cursor: pointer;
+                display: inline-block;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                position:relative;
+                margin-bottom: 15px;
+                width:370px;
+                height:400px;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+                transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+                margin-top: 30px;
+                margin-bottom: 30px;
+            }
+            .card-body{
+
+            }
+
+            .no_lesson{
+                /*
+                display: block;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                position:relative;
+                */
+                max-width: 100%;
+                height: 500px;
+
+            }
+            .loader-classes {
+                border: 4px solid #f3f3f3;
+                border-radius: 100%;
+                border-top: 4px solid #5e646b;
+                width: 60px;
+                height: 60px;
+                animation: spin 1s linear infinite;
+            }
+
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+
+            .card:hover {
+                box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);}
+
+            body{
+                background-color: #343a40;
+            }
+
+            @media only screen and (max-width:850px){
+                .card{
+                    width:300px;
+                    height:330px;
+                }
+                .loader-classes {
+                    border: 4px solid #f3f3f3;
+                    border-radius: 100%;
+                    border-top: 4px solid #5e646b;
+                    width: 50px;
+                    height: 50px;
+                    animation: spin 1s linear infinite;
+                }
+
+            }
+            @media only screen and (max-width:380px){
+                .card{
+                    width:280px;
+                    height:330px;
+
+                }
+                .loader-classes {
+                    border: 4px solid #f3f3f3;
+                    border-radius: 100%;
+                    border-top: 4px solid #5e646b;
+                    width: 40px;
+                    height: 40px;
+                    animation: spin 1s linear infinite;
+                }
+
+            }
+            @media only screen and (min-width:380px) and (max-width:500px){
+                .card{
+                    width:300px;
+                    height:330px;
+                }
+                .loader-classes {
+                    border: 4px solid #f3f3f3;
+                    border-radius: 100%;
+                    border-top: 4px solid #5e646b;
+                    width: 45px;
+                    height: 45px;
+                    animation: spin 1s linear infinite;
+                }
+
+            }
+
+
+
+
+
+            .icon{
+                width: 100px;
+                height: 100px;
+            }
+            .detail{
+                font-size: 50px;
+
+            }
+            .invalid-feedback{
+                font-size: 15px;
+            }
+            .loader {
+                border: 4px solid #f3f3f3;
+                border-radius: 50%;
+                border-top: 4px solid #5e646b;
+                width: 60px;
+                height: 60px;
+                display: block;
+                animation: spin 1s linear infinite;
+            }
+
+            .loader-requests{
+                position: absolute;
+                top: 50%;
+                left:50%;
+            }
+
+
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+
+
+            @media only screen and (max-width:1000px){
+                .detail{
+                    font-size: 40px;
+                }
+                .loader {
+                    border: 4px solid #f3f3f3;
+                    border-radius: 100%;
+                    border-top: 4px solid #5e646b;
+                    width: 50px;
+                    height: 50px;
+                    animation: spin 1s linear infinite;
+                }
+
+            }
+            @media only screen and (max-width: 800px){
+                .icon{
+                    width:60px;
+                    height:60px;
+                }
+                .detail{
+                    font-size: 35px;
+                }
+                .loader {
+                    border: 4px solid #f3f3f3;
+                    border-radius: 100%;
+                    border-top: 4px solid #5e646b;
+                    width: 45px;
+                    height: 45px;
+                    animation: spin 1s linear infinite;
+                }
+
+            }
+            @media only screen and (max-width:320px){
+                .detail{
+                    font-size: 30px;
+
+                }
+                .loader{
+                    border: 4px solid #f3f3f3;
+                    border-radius: 100%;
+                    border-top: 4px solid #5e646b;
+                    width: 40px;
+                    height: 40px;
+                    animation: spin 1s linear infinite;
+                }
+
+            }
+
+
+
+        </style>
+    </head>
+    <body>
+
+
+        <div class="container" style="margin-top: 70px; justify-content: center" id="detailcontainer">
+            <h1 class="display-3 text-center title" style="color: white;" id="class_name"></h1>
+            <h1 class="display-4" style="color: white; display: block;text-align: center;font-size: 20px">
+                available operators <span class="badge badge-pill badge-success" id="myBadge">...</span>
+            </h1>
+
+
+            <div class=" row justify-content-center" style=" margin-top: 50px;" id="class_and_time">
+                <div class="col-4 col-dir icon_wrapper justify-content-center align-self-center"
+                     style="margin-left: 50px; margin-top:30px"><img class="icon" src="classroom.svg"></div>
+                <div class="col col-dir align-self-center " style="margin-top: 30px;">
+                    <div class="loader d-block mx-auto my-auto"></div>
+                    <p class="detail display-4 text-left text-capitalize " id="classroom_name"
+                       style="color: white;"></p></div>
+            </div>
+            <div class=" row justify-content-center" style="margin-top: 30px;">
+
+                <div class="col-4 col-dir  justify-content-center align-self-center icon_wrapper"
+                     style="margin-left:50px; margin-top:30px"><img class="icon" src="clock.svg"></div>
+                <div class="col col-dir  align-self-center " style=" margin-top: 30px;">
+                    <div class="loader d-block mx-auto my-auto"></div>
+                    <p class="detail  display-4 text-left text-capitalize" id="time_and_day"
+                       style="color: white;"></p></div>
+            </div>
+            <div class=" row justify-content-center" style="margin-top: 30px;">
+
+                <div class="col-4 col-dir justify-content-center align-self-center icon_wrapper "
+                     style="margin-left:50px; margin-top:30px"><img class="icon" src="teacher.svg"></div>
+                <div class="col col-dir  align-self-center " style="margin-top: 30px;">
+                    <div class="loader d-block mx-auto my-auto"></div>
+                    <p class="detail display-4 text-left text-capitalize" id="teacher_name"
+                       style="color: white;"></p></div>
+            </div>
+            <div class=" row justify-content-center" style="margin-top: 30px;">
+
+
+                <div class="col-4 col-dir  justify-content-center align-self-center icon_wrapper"
+                     style="margin-left:50px; margin-top:30px"><img class="icon" src="handicapped.svg"
+                                                                    id="handy"></div>
+                <div class="col col-dir  align-self-center " style="margin-top: 30px;">
+                    <div class="loader d-block mx-auto my-auto"></div>
+                    <p class="detail display-4 text-left text-capitalize" id="is_friendly"
+                       style="color: white;"></p></div>
+                <div class="container " id="help_request" style="max-width: 600px; margin-top:30px;"></div>
+            </div>
+            <div class=" row justify-content-center" style="margin-top: 30px;">
+
+                <div class="col-4 col-dir  justify-content-center align-self-center icon_wrapper"
+                     style="margin-left:50px; margin-top:0px"><img class="icon" src="map.svg"></div>
+                <div class="col col-dir  align-self-center " style="margin-top: 30px;">
+                    <div class="loader d-block mx-auto my-auto"></div>
+                    <p class=" detail display-4 text-left text-capitalize" id="position"
+                       style="color: white;"></p></div>
+            </div>
+
+
+        </div>
+
+
+    </body>
+
+</html>

@@ -1,5 +1,5 @@
-window.setInterval(checkTimeAndLesson,15000)
-window.setInterval(checkInterestPlaces,15000)
+window.setInterval(checkTimeAndLesson,60000)
+window.setInterval(checkInterestPlaces,60000)
 
 
 function listOtherPlaces(){
@@ -403,6 +403,8 @@ function setCurrentOrNextLesson(lessonsPerClassroom,classroomKey,classroomName){
     })
 }
 
+
+
 function getLesson(lessonsPerClassroom,id){
     var date=new Date()
     var currentHour=date.getHours()
@@ -473,7 +475,6 @@ function getLesson(lessonsPerClassroom,id){
         localStorage.setItem('todayClass',JSON.stringify(value))
         location.replace('ClassDetailed.html')
     })
-
 }
 function getTime(timeStart,timeEnd,id,lessonDayValue){
 

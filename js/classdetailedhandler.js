@@ -180,7 +180,6 @@ function getPlaceDetails(todayclass){
 
                     helpcontainer.append(element)
                     resize(width)
-
                 }
             })
             $('#handy').attr('data-toggle','collapse')

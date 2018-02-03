@@ -29,9 +29,12 @@
                 storageBucket: "uniboindoors.appspot.com",
                 messagingSenderId: "484831871025"
             };
+            console.log('sdjhfjkl')
             firebase.initializeApp(config);
+            firebase.database().ref('CesenaCampus/').once('child_added',snap=>{
+                alert(snap.key)
+            })
         </script>
-
         <script src="js/navbar.js"></script>
 
         <script type="text/javascript" src="js/customalert.js"></script>
@@ -177,6 +180,8 @@
     <script>
         //deleting previous stored cookies
         $(document).ready(logOut())
+
+
     </script>
 
 </html>
