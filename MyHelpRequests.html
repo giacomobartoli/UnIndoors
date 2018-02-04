@@ -13,7 +13,7 @@
         <link href="css/loginpagestylesheet.css" rel="stylesheet" />
         <link href="css/classesstylesheet.css" rel="stylesheet" />
         <link href="css/helprequest.css" rel="stylesheet" />
-       
+
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -70,7 +70,10 @@
 
                         <a class="nav-link" href="Classes.html">My Classes</a>
                     </li>
+                    <li>
+                        <a class="nav-link" href="OtherPlaces.html">All Places</a>
 
+                    </li>
                 </ul>
                <ul class="navbar-nav navbar-right" id="login_signup_navbar">
                     <li class="nav-item">
@@ -104,7 +107,7 @@
             $(window).resize(function(){
 
                 listenToHelpRequestChanges()
-                
+
                 resizeHelprequests($(window).width())
             })
             $(document).ready(setNavbar())

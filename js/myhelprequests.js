@@ -1,6 +1,7 @@
 function listenToHelpRequestChanges(){
     var userId;
     var pageWidth=$(window).width()
+    $('.jumbotron').remove()
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
 
@@ -104,6 +105,8 @@ function listenToHelpRequestChanges(){
 
                             break;
                         case 'pending':
+                            $('#request_icon_'+index).last().attr('src','css/assets/pending.svg')
+
                             var text=pageWidth<350?'Wait!':'Pending...'
                             $('#request_status_'+index).last().text(text)
 
@@ -163,7 +166,7 @@ function renderDay(dayNumber){
     }
 }
 function resizeHelprequests(width){
-
+    //   $('h1').text(width)
     if(width>=750){
         var title=jQuery('.title')
         var col=jQuery('.col-dir')
@@ -197,7 +200,7 @@ function resizeHelprequests(width){
         if(col.hasClass('col-2')){
             console.log('daje')
             col.removeClass('col-2')
-            col.addClass('col-4 ')
+            col.addClass('col-5 ')
         }
     }
 }
