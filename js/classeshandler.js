@@ -1,13 +1,4 @@
 
-var config = {
-    apiKey: "AIzaSyAiVwf9orhjqFyH6i4HBSmmaZuLwrJyZnQ",
-    authDomain: "uniboindoors.firebaseapp.com",
-    databaseURL: "https://uniboindoors.firebaseio.com",
-    projectId: "uniboindoors",
-    storageBucket: "uniboindoors.appspot.com",
-    messagingSenderId: "484831871025"
-};
-firebase.initializeApp(config);
 
 var database = firebase.database();
 //var carouselInnerActiveElementRow=document.getElementById('row_active');
@@ -251,9 +242,9 @@ function fillCarouselRow(todayClass,carouselInnerElementID,carouselOuterElementI
     var innerElement=$(carouselInnerElementID)
     var date=new Date()
     var day=todayClass.day.toUpperCase()==renderDay(date.getDay()).toUpperCase()?'Today':todayClass.day;
+    var uniqid = Date.now()
 
-
-    var elementOfRow='<div class="col col-grid"><div class="card" id="'+todayClass.type+'"><img class="card-img-top" src="'+imageUrl+'" alt="Card image cap"><div class="card-body"> <h4 class="card-title text-center">'+name+'</h4><div class="container adjust items center" style="margin-top:10px"><div class="row align-items-center align-self-center style="margin-top:15px;"><div class="col-4 justify-content-center align-self-center icon_wrapper " ><img class="rounded float-right" src="css/assets/clock.svg" style="display:block;width:30px; height: 30px;" id="clock"></div><div class="col no-gutters align-self-center justify-content-center"  ><p class="detail my-auto text-left text-capitalize" id="time_and_day" style="color: black; font-size:20px">'+day+', '+timeStart+':00</p></div></div></div></div></div></div>';
+    var elementOfRow='<div class="col col-grid"><div class="card" id="'+todayClass.type+uniqid+'"><img class="card-img-top" src="'+imageUrl+'" alt="Card image cap"><div class="card-body"> <h4 class="card-title text-center">'+name+'</h4><div class="container adjust items center" style="margin-top:10px"><div class="row align-items-center align-self-center style="margin-top:15px;"><div class="col-4 justify-content-center align-self-center icon_wrapper " ><img class="rounded float-right" src="css/assets/clock.svg" style="display:block;width:30px; height: 30px;" id="clock"></div><div class="col no-gutters align-self-center justify-content-center"  ><p class="detail my-auto text-left text-capitalize" id="time_and_day" style="color: black; font-size:20px">'+day+', '+timeStart+':00</p></div></div></div></div></div></div>';
 
     if(innerElement.children().length==0){
         var carouselItem=$('<div class="carousel-item" id="'+carouselOuterElementID+'" ></div>').appendTo(innerElement)     
@@ -271,7 +262,7 @@ function fillCarouselRow(todayClass,carouselInnerElementID,carouselOuterElementI
     row.append(elementOfRow)
 
 
-    var id="#"+todayClass.type;
+    var id="#"+todayClass.type+uniqid;
     $(id).bind('click',function(){
         console.log('before '+todayClass.place+' '+todayClass.name)
         localStorage.removeItem('todayClass')
@@ -375,7 +366,7 @@ function resize(width){
             title.removeClass('display-4')
             title.addClass('display-3')
         }
-      
+
 
     }
     if(width<768){

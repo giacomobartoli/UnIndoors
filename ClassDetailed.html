@@ -18,12 +18,13 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
                 crossorigin="anonymous"></script>
         <script src="js/bootstrap.js"></script>
-        <script href="js/loginpage.js"></script>
+
+
+
+
         <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
 
-
         <script>
-
             var config = {
                 apiKey: "AIzaSyAiVwf9orhjqFyH6i4HBSmmaZuLwrJyZnQ",
                 authDomain: "uniboindoors.firebaseapp.com",
@@ -33,9 +34,22 @@
                 messagingSenderId: "484831871025"
             };
             firebase.initializeApp(config);
+
             var database = firebase.database();
 
+            var worker=new Worker('js/updater.js')
+            window.setInterval(function(){
+               // console.log('hi')
+                worker.postMessage('start')
+
+            },30000)
+
+
+
         </script>
+
+        <script src="js/classeshandler.js"></script>
+
 
         <script src="js/userstatus.js"></script>
         <script src="js/classeshandler.js"></script>
@@ -43,6 +57,7 @@
         <script src="js/navbar.js"></script>
         <script src="js/classdetailedhandler.js"></script>
         <script src="js/newonlineoperator.js"></script>
+
 
     </head>
     <body>
@@ -54,7 +69,7 @@
             </button>
 
             <div class="collapse navbar-collapse" id="menu_start">
-                <ul class="navbar-nav mr-auto mt-2 mt-lg-0 ">
+                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0 ">
                     <li class="nav-item">
                         <a class="nav-link" href="MyHelpRequests.html">My Help Requests</a>
                     </li>
@@ -74,7 +89,11 @@
                     <li class="nav-item">
 
                         <img src="css/assets/boy.svg" style="width:90px; max-height:65px;">
-                    </li>
+
+                   <li>
+                   <a class="nav-link" href="OtherPlaces.html">All Places</a>
+                 
+                   </li>
 
                 </ul>
 
@@ -92,6 +111,7 @@
         </div>
 
         <div class="container collapse" id="directions_container" style="margin-top: 30px;" id="first_direction">
+
 
 
 

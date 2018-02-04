@@ -19,12 +19,38 @@
                 crossorigin="anonymous"></script>
         <script src="js/bootstrap.js"></script>
         <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+        <script>
+            var config = {
+                apiKey: "AIzaSyAiVwf9orhjqFyH6i4HBSmmaZuLwrJyZnQ",
+                authDomain: "uniboindoors.firebaseapp.com",
+                databaseURL: "https://uniboindoors.firebaseio.com",
+                projectId: "uniboindoors",
+                storageBucket: "uniboindoors.appspot.com",
+                messagingSenderId: "484831871025"
+            };
+            firebase.initializeApp(config);
+            //  var database=firebase.database()
+
+            var worker=new Worker('js/updater.js')
+
+
+
+
+            window.setInterval(function(){
+                // console.log('hi')
+                worker.postMessage('start')
+
+            },30000)
+
+
+        </script> 
         <script src="js/classeshandler.js"></script>
         <script src="js/userstatus.js"></script>
         <script src="js/operators.js"></script>
         <script src="js/navbar.js"></script>
         <script src="js/loginpage.js"></script>
         <script src="js/customalert.js"></script>
+
 
     </head>
 
@@ -38,12 +64,16 @@
 
             <div class="collapse navbar-collapse" id="menu_start">
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0 ">
-                    <li class="nav-item">
+                     <li class="nav-item">
                         <a class="nav-link" href="MyHelpRequests.html">My Help Requests</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" onclick="onClickFindYourClass()">My Classes</a>
+                        <a class="nav-link" href="Classes.html">My Classes</a>
                     </li>
+                   <li>
+                   <a class="nav-link" href="OtherPlaces.html">All Places</a>
+                   
+                   </li>
                 </ul>
 
                 <ul class="navbar-nav navbar-right" id="login_signup_navbar">
@@ -65,10 +95,10 @@
         </nav>
         <div class="container" style="margin-top: 80px;" >
             <h1 class="display-2 text-center title" style="color: white;" >Today's Lessons </h1>
-            
-            
+
+
         </div>
-        
+
         <div class="container-fluid" style="margin-top: 40px;">
             <div class="carousel slide" data-ride="carousel" id="carousel_today_classes" >
                 <div class="carousel-inner" id="today_classes_inner"></div>
@@ -100,7 +130,7 @@
 
         <script>
             $( document ).ready(function() {
-              
+
 
                 var width=$( window ).width();
 
@@ -150,6 +180,7 @@
 
 
             });
+
             $(window).resize(function(){
                 var width=$( window ).width();
 
@@ -207,11 +238,21 @@
                 }
 
             })
+            $(document).ready(function(){
+                //                var worker=new Worker('js/updater.js')
+                //
+                //
+                //                worker.addEventListener('message',function(){
+                //                    console.log('worker called')
+                //                })
+                //
+                //                window.setInterval(worker.postMessage('start'),20000)
 
+            })
 
         </script>
 
-                <div class="container-fluid" style=" margin-top: 30px; margin-bottom: 0px; background-color:#424949;" align="middle">			
+        <div class="container-fluid" style=" margin-top: 30px; margin-bottom: 0px; background-color:#424949;" align="middle">			
             <p>&nbsp;</p>			
             <div class="col" align="middle" style="margin-top:30px;">
                 <img height="80" width="200" src=logo.png>
@@ -219,11 +260,11 @@
                 <p>&nbsp;</p>
             </div>
         </div>
-        
+
     </body>
     <script>
         $(document).ready(setNavbar())
-        
+
     </script>
 
 </html>

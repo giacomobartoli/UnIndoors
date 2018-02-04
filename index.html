@@ -31,9 +31,12 @@
                 storageBucket: "uniboindoors.appspot.com",
                 messagingSenderId: "484831871025"
             };
+            console.log('sdjhfjkl')
             firebase.initializeApp(config);
+            firebase.database().ref('CesenaCampus/').once('child_added',snap=>{
+                alert(snap.key)
+            })
         </script>
-
         <script src="js/navbar.js"></script>
         <script type="text/javascript" src="js/customalert.js"></script>
     </head>
@@ -46,10 +49,10 @@
             </button>
             <div class="collapse navbar-collapse" id="menu_start">
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0 ">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Features
-                        </a>
-                    </li>
+                    <li>
+                   <a class="nav-link" href="OtherPlaces.html">All Places</a>
+                   
+                   </li>
                     <li class="nav-item">
                         <a class="nav-link" onclick="onClickFindYourClass()">My Classes</a>
                     </li>
@@ -178,6 +181,8 @@
     <script>
         //deleting previous stored cookies
         $(document).ready(logOut())
+
+
     </script>
 
 </html>
