@@ -123,6 +123,9 @@
 
 
             })
+            
+            
+            
             function getClassroomDirections(){
                 var directionDiv=$('#directions_container')
                // alert('ghey')
@@ -132,8 +135,8 @@
 
                     var database = firebase.database();
                     var todayClass=JSON.parse(localStorage.getItem('todayClass'))
-                    var classroomName=todayClass.place
-                    database.ref('CesenaCampus/'+classroomName+'/directions/').on('value',function (snapshot){
+                  //  var classroomName=todayClass.place
+                    database.ref('CesenaCampus/AulaA/directions/').on('value',function (snapshot){
                         var newRow='<div class="row justify-content-center " style="margin-top: 50px;" ></div>'
                         var firstDirection='<div class="col-3 icon_wrapper justify-content-center align-self-center" style="margin-left: 30px; margin-top:30px" ><img class="icon" src="css/assets/entrance.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left "style="color: white;">Walk through the main gate</p></div>'
                         directionDiv.append(newRow)
@@ -745,7 +748,81 @@
 
 
         </div>
+<script>
+        
+        function load(){
 
+
+ database.ref('CesenaCampus/AulaA/').on('value',function (snapshot){
+                    console.log('Nice im in Firebase')
+                    var name=snapshot.child('name').val().toString()
+                    var lessonName=snapshot.child('lesson').child('lessonName').val()
+                    var state=snapshot.child('lesson').child('state').val()
+                    var teacher=snapshot.child('lesson').child('teacher').val()
+                    var name=snapshot.child('name').val().toString()
+                    var timeStart=snapshot.child('lesson').child('timeStart').val()
+                    var timeEnd=snapshot.child('lesson').child('timeEnd').val()
+                    var dayValue=snapshot.child('lesson').child('dayValue').val()
+                    $('#class_name').text(lessonName)
+
+                    if(name=='Laboratorio Informatico 2'){
+                        name='Lab. Inf. 2'
+
+                    }
+                    if(name=='Laboratorio Informatico 3'){
+                        name='Lab. Inf. 3'
+
+                    }
+                    $('#classroom_name').text('Aula A')
+                    $('#position').text(snapshot.child('floor').val().toString())
+                    var isFriendly=(snapshot.child('isFriendly').val().toString()=='true')
+                    if(isFriendly)       {
+                        $('#is_friendly').text('Facilities present')
+                        $('#handy').unbind('click')
+                    }
+                    else{
+                        $('#is_friendly').text('Ask for help')
+                        $('#handy').on('click', function(){
+                            var helpcontainer=$('#help_request')
+                            if(helpcontainer.children().length==0){
+                                var element='  <form class="needs-validation" novalidate style="margin top:30px;"><div class="form-row" ><div class="col-6"><input type="text" class="form-control form-control-lg" placeholder="Nome Cognome"id="first_name"><div class="invalid-feedback  " >Please insert a valid name and surname</div></div><div class="col"><input type="text" class="form-control form-control-lg" placeholder="14:23" id="time"><div class="invalid-feedback  " >Please insert a valid time</div></div></div><div class="form-row" style="margin-top: 20px;"><div class="col"><textarea class="form-control form-control-lg" id="message" rows="3" placeholder="Write your message" id="message"></textarea></div></div> <div><button type="button" class="btn btn-primary btn-block d-block mx-auto btn-lg" onclick="onClickSubmit()" style="max-width: 200px; margin-top: 20Px;">Submit</button></div></form>'
+
+                                helpcontainer.append(element)
+
+                            }
+                        })
+                        $('#handy').attr('data-toggle','collapse')
+                        $('#handy').attr('data-target','#help_request')
+                        $('#handy').attr('aria-expanded','false')
+                        $('#handy').attr('aria-controls','#help_request')
+                    }
+                    $('#teacher_name').text(teacher)
+                    var date = new Date();
+                    var today = date.getDay();
+
+                    if(dayValue==today){
+                        $('#time_and_day').text('Today, '+timeStart+":00-"+timeEnd+":00")
+
+                    }
+                    else{
+
+                        var truncatedDay=renderDay(dayValue).slice(0,3)
+                        $('#time_and_day').text(truncatedDay+", "+timeStart+":00-"+timeEnd+":00")
+
+
+                    }
+                    $('.loader').remove()
+
+                })
+
+
+
+
+
+}
+        
+        
+        </script>
 
     </body>
 

@@ -132,6 +132,7 @@ function getLesson(lessonsPerClassroom,id){
 
 
     }
+    console.log(temp.lessonName)
     var islessonCurrent=temp.dayValue!=currentDay || temp.timeEnd<currentHour?'Next':'Current'
     database.ref('CesenaCampus/'+temp.place+'/').child('lesson').set({
         'lessonName':temp.lessonName,
