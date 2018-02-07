@@ -19,16 +19,17 @@ Create a new Firebase project in order to get the API key to connect to you own 
 
 Just open the file index.html using one of your favourite IDE.
 
+
+ 
+## Screenshots ##
+ 
+<img src="screen/s1.jpg" alt="Homepage" width="400px"><img src="screen/s2.jpg" alt="Log in" width="400px"><img src="screen/s3.jpg" alt="Today schedule" width="400px"><img src="screen/s4.jpg" alt="Details" width="400px"><img src="screen/s5.jpg" alt="This week schedule" width="400px"><img src="screen/s6.jpg" alt="Places" width="400px"><img src="screen/s7.jpg" alt="Operator's backend" width="400px">
+
 ## Developers ##
+Made with ❤️ by:
 
- - Giacomo Zanotti
- - Giacomo Bartoli
- 
-### Screenshots ##
- 
-<img src="screen/s1.jpg" alt="Homepage" width="400px"><img src="screen/s2.jpg" alt="Log in" width="400px"><img src="screen/s3.jpg" alt="Today schedule" width="400px">
-
-<img src="screen/s4.jpg" alt="Details" width="400px"><img src="screen/s5.jpg" alt="This week schedule" width="400px"><img src="screen/s6.jpg" alt="Places" width="400px"><img src="screen/s7.jpg" alt="Operator's backend" width="400px">
+ - Giacomo "the Oracle" Zanotti
+ - Giacomo Bartoli, the ufficial Commesso &copy;
 
 
 
