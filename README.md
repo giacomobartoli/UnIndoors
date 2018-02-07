@@ -29,7 +29,7 @@ Just open the file index.html using one of your favourite IDE.
 Made with ❤️ by:
 
  - Giacomo "the Oracle" Zanotti
- - Giacomo Bartoli, the ufficial Commesso &copy;
+ - Giacomo Bartoli, the official Commesso &copy;
 
 
 
