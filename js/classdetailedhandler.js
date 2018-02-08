@@ -205,7 +205,7 @@ function getPlaceDetails(todayclass){
 
             }
         }
-        //        $('.loader').remove()
+               $('.loader').remove()
         getClassroomDirections()
 
     })

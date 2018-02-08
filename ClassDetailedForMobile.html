@@ -39,10 +39,9 @@
 
 
             firebase.auth().signInWithEmailAndPassword('gzano93@gmail.com', 'metallaro93').then(success=>{
-
                 firebase.database().ref('operators/').on('value',snapshot=>{
-                    var count = 0
 
+                    var count=0
                     snapshot.forEach(operatorSnapshot=>{
 
                         var operatorStatus=operatorSnapshot.child('status').val()
@@ -58,17 +57,26 @@
                         $('#myBadge').text(''+0)
                     }
                 })
-                var width=$(window).width()
-                database.ref('CesenaCampus/AulaA/').on('value',function (snapshot){
-                    console.log('Nice im in Firebase')
-                    var name=snapshot.child('name').val().toString()
-                    var teacher=snapshot.child('teacher').val()
 
-                    if(width<=350 && name=='Laboratorio Informatico 2'){
+                console.log(Android.getPlaceName())
+                var value=JSON.parse(Android.getPlaceName())
+                database.ref('CesenaCampus/'+value["placeName"]+'/').on('value',function (snapshot){
+                    console.log('Nice im in Firebase')
+
+                    var name=snapshot.child('name').val()
+                    var lessonName=value["lessonName"]
+                    var teacher=value["teacherName"]
+                    var timeStart=value["timeStart"]
+                    var timeEnd=value["timeEnd"]
+                    var dayValue=value["dayValue"]
+                    var day=value["day"]
+                    $('#class_name').text(lessonName)
+
+                    if(name=='Laboratorio Informatico 2'){
                         name='Lab. Inf. 2'
 
                     }
-                    if(width<=350 && name=='Laboratorio Informatico 3'){
+                    if(name=='Laboratorio Informatico 3'){
                         name='Lab. Inf. 3'
 
                     }
@@ -99,13 +107,14 @@
                     var date = new Date();
                     var today = date.getDay();
 
-                    if(4==today){
-                        $('#time_and_day').text('Today, '+9+":00-"+11+":00")
+                    if(dayValue==today){
+                        $('#time_and_day').text('Today, '+timeStart+"-"+timeEnd)
 
                     }
                     else{
-                        var truncatedDay='Wednesday'.slice(0,3)
-                        $('#time_and_day').text("Ciaone orario")
+
+                        var truncatedDay=day.slice(0,3)
+                        $('#time_and_day').text(truncatedDay+", "+timeStart+"-"+timeEnd)
 
 
                     }
@@ -116,6 +125,141 @@
 
 
             })
+            function getClassroomDirections(){
+                var directionDiv=$('#directions_container')
+                // alert('ghey')
+
+
+                if(directionDiv.children().length==0){
+
+                    var database = firebase.database();
+                    var classroomName=$('#classroom_name').text()
+                    if(classroomName=='Lab.Inf.2'){
+                        classroomName='LaboratorioInformatico2'
+                    }
+                    if(classroomName=='Lab.Inf.3'){
+                        classroomName='LaboratorioInformatico3'
+                    }
+                    else{
+                        classroomName=new String($('#classroom_name').text()).replace(/\s/g, "");
+                        console.log('trimmed classroomName '+classroomName)
+                    }
+
+
+                    database.ref('CesenaCampus/'+classroomName+'/directions/').on('value',function (snapshot){
+                        var newRow='<div class="row justify-content-center " style="margin-top: 50px;" ></div>'
+                        var firstDirection='<div class="col-3 icon_wrapper justify-content-center align-self-center" style="margin-left: 30px; margin-top:30px" ><img class="icon" src="entrance.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left "style="color: white;">Walk through the main gate</p></div>'
+                        directionDiv.append(newRow)
+                        var row=directionDiv.find('.row').last()
+                        row.append(firstDirection)
+                        snapshot.forEach(function(childSnapshot){
+                            var directionKey=childSnapshot.key
+
+                            if(directionKey.includes('left')){
+                                var row=directionDiv.find('.row').last()
+                                if(row.children().length==2){
+                                    directionDiv.append(newRow)
+                                    row=directionDiv.find('.row').last()
+                                    var cols='<div class="col-3 icon_wrapper justify-content-center align-self-center" style="margin-left: 30px; margin-top:30px"><img  class="icon" src="left.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left "  style="color: white;">'+childSnapshot.val().toString()+'</p></div>'
+                                    row.append(cols)
+
+                                }
+                                else{
+                                    var cols='<div class="col-3 icon_wrapper justify-content-center align-self-center" style="margin-left: 30px; margin-top:30px"><img  class="icon" src="left.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left "  style="color: white;">'+childSnapshot.val().toString()+'</p></div>'
+                                    row.append(cols)
+                                }
+                            }
+
+                            if(directionKey.includes('stairsup')){
+                                var row=directionDiv.find('.row').last()
+                                if(row.children().length==2){
+                                    directionDiv.append(newRow)
+                                    row=directionDiv.find('.row').last()
+                                    var cols='<div class="col-3 icon_wrapper justify-content-center align-self-center" style="margin-left:30px; margin-top:30px"><img  class="icon" src="stairs-up.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left "  style="color: white;">'+childSnapshot.val().toString()+'</p></div>'
+                                    row.append(cols)
+
+                                }
+                                else{
+                                    var cols='<div class="col-3 icon_wrapper justify-content-center align-self-center" style="margin-left: 30px; margin-top:30px"><img  class="icon" src="stairs-up.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left "   style="color: white;">'+childSnapshot.val().toString()+'</p></div>'
+                                    row.append(cols)
+                                }
+                            }
+                            if(directionKey.includes('final')){
+                                var row=directionDiv.find('.row').last()
+                                if(row.children().length==2){
+                                    directionDiv.append(newRow)
+                                    row=directionDiv.find('.row').last()
+                                    var cols='<div class="col-3 icon_wrapper justify-content-center align-self-center" style="margin-left: 30px; margin-top:30px"><img  class="icon" src="destination.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left "  style="color: white;">'+childSnapshot.val().toString()+'</p></div>'
+                                    row.append(cols)
+
+                                }
+                                else{
+                                    var cols='<div class="col-3 icon_wrapper justify-content-center align-self-center" style="margin-left: 30px; margin-top:30px"><img  class="icon" src="destination.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left "   style="color: white;">'+childSnapshot.val().toString()+'</p></div>'
+                                    row.append(cols)
+                                }
+                            }
+                            if(directionKey.includes('straight')){
+                                var row=directionDiv.find('.row').last()
+                                if(row.children().length==2){
+                                    directionDiv.append(newRow)
+                                    row=directionDiv.find('.row').last()
+                                    var cols='<div class="col-3 icon_wrapper justify-content-center align-self-center" style="margin-left: 30px; margin-top:30px"><img  class="icon" src="up.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left "  style="color: white;">'+childSnapshot.val().toString()+'</p></div>'
+                                    row.append(cols)
+
+                                }
+                                else{
+                                    var cols='<div class="col-3 icon_wrapper justify-content-center align-self-center" style="margin-left: 30px; margin-top:30px"><img  class="icon" src="up.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left "   style="color: white;">'+childSnapshot.val().toString()+'</p></div>'
+                                    row.append(cols)
+                                }
+                            }
+                            if(directionKey.includes('right')){
+                                var row=directionDiv.find('.row').last()
+                                if(row.children().length==2){
+                                    directionDiv.append(newRow)
+                                    row=directionDiv.find('.row').last()
+                                    var cols='<div class="col-3 icon_wrapper justify-content-center align-self-center" style="margin-left: 30px; margin-top:30px"><img  class="icon" src="right.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left "  style="color: white;">'+childSnapshot.val().toString()+'</p></div>'
+                                    row.append(cols)
+
+                                }
+                                else{
+                                    var cols='<div class="col-3 icon_wrapper justify-content-center align-self-center" style="margin-left: 30px; margin-top:30px"><img  class="icon" src="right.svg" ></div><div class="col align-self-center " style="margin-top: 30px;" ><p class="detail display-4 text-left "   style="color: white;">'+childSnapshot.val().toString()+'</p></div>'
+                                    row.append(cols)
+                                }
+                            }
+                        })
+                        var width=$(window).width()
+                        $('.loader').remove()
+
+                    })
+
+
+
+                }
+            }
+
+            function renderDay(dayNumber){
+
+                switch(dayNumber){
+                    case 0:
+                        return 'Sunday';
+                    case 1:
+                        return 'Monday';
+                    case 2:
+                        return 'Tuesday';
+                    case 3:
+                        return 'Wednesday';
+                    case 4:
+                        return 'Thursday';
+                    case 5:
+                        return 'Friday';
+                    case 6:
+                        return 'Saturday';
+                }
+            }
+
+
+
+
 
 
 
@@ -129,7 +273,76 @@
 
         <script>
 
+            function load(classroomKey){
 
+                console.log(classroomKey)
+                database.ref('CesenaCampus/'+classroomKey+'/').on('value',function (snapshot){
+                    console.log("load() loaded")
+                    var name=snapshot.child('name').val().toString()
+                    var lessonName=snapshot.child('lesson').child('lessonName').val()
+                    var state=snapshot.child('lesson').child('state').val()
+                    var teacher=snapshot.child('lesson').child('teacher').val()
+                    var name=snapshot.child('name').val().toString()
+                    var timeStart=snapshot.child('lesson').child('timeStart').val()
+                    var timeEnd=snapshot.child('lesson').child('timeEnd').val()
+                    var dayValue=snapshot.child('lesson').child('dayValue').val()
+                    $('#class_name').text(lessonName)
+
+                    if(name=='Laboratorio Informatico 2'){
+                        name='Lab. Inf. 2'
+
+                    }
+                    if(name=='Laboratorio Informatico 3'){
+                        name='Lab. Inf. 3'
+
+                    }
+                    $('#classroom_name').text(name)
+                    $('#position').text(snapshot.child('floor').val().toString())
+                    var isFriendly=(snapshot.child('isFriendly').val().toString()=='true')
+                    if(isFriendly)       {
+                        $('#is_friendly').text('Facilities present')
+                        $('#handy').unbind('click')
+                    }
+                    else{
+                        $('#is_friendly').text('Ask for help')
+                        $('#handy').on('click', function(){
+                            var helpcontainer=$('#help_request')
+                            if(helpcontainer.children().length==0){
+                                var element='  <form class="needs-validation" novalidate style="margin top:30px;"><div class="form-row" ><div class="col-6"><input type="text" class="form-control form-control-lg" placeholder="Nome Cognome"id="first_name"><div class="invalid-feedback  " >Please insert a valid name and surname</div></div><div class="col"><input type="text" class="form-control form-control-lg" placeholder="14:23" id="time"><div class="invalid-feedback  " >Please insert a valid time</div></div></div><div class="form-row" style="margin-top: 20px;"><div class="col"><textarea class="form-control form-control-lg" id="message" rows="3" placeholder="Write your message" id="message"></textarea></div></div> <div><button type="button" class="btn btn-primary btn-block d-block mx-auto btn-lg" onclick="onClickSubmit()" style="max-width: 200px; margin-top: 20Px;">Submit</button></div></form>'
+
+                                helpcontainer.append(element)
+
+                            }
+                        })
+                        $('#handy').attr('data-toggle','collapse')
+                        $('#handy').attr('data-target','#help_request')
+                        $('#handy').attr('aria-expanded','false')
+                        $('#handy').attr('aria-controls','#help_request')
+                    }
+                    $('#teacher_name').text(teacher)
+                    var date = new Date();
+                    var today = date.getDay();
+
+                    if(dayValue==today){
+                        $('#time_and_day').text('Today, '+timeStart+":00-"+timeEnd+":00")
+
+                    }
+                    else{
+
+                        var truncatedDay=renderDay(dayValue).slice(0,3)
+                        $('#time_and_day').text(truncatedDay+", "+timeStart+":00-"+timeEnd+":00")
+
+
+                    }
+                    $('.loader').remove()
+
+                })
+
+
+
+
+
+            }
 
             function getPlaceDetails(todayclass){
                 console.log('Place details called')
@@ -137,18 +350,14 @@
                 var width=$(window).width()
                 database.ref('CesenaCampus/AulaA/').on('value',function (snapshot){
                     console.log('Nice im in Firebase')
-                    var lessonName=snapshot.child('lesson').child('lessonName').val()
-                    var state=snapshot.child('lesson').child('state').val()
-                    var teacher=snapshot.child('lesson').child('teacher')
                     var name=snapshot.child('name').val().toString()
-                    var timeStart=snapshot.child('lesson').child('timeStart').val()
-                    var timeEnd=snapshot.child('lesson').child('timeEnd').val()
-                    var dayValue=snapshot.child('lesson').child('dayValue').val()
-                    if( name=='Laboratorio Informatico 2'){
+                    var teacher=snapshot.child('teacher').val()
+
+                    if(width<=350 && name=='Laboratorio Informatico 2'){
                         name='Lab. Inf. 2'
 
                     }
-                    if(name=='Laboratorio Informatico 3'){
+                    if(width<=350 && name=='Laboratorio Informatico 3'){
                         name='Lab. Inf. 3'
 
                     }
@@ -181,15 +390,15 @@
                     var date = new Date();
                     var today = date.getDay();
 
-                    if(dayValue==today){
-                        $('#time_and_day').text('Today, '+timeStart+":00-"+timeEnd+":00")
+                    if(todayclass.day==today){
+                        $('#time_and_day').text('Today, '+9+":00-"+11+":00")
 
                     }
                     else{
-                       
-                            var truncatedDay=renderDay(dayValue).slice(0,3)
-                            $('#time_and_day').text(truncatedDay+", "+timeStart+":00-"+timeEnd+":00")
-                        
+                        if(width<=350){
+                            var truncatedDay='Wednesday'.slice(0,3)
+                            $('#time_and_day').text(truncatedDay+", "+9+":00-"+11+":00")
+                        }
 
                     }
                     $('.loader').remove()
@@ -347,9 +556,17 @@
             }
 
 
+
+
+
+
+
+
         </script>
         <style>
-
+            h1{
+                font-size:30px;
+            }
             #profile_info{
                 float: right;
                 margin-top: 80px;
@@ -551,13 +768,21 @@
 
 
 
+
+
+
+
+
+
         </style>
     </head>
     <body>
 
 
         <div class="container" style="margin-top: 70px; justify-content: center" id="detailcontainer">
-            <h1 class="display-3 text-center title" style="color: white;" id="class_name"></h1>
+            <div class="loader d-block mx-auto my-auto"></div>
+
+            <h1 class="display-4 text-center title" style="color: white;" id="class_name"></h1>
             <h1 class="display-4" style="color: white; display: block;text-align: center;font-size: 20px">
                 available operators <span class="badge badge-pill badge-success" id="myBadge">...</span>
             </h1>
@@ -566,7 +791,7 @@
             <div class=" row justify-content-center" style=" margin-top: 50px;" id="class_and_time">
                 <div class="col-4 col-dir icon_wrapper justify-content-center align-self-center"
                      style="margin-left: 50px; margin-top:30px"><img class="icon" src="classroom.svg"></div>
-                <div class="col col-dir align-self-center " style="margin-top: 30px;">
+                <div class="col  align-self-center " style="margin-top: 30px;">
                     <div class="loader d-block mx-auto my-auto"></div>
                     <p class="detail display-4 text-left text-capitalize " id="classroom_name"
                        style="color: white;"></p></div>
@@ -575,7 +800,7 @@
 
                 <div class="col-4 col-dir  justify-content-center align-self-center icon_wrapper"
                      style="margin-left:50px; margin-top:30px"><img class="icon" src="clock.svg"></div>
-                <div class="col col-dir  align-self-center " style=" margin-top: 30px;">
+                <div class="col   align-self-center " style=" margin-top: 30px;">
                     <div class="loader d-block mx-auto my-auto"></div>
                     <p class="detail  display-4 text-left text-capitalize" id="time_and_day"
                        style="color: white;"></p></div>
@@ -610,6 +835,20 @@
                     <p class=" detail display-4 text-left text-capitalize" id="position"
                        style="color: white;"></p></div>
             </div>
+            <div class=" row justify-content-center" style="margin-top: 30px;">
+
+                <div class="col-4 col-dir justify-content-center align-self-center icon_wrapper"
+                     style="margin-left:50px; margin-top:30px"><img class="icon" src="panel.svg"></div>
+                <div class="col col-dir align-self-center " style="margin-top: 30px;">
+                    <button type="button" class="btn btn-success " id="getdirections"
+                            onclick="getClassroomDirections()" data-toggle="collapse"
+                            data-target="#directions_container" aria-expanded="false"
+                            aria-controls="directions_container">Get directions!
+                    </button>
+                </div>
+            </div>
+
+            <div class="container collapse" id="directions_container"></div>
 
 
         </div>

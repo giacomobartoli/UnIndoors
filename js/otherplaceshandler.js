@@ -153,9 +153,10 @@ function setInterestPlacesTime(dailyActivities){
     var timeDiffCurrentEnd=hourEnd-currentHour
     var timeDiffCurrentMinuteStart=minuteStart-currentMinute
     var timeDiffCurrentMinuteEnd=minuteEnd-currentMinute
+    var day=temp.dayValue==currentDay?'Today':renderDay(temp.dayValue)
 
 
-    if(temp.dayValue==currentDay && timeDiffCurrentStart>=0 && timeDiffCurrentEnd<=0){
+    if(temp.dayValue==currentDay && timeDiffCurrentStart<=0 && timeDiffCurrentEnd>=0 && timeDiffCurrentMinuteEnd>=0){
         switch(temp.key){
             case 'Biblioteca':
                 $('#timeinterest_'+temp.key).text('Now open, '+temp.timeStart+'-'+temp.timeEnd);
@@ -173,7 +174,7 @@ function setInterestPlacesTime(dailyActivities){
 
                 break;
             case 'OfficeDidattica':
-                $('#timeinterest_'+temp.key).text('Help Desk available for '+temp.name+' at ' +temp.timeStart+'-'+temp.timeEnd);
+                $('#timeinterest_'+temp.key).text('Help Desk available at ' +temp.timeStart+'-'+temp.timeEnd);
                 $('#badgeinterest_'+temp.key).text(getTimeInterest(temp))
 
                 break;
@@ -185,28 +186,28 @@ function setInterestPlacesTime(dailyActivities){
     else{
         switch(temp.key){
             case 'Biblioteca':
-                $('#timeinterest_'+temp.key).text('Next time open: '+renderDay(temp.dayValue)+' at '+temp.timeStart)
+                $('#timeinterest_'+temp.key).text('Next time open: '+day+' at '+temp.timeStart)
                 $('#badgeinterest_'+temp.key).text(getTimeInterest(temp))
 
                 break;
             case 'OfficeRicci':
-                $('#timeinterest_'+temp.key).text('Next time Prof.Ricci available on '+renderDay(temp.dayValue)+' at '+temp.timeStart)
+                $('#timeinterest_'+temp.key).text('Next time Prof.Ricci available on: '+day+' at '+temp.timeStart)
                 $('#badgeinterest_'+temp.key).text(getTimeInterest(temp))
 
                 break;
             case 'OfficeMirri':
-                $('#timeinterest_'+temp.key).text('Next time Prof.Mirri available on '+renderDay(temp.dayValue)+' at '+temp.timeStart)
+                $('#timeinterest_'+temp.key).text('Next time Prof.Mirri available on: '+day+' at '+temp.timeStart)
                 $('#badgeinterest_'+temp.key).text(getTimeInterest(temp))
 
                 break;
             case 'OfficeDidattica':
-                $('#timeinterest_'+temp.key).text('Next Time Help Desk available on '+renderDay(temp.dayValue)+' at ' +temp.timeStart+'-'+temp.timeEnd);
+                $('#timeinterest_'+temp.key).text('Next Time Help Desk available on: '+day+' at ' +temp.timeStart+'-'+temp.timeEnd);
                 $('#badgeinterest_'+temp.key).text(getTimeInterest(temp))
 
                 break;
         }
 
-
+        
     }
 
     //$('#timeinterest_'+temp.key)
@@ -259,24 +260,30 @@ function getTimeInterest(dailyAction){
             case 0:
                 if(timeDiffCurrentMinuteStart>=0){ //minuto di inizio meno corrente
 
-                    return setMinuteStraight(timeDiffCurrentMinuteStart)+' hence'
+                    return timeDiffCurrentMinuteStart+' minutes hence'
                 }
                 else{
-                    return setMinuteStraight(Math.abs(timeDiffCurrentMinuteStart))+' ago'
+
+                    return Math.abs(timeDiffCurrentMinuteStart)+' minutes  ago'
                 }
             case 1:
+                console.log(dailyAction.key+' '+dailyAction.timeStart)
+
                 if(timeDiffCurrentMinuteStart>=0 && timeDiffCurrentStart>0){
 
                     return timeDiffCurrentStart+':' +setMinuteStraight(timeDiffCurrentMinuteStart)+' hence'
                 }
                 if(timeDiffCurrentMinuteStart>=0 && timeDiffCurrentStart<0){
-                    return setMinuteStraight(60-minuteStart+currentMinute)+' ago'
+                    var minuteNumb=new Number(minuteStart)
+
+                    return setMinuteStraight(60-minuteNumb+currentMinute)+' minutes ago'
                 }
                 if(timeDiffCurrentMinuteStart<0 && timeDiffCurrentStart<0){
-                    return Math.abs(timeDiffCurrentStart)+':'+Math.abs(timeDiffCurrentMinuteStart)+' ago'
+                    return Math.abs(timeDiffCurrentStart)+':'+setMinuteStraight(Math.abs(timeDiffCurrentMinuteStart))+' hours  ago'
                 }
                 if(timeDiffCurrentMinuteStart<0 && timeDiffCurrentStart>0){
-                    return setMinuteStraight(60-currentMinute+minuteStart)+' hence'
+                    var minuteNumb=new Number(minuteStart)
+                    return setMinuteStraight(Math.abs(60-minuteNumb+currentMinute))+' minutes  hence'
                 }
             default:
                 if(timeDiffCurrentMinuteStart>=0 && timeDiffCurrentStart>0 && !isLessonOver){
@@ -284,20 +291,20 @@ function getTimeInterest(dailyAction){
                     return timeDiffCurrentStart+':' +setMinuteStraight(timeDiffCurrentMinuteStart)+' hence'
                 }
                 if(timeDiffCurrentMinuteStart>=0 && timeDiffCurrentStart<0 && !isLessonOver){
-                    return Math.abs(timeDiffCurrentStart)-1+':'+setMinuteStraight(60-minuteStart+currentMinute)+' ago'
+                    return Math.abs(timeDiffCurrentStart)-1+':'+setMinuteStraight(60-minuteStart+currentMinute)+' hours ago'
                 }
                 if(timeDiffCurrentMinuteStart<0 && timeDiffCurrentStart<0 && !isLessonOver){
-                    return Math.abs(timeDiffCurrentStart)+':'+setMinuteStraight(Math.abs(timeDiffCurrentMinuteStart))+' ago'
+                    return Math.abs(timeDiffCurrentStart)+':'+setMinuteStraight(Math.abs(timeDiffCurrentMinuteStart))+' hours ago'
                 }
                 if(timeDiffCurrentMinuteStart<0 && timeDiffCurrentStart>0 && !isLessonOver){
-                    return Math.abs(timeDiffCurrentStart)-1+':'+setMinuteStraight(60-currentMinute+minuteStart)+' hence'
+                    return Math.abs(timeDiffCurrentStart)-1+':'+setMinuteStraight(60-currentMinute+minuteStart)+' hours hence'
                 }
         }
 
     }
 }
 function setMinuteStraight(minute){
-    return minute<10?minute+'0':minute
+    return minute<10?'0'+minute:minute
 }
 function listClassrooms(){
     $('.list-group-item-classrooms').remove()
@@ -517,9 +524,15 @@ function getTime(timeStart,timeEnd,id,lessonDayValue){
 
 
                 break;
+            case 1:
+                if(currentMinute>0){
+                    return 60-currentMinute+' minutes hence'
 
+                }
+                break;
             default:
                 //$('#badge_'+id).text(timeToPrint)
+
                 return timeToPrint
 
                 break;
