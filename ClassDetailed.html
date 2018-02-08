@@ -18,7 +18,14 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
                 crossorigin="anonymous"></script>
         <script src="js/bootstrap.js"></script>
+
+
+
+
+
+
         <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+
         <script>
             var config = {
                 apiKey: "AIzaSyAiVwf9orhjqFyH6i4HBSmmaZuLwrJyZnQ",
@@ -29,7 +36,7 @@
                 messagingSenderId: "484831871025"
             };
             firebase.initializeApp(config);
-            
+
             var database = firebase.database();
 
             var worker=new Worker('js/updater.js')
@@ -37,7 +44,7 @@
                // console.log('hi')
                 worker.postMessage('start')
 
-            },30000)
+            },20000)
 
 
         </script>
@@ -88,7 +95,12 @@
 
                         <img src="css/assets/boy.svg" style="width:90px; max-height:65px;">
 
-                  
+
+                   <li>
+                   <a class="nav-link" href="OtherPlaces.html">All Places</a>
+                 
+                   </li>
+
                 </ul>
 
             </div>
@@ -113,7 +125,7 @@
         <div class="container" style="margin-top: 70px;" >
             <h1 class="display-2 text-center title" style="color: white;">Next Lessons This Week</h1>
         </div>
-        <div class="container-fluid" style="height:100%; margin-top: 15px;">
+        <div class="container-fluid" style="height:100%; margin-top: 15px; margin-bottom: 70px;">
             <div class="carousel slide" data-ride="carousel" id="carousel_next_classes" >
                 <div class="carousel-inner" id="next_classes_inner" ></div>
                 <div class="loader loader-classes d-block mx-auto my-auto"  ></div>
@@ -176,14 +188,24 @@
 
         </script>
 
-        <div class="container-fluid" style=" margin-top: 30px; margin-bottom: 0;  background-color:#424949;" align="middle">			
-            <p>&nbsp;</p>			
-            <div class="col" align="middle" style="margin-top:30px; ">
-                <img height="80" width="200" src=logo.png>
-                <h6 style="color:white; font-weight:100;">2018 - All rights reserved &copy;</h6>
-                <p>&nbsp;</p>
+         <footer class="footer">
+
+            <div class="container-fluid" >
+                <div class="row align-items-center" >
+                    <div class="col"></div>
+                    <div class="col-auto ">
+                        <div class="container " >
+                        <img class="d-block my-auto" height="80" width="200" src=logo.png>
+                        <h6 style="color:white; font-weight:100;">2018 - All rights reserved &copy;</h6>
+                        </div>
+                        
+                    </div>
+                    <div class="col"></div>
+                </div>
+
             </div>
-        </div>
+
+        </footer>
 
     </body>
 
