@@ -35,6 +35,17 @@
             };
             firebase.initializeApp(config);
             var database=firebase.database()
+              var worker=new Worker('js/updater.js')
+
+
+
+
+            window.setInterval(function(){
+                console.log('hi')
+                worker.postMessage('start')
+
+            },20000)
+
         </script>
         <script src="js/otherplaceshandler.js"></script>
         <script src="js/userstatus.js"></script>

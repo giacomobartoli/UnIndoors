@@ -1,11 +1,5 @@
 
-self.onmessage=function(msg){
-    firebase.auth().signInWithEmailAndPassword('gzano93@gmail.com','metallaro93').then(success=>{
-        console.log(msg.data)
-        updateCurrentLesson()
 
-    })
-}
 
 importScripts("https://www.gstatic.com/firebasejs/4.9.0/firebase.js")
 var config = {
@@ -19,6 +13,14 @@ var config = {
 firebase.initializeApp(config);
 var database=firebase.database()
 
+
+self.onmessage=function(msg){
+    firebase.auth().signInWithEmailAndPassword('gzano93@gmail.com','metallaro93').then(success=>{
+        console.log(msg.data)
+        updateCurrentLesson()
+
+    })
+}
 
 function updateCurrentLesson(){
 
