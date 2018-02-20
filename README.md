@@ -26,6 +26,17 @@ The related Android app is available at [Uniboors](https://github.com/giacomobar
  
 <img src="screen/s1.jpg" alt="Homepage" width="400px"><img src="screen/s2.jpg" alt="Log in" width="400px"><img src="screen/s3.jpg" alt="Today schedule" width="400px"><img src="screen/s4.jpg" alt="Details" width="400px"><img src="screen/s5.jpg" alt="This week schedule" width="400px"><img src="screen/s6.jpg" alt="Places" width="400px"><img src="screen/s7.jpg" alt="Operator's backend" width="400px">
 
+## 👉🏼 Live Preview  ##
+Connect to [http://giacomobartoli.xyz/unindoors](http://giacomobartoli.xyz/unindoors)
+
+Credentials:
+
+ - user@gmail.com / password
+ - user@operatore.it / password
+
+ Please note that everytime you navigate to the index you'll be automatically logged out from the system.
+
+
 ## Developers ##
 Made with ❤️ by:
 
